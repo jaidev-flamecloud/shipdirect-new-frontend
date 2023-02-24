@@ -1,15 +1,160 @@
-import { alpha, Grid, Stack, Typography, useTheme } from "@mui/material"
+import {
+  alpha,
+  Button,
+  Chip,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material"
 import { useEffect, useState } from "react"
 import LoadingContainer from "../components/containers/LoadingContainer"
 import PageContainer from "../components/containers/PageContainer"
 import api from "../config/axios"
+import Section from "../components/ui/Section"
+import { useUserContext } from "../App"
+import { toast } from "react-toastify"
+import Loader from "../components/ui/Loader"
 
 const pricingItems = ["ups", "usps", "fedex"]
 
 const Pricing = () => {
+  const [loader, setLoader] = useState(false)
+  const [userData, setUserData] = useState({})
+  const [showConfirm, setShowConfirm] = useState(false)
+  const { refresh } = useUserContext()
+
+  const checkSubscription = async () => {
+    await api
+      .get("/subscription/premium")
+      .then((res) => setUserData(res.data.user))
+      .catch((err) => console.log(err))
+  }
+
+  const subscribe = async () => {
+    setLoader(true)
+
+    await api
+      .post("/subscription/premium", {})
+      .then((res) => {
+        setShowConfirm(false)
+        refresh()
+        setLoader(false)
+        toast.success(res.data.message)
+        checkSubscription()
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoader(false)
+        toast.error(err.response.data.message)
+      })
+  }
+
+  const unsubscribe = async () => {
+    setLoader(true)
+
+    await api
+      .delete("/subscription/premium")
+      .then((res) => {
+        refresh()
+        setLoader(false)
+        toast.success(res.data.message)
+        checkSubscription()
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoader(false)
+        toast.error(err.response.data.message)
+      })
+  }
+
+  useEffect(() => {
+    checkSubscription()
+  }, [])
+
   return (
     <PageContainer title="Pricing">
+      <Section sx={{ mb: 2 }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+        >
+          <div>
+            <span>Subscription Status</span>
+            {userData.premiumRecurring ? (
+              <Chip
+                label="PREMIUM"
+                color="primary"
+                sx={{ ml: 2 }}
+                size="small"
+              />
+            ) : (
+              <Chip label="REGULAR" sx={{ ml: 2 }} size="small" />
+            )}
+          </div>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            divider={<Divider orientation="vertical" flexItem />}
+            spacing={1.5}
+          >
+            <div>
+              <span style={{ color: "silver" }}>Start Date : </span>{" "}
+              {userData.premiumStartDate
+                ? new Date(userData.premiumStartDate).toLocaleDateString()
+                : "NA"}
+            </div>
+            <div>
+              <span style={{ color: "silver" }}>Expiry Date : </span>{" "}
+              {userData.premiumExpiry
+                ? new Date(userData.premiumExpiry).toLocaleDateString()
+                : "N/A"}
+            </div>
+          </Stack>
+        </Stack>
+      </Section>
       <PricingComp />
+      <Section sx={{ mt: 3 }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={2}
+          sx={{ color: "primary.main" }}
+        >
+          {userData.premiumRecurring ? (
+            <div>Subscribed to Premium</div>
+          ) : (
+            <div>
+              Upgrade to Premium : <span style={{ fontSize: 18 }}>$24.99</span>{" "}
+              per month
+            </div>
+          )}
+          {userData.premiumRecurring ? (
+            <Button
+              onClick={unsubscribe}
+              variant="contained"
+              color="error"
+              sx={{ px: 3 }}
+            >
+              {loader ? <Loader /> : "Cancel Subscription"}
+            </Button>
+          ) : (
+            <Button
+              onClick={subscribe}
+              variant="contained"
+              color="primary"
+              sx={{ px: 3 }}
+            >
+              {loader ? <Loader /> : "Upgrade now"}
+            </Button>
+          )}
+        </Stack>{" "}
+      </Section>
     </PageContainer>
   )
 }
@@ -36,7 +181,14 @@ export const PricingComp = () => {
         {pricingItems.map((p) => (
           <PricingBlock
             name={p}
-            types={types.filter((type) => type.uid.includes(p))}
+            types={types?.filter((type) => type.name.toLowerCase().includes(p))}
+          />
+        ))}
+        {pricingItems.map((p) => (
+          <PricingBlock
+            premium
+            name={p}
+            types={types?.filter((type) => type.name.toLowerCase().includes(p))}
           />
         ))}
       </Grid>
@@ -44,7 +196,7 @@ export const PricingComp = () => {
   )
 }
 
-const PricingBlock = ({ types, name }) => {
+const PricingBlock = ({ types, name, premium }) => {
   const theme = useTheme()
   return (
     <Grid item xs={12} sm={4}>
@@ -66,22 +218,32 @@ const PricingBlock = ({ types, name }) => {
           />
         </div>
 
-        {types?.map((type) => (
-          <div>
-            <Typography color="text.secondary">{type?.name}</Typography>
-            {type.prices.map((price) => (
-              <Stack direction="row" spacing={2} justifyContent="space-between">
-                <Typography variant="h6">
-                  {price?.fromWeight}-{price?.toWeight}{" "}
-                  {type?.uid?.includes("first_class") ? "Oz" : "Lbs"}
-                </Typography>{" "}
-                <Typography variant="h6">
-                  {"$" + price?.price?.toFixed(2)}
-                </Typography>
-              </Stack>
-            ))}
-          </div>
-        ))}
+        {types?.map((type) =>
+          type[premium ? "premiumPrices" : "normalPrices"].length ? (
+            <div>
+              <Typography color="text.secondary">{type?.name}</Typography>
+              {type[premium ? "premiumPrices" : "normalPrices"].map(
+                (price, i) => (
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                  >
+                    <Typography variant="h6">
+                      {price?.fromWeight}-{price?.toWeight}{" "}
+                      {type?.uid?.includes("first_class") ? "Oz" : "Lbs"}
+                    </Typography>{" "}
+                    <Typography variant="h6" color={premium ? "primary" : ""}>
+                      {"$" + price?.price?.toFixed(2)}
+                    </Typography>
+                  </Stack>
+                )
+              )}
+            </div>
+          ) : (
+            ""
+          )
+        )}
       </Stack>
     </Grid>
   )

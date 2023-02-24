@@ -652,7 +652,9 @@ const AddLabel = () => {
                     )
                   }}
                   options={types
-                    .filter((type) => type.uid.includes(selectedCourier))
+                    .filter((type) =>
+                      type.name.toLowerCase().includes(selectedCourier)
+                    )
                     .map((type) => ({
                       label: type.name,
                       value: type._id,

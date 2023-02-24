@@ -220,7 +220,7 @@ const Labels = () => {
   })
 
   return (
-    <PageContainer title="Your Ordered Labels">
+    <PageContainer title="My Labels" desc="Manage all your ordered labels">
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mb={2}>
         <Field
           placeholder="Search using From Name, To Name, or Tracking ID"

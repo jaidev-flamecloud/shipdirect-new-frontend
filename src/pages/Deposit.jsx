@@ -26,6 +26,7 @@ import Loader from "../components/ui/Loader"
 import { copyToClipboard, formatDate, statusMap } from "../utilities/misc"
 
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
+import StatusComp from "../components/common/StatusComp"
 
 const gatewayMap = {
   Venmo: {
@@ -46,7 +47,15 @@ const paymentMethods = [
     imgSrc: "/assets/images/cashapp.svg",
     bg: "#00D54B",
   },
+  {
+    name: "Cash App",
+    val: "cashapp",
+    imgSrc: "/assets/images/cashapp.svg",
+    bg: "#00D54B",
+  },
 ]
+
+const presetAmounts = [5, 25, 50, 100, 150, 250, 500, 1000]
 
 const Deposit = () => {
   const { user } = useUserContext()
@@ -147,6 +156,9 @@ const Deposit = () => {
       .then((res) => {
         setLoading(false)
         getDeposits()
+        if (data.type === "stripe") {
+          window.location.href = res.data.session.url
+        }
         if (data.type === "cashapp") {
           setUrl(res.data.data.hosted_url)
           setInvoice(res.data.data.invoice)
@@ -249,8 +261,20 @@ const Deposit = () => {
     getDeposits()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page])
+
+  const [presetAmount, setPresetAmount] = useState(null)
+
+  useEffect(() => {
+    if (presetAmount) {
+      setAmount(presetAmount.toFixed(2))
+    }
+  }, [presetAmount])
+
   return (
-    <PageContainer title="Topup Account">
+    <PageContainer
+      title="Deposit Balance"
+      desc="Add Balance to your account for faster checkouts"
+    >
       {showGateway ? (
         <GatewayConfirm
           back={() => setShowGateway(false)}
@@ -282,66 +306,38 @@ const Deposit = () => {
       ) : (
         <>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={7}>
+            <Grid item xs={12}>
               <form onSubmit={AddBalance}>
                 <Section sx={{ mb: 2 }}>
                   <Grid container mb={2} spacing={2}>
                     <Grid item xs={12} sm={4}>
                       <Field
-                        label="Topup Amount"
+                        label="Amount to add"
                         placeholder="0.00"
                         type="number"
                         name="amount"
+                        value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         required
                       />
                     </Grid>
+
                     <Grid item xs={12} sm={8}>
                       <FormControl fullWidth>
                         <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
-                          Choose Payment Method
+                          Quick add
                         </FormLabel>
-                        <Grid container spacing={1}>
-                          {paymentMethods.map((method, i) => (
-                            <Grid item xs={6} sm={4}>
-                              <OptionCard
-                                key={i}
-                                {...method}
-                                active={selectedPayementMethod === method.val}
-                                activate={() =>
-                                  setSelectedPayementMethod(method.val)
-                                }
-                                sx={{
-                                  bgcolor: method.bg,
-                                }}
-                                border
-                              />
-                            </Grid>
+                        <Stack direction="row" spacing={1}>
+                          {presetAmounts.map((amount, i) => (
+                            <OptionCard
+                              key={i}
+                              name={"$" + amount.toFixed(2)}
+                              active={presetAmount === amount}
+                              activate={() => setPresetAmount(amount)}
+                              border
+                            />
                           ))}
-                          {gateways.map((gateway, i) => (
-                            <Grid item xs={6} sm={4}>
-                              <OptionCard
-                                key={i}
-                                name={gateway.name}
-                                val={gateway.name}
-                                imgSrc={
-                                  "/assets/images/" +
-                                  gatewayMap[gateway.name].icon +
-                                  ".svg"
-                                }
-                                active={selectedPayementMethod === gateway.name}
-                                activate={() => {
-                                  setSelectedPayementMethod(gateway.name)
-                                  setGateway(gateway)
-                                }}
-                                sx={{
-                                  bgcolor: gatewayMap[gateway.name].bg,
-                                }}
-                                border
-                              />
-                            </Grid>
-                          ))}
-                        </Grid>
+                        </Stack>
                       </FormControl>
                     </Grid>
                   </Grid>
@@ -353,6 +349,10 @@ const Deposit = () => {
                     alignItems="center"
                     mt={2}
                   >
+                    <Chip
+                      label="Earn 5% bonus on selecting Crypto Payments"
+                      color="primary"
+                    />
                     <Box
                       sx={{
                         display: "flex",
@@ -369,7 +369,7 @@ const Deposit = () => {
                         }}
                       >
                         <span style={{ color: "silver", flex: "none" }}>
-                          Final Balance :
+                          Your Resulting Balance :
                         </span>
                         <Typography color="primary">
                           $
@@ -384,54 +384,18 @@ const Deposit = () => {
                         variant="contained"
                         sx={{ ml: 1, px: 3 }}
                       >
-                        {loading ? <Loader /> : "Pay Amount"}
+                        {loading ? <Loader /> : "Add Balance"}
                       </Button>
                     </Box>
                   </Stack>
                 </Section>
               </form>
             </Grid>
-            <Grid item xs={12} sm={5}>
-              <Section sx={{ mb: 2 }}>
-                <div>
-                  <span>Add Balance via Crypto :</span>
-                  <Chip
-                    color="success"
-                    label="Get 2% Bonus (For Transactions Above $1500)"
-                    sx={{
-                      ml: { sm: 1 },
-                      mt: { xs: 1, sm: 0 },
-                      color: "white",
-                    }}
-                  />
-                  <LoadingContainer loading={coinLoader}>
-                    <Grid container spacing={1} sx={{ mt: 2 }}>
-                      {cryptoCoin?.map((coin) => (
-                        <Grid item xs={6} sm={2}>
-                          <OptionCard
-                            sx={{ px: 2.5 }}
-                            key={coin.id}
-                            name={coin.name}
-                            onClick={() => {
-                              setShowCrypto(true)
-                              setCryptoData(coin)
-                              AddBalanceCrypt(coin.ticker)
-                              setShowCrypto(true)
-                            }}
-                            imgSrc={"https://api.shipease.io/" + coin.logo}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </LoadingContainer>
-                </div>{" "}
-              </Section>
-            </Grid>
           </Grid>
 
           <CustomTable
             title="Deposit History"
-            fields={["#", "AMOUNT", "METHOD", "DATE AND TIME", "STATUS"]}
+            fields={["#", "DATE AND TIME", "METHOD", "AMOUNT", "STATUS"]}
             loading={depositsLoading}
             pagination
             count={totalPages}
@@ -441,7 +405,7 @@ const Deposit = () => {
             {deposits.map((deposit, i) => (
               <TableRow>
                 <TableCell> {i + 1}</TableCell>
-                <TableCell> ${deposit.amount?.toFixed(2)}</TableCell>
+                <TableCell> {formatDate(deposit.createdAt)} </TableCell>
                 <TableCell>
                   {" "}
                   {deposit.payment_method === "coinbase"
@@ -454,22 +418,13 @@ const Deposit = () => {
                     ? "Crypto"
                     : "Manual"}
                 </TableCell>
-                <TableCell> {formatDate(deposit.createdAt)} </TableCell>
+                <TableCell sx={{ color: "success.main" }}>
+                  {" "}
+                  ${deposit.amount?.toFixed(2)}
+                </TableCell>
 
-                <TableCell
-                  sx={{
-                    color: statusMap[deposit?.status]?.color || "error.main",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "5px",
-                      alignItems: "center",
-                    }}
-                  >
-                    {statusMap[deposit?.status]?.icon || ""} {deposit?.status}
-                  </div>
+                <TableCell>
+                  <StatusComp status={deposit?.status} />
                 </TableCell>
               </TableRow>
             ))}

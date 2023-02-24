@@ -177,21 +177,30 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
               </Button>
             </Link>
 
-            <Box
+            <Paper
+              elevation={0}
               sx={{
                 display: { xs: "none", sm: "flex" },
                 alignItems: "center",
-                gap: "0.5rem",
+                px: 2,
+                gap: 1,
               }}
             >
               <WatchLaterRoundedIcon />
               <Typography variant="body2">{liveTime}</Typography>
-            </Box>
+            </Paper>
 
             <Stack direction="row" spacing={2} alignItems="stretch">
               <Paper
+                onClick={() => navigate("/change-password")}
                 elevation={0}
-                sx={{ display: "flex", alignItems: "center", px: 2, gap: 1 }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  px: 2,
+                  gap: 1,
+                  cursor: "pointer",
+                }}
               >
                 <PersonRoundedIcon />
                 <Typography variant="body2">{user.username}</Typography>

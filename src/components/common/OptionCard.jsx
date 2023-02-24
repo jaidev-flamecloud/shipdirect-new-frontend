@@ -26,7 +26,7 @@ const OptionCard = ({
             border
               ? theme.palette.mode === "dark"
                 ? "#fff"
-                : "#000"
+                : theme.palette.primary.main
               : theme.palette.primary.main
           }`,
         cursor: "pointer",
