@@ -9,7 +9,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material"
-import Divider from "@mui/material/Divider"
 import IconBtn from "../ui/IconBtn"
 import ColorModeToggle from "./ColorModeToggle"
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
@@ -128,7 +127,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
               </Button>
             </Link>
 
-            <ColorModeToggle />
+            {/* <ColorModeToggle /> */}
             <IconBtn onClick={logOut} color="error" bg="#f00">
               <LogoutOutlinedIcon />
             </IconBtn>
@@ -184,6 +183,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                 alignItems: "center",
                 px: 2,
                 gap: 1,
+                border: "1px solid #e0e0e0",
               }}
             >
               <WatchLaterRoundedIcon />
@@ -192,7 +192,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
 
             <Stack direction="row" spacing={2} alignItems="stretch">
               <Paper
-                onClick={() => navigate("/change-password")}
+                onClick={() => navigate("/profile")}
                 elevation={0}
                 sx={{
                   display: "flex",
@@ -200,6 +200,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                   px: 2,
                   gap: 1,
                   cursor: "pointer",
+                  border: "1px solid #e0e0e0",
                 }}
               >
                 <PersonRoundedIcon />

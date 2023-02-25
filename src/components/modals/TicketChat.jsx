@@ -1,4 +1,11 @@
-import { Avatar, Button, Paper, Stack, Typography } from "@mui/material"
+import {
+  alpha,
+  Button,
+  Paper,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material"
 import { useEffect, useState } from "react"
 import ModalContainer from "../containers/ModalContainer"
 import Field from "../ui/Field"
@@ -7,6 +14,7 @@ import { toast } from "react-toastify"
 import { useRef } from "react"
 import Loader from "../ui/Loader"
 import { formatDate } from "../../utilities/misc"
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
 
 const TicketChat = ({
   ticket,
@@ -63,7 +71,8 @@ const TicketChat = ({
                 back()
               }}
               variant="contained"
-              color="error"
+              color="success"
+              sx={{ color: "white" }}
             >
               {updating ? <Loader /> : "Close Ticket"}
             </Button>
@@ -107,22 +116,31 @@ const TicketChat = ({
   )
 }
 
-const Message = ({ sender, time, body, isMine }) => {
-  const msgBodyColorClass = isMine ? "primary.main" : "gray"
+const Message = ({ time, body, isMine }) => {
+  const theme = useTheme()
+  const msgBodyColorClass = isMine
+    ? "background.default"
+    : alpha(theme.palette.primary.main, 0.2)
   return (
     <Stack spacing={1}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Avatar sx={{ bgcolor: "primary.main", width: 30, height: 30 }}>
-            {sender[0]?.toUpperCase()}
-          </Avatar>
-          <Typography>{sender}</Typography>
+          {isMine ? (
+            <Typography variant="body2">You</Typography>
+          ) : (
+            <>
+              <Typography variant="body2" color="primary">
+                ShipDirect Admin{" "}
+              </Typography>
+              <CheckCircleRoundedIcon color="primary" fontSize="small" />
+            </>
+          )}
         </Stack>
-        <span className="text-muted">{time}</span>
+        <Typography variant="body2" color="text.secondary">
+          {time}
+        </Typography>
       </Stack>
-      <Paper
-        sx={{ px: 2, py: 1, bgcolor: msgBodyColorClass, borderRadius: 999 }}
-      >
+      <Paper elevation={0} sx={{ px: 2, py: 1, bgcolor: msgBodyColorClass }}>
         {body}
       </Paper>
     </Stack>

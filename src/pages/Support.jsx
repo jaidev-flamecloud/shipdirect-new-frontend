@@ -1,4 +1,4 @@
-import { Button, Grid, Stack } from "@mui/material"
+import { Button, Grid, IconButton, Stack } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import PageContainer from "../components/containers/PageContainer"
 import Field from "../components/ui/Field"
@@ -11,6 +11,8 @@ import Loader from "../components/ui/Loader"
 import StatusComp from "../components/common/StatusComp"
 import TicketChat from "../components/modals/TicketChat"
 import { formatDate } from "../utilities/misc"
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
 
 const Support = () => {
   const [ticketsLoading, setTicketsLoading] = useState(false)
@@ -81,7 +83,10 @@ const Support = () => {
   }, [page, limit, filter, sort])
 
   return (
-    <PageContainer title="Open a Ticket">
+    <PageContainer
+      title="Ticket Support"
+      desc="Our support will reply to all your queries within 24 working hours"
+    >
       <Section sx={{ mb: 3 }}>
         <form onSubmit={createTicket}>
           <Grid container spacing={2} mb={2}>
@@ -167,26 +172,28 @@ const Support = () => {
             </TableCell>
             <TableCell>{formatDate(ticket.createdAt)}</TableCell>
             <TableCell sx={{ color: "#3ABF7C" }}>
-              <Button
-                variant="contained"
+              <IconButton
                 onClick={() => {
                   setTicket(ticket)
                   setShowTicket(true)
                 }}
+                color="primary"
+                title="View Details"
               >
-                View
-              </Button>
+                <VisibilityRoundedIcon fontSize="small" />
+              </IconButton>
+
               {ticket.status === "open" ||
               ticket.status === "waiting for customer response" ? (
-                <Button
-                  color="error"
+                <IconButton
                   onClick={() => {
                     updateTicket(ticket, "close")
                   }}
-                  sx={{ ml: 1 }}
+                  color="success"
+                  title="View Details"
                 >
-                  Close
-                </Button>
+                  <CheckRoundedIcon fontSize="small" />
+                </IconButton>
               ) : (
                 ""
               )}

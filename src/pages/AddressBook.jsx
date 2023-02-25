@@ -64,6 +64,7 @@ const AddressBook = () => {
   return (
     <PageContainer
       title="All your saved Address"
+      desc="Manage all your saved address and add new address for quicker checkouts"
       end={
         <Button
           onClick={() => {

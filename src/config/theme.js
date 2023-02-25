@@ -1,5 +1,3 @@
-import { alpha } from "@mui/material"
-
 const getTheme = (mode) => ({
   typography: {
     fontFamily: "'Lexend', sans-serif",
@@ -47,9 +45,9 @@ const getTheme = (mode) => ({
       styleOverrides: {
         root: {
           boxShadow: "none",
-          borderRadius: 10,
+          borderRadius: 5,
           overflow: "hidden",
-          backgroundColor: alpha("#2299F5", 0.1),
+          border: "1px solid #e0e0e0",
         },
       },
     },

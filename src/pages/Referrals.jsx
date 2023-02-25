@@ -1,4 +1,11 @@
-import { Grid, IconButton, Stack, TableCell, TableRow } from "@mui/material"
+import {
+  Chip,
+  Grid,
+  IconButton,
+  Stack,
+  TableCell,
+  TableRow,
+} from "@mui/material"
 import StatCard from "../components/common/StatCard"
 import PageContainer from "../components/containers/PageContainer"
 import Field from "../components/ui/Field"
@@ -71,7 +78,17 @@ const Referrals = () => {
     user.referralToken
 
   return (
-    <PageContainer title="Your Referrals">
+    <PageContainer
+      title="Your Referrals"
+      desc="Add members to earn from your referrals"
+      end={
+        <Chip
+          sx={{ borderRadius: 1 }}
+          label="Users Earn 10% from the referral users spent"
+          color="primary"
+        />
+      }
+    >
       <Section sx={{ mb: 3 }}>
         <Stack
           direction="row"
@@ -85,10 +102,10 @@ const Referrals = () => {
           </IconButton>
         </Stack>
       </Section>
-      <Section title="Referral Analytics" sx={{ mb: 3 }}>
-        <LoadingContainer loading={loadingStats}>
-          <Grid container spacing={2}>
-            {/* <Grid item xs={12} sm={4}>
+
+      <LoadingContainer loading={loadingStats}>
+        <Grid container spacing={2} mb={3}>
+          {/* <Grid item xs={12} sm={4}>
             <StatCard
               icon={<InventoryIcon />}
               name="Referral Earning %"
@@ -102,23 +119,23 @@ const Referrals = () => {
               }
             />
           </Grid> */}
-            <Grid item xs={12} sm={4}>
-              <StatCard
-                icon={<GroupIcon />}
-                name="Total Referred"
-                value={stats.referrals}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <StatCard
-                icon={<TollIcon />}
-                name="Total Referral Points"
-                value={stats.refPoints?.toFixed(2)}
-              />
-            </Grid>
+          <Grid item xs={12} sm={4}>
+            <StatCard
+              icon={<GroupIcon />}
+              name="Total Referred"
+              value={stats.referrals}
+            />
           </Grid>
-        </LoadingContainer>
-      </Section>
+          <Grid item xs={12} sm={4}>
+            <StatCard
+              icon={<TollIcon />}
+              name="Total Referral Points"
+              value={stats.refPoints?.toFixed(2)}
+            />
+          </Grid>
+        </Grid>
+      </LoadingContainer>
+
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <CustomTable

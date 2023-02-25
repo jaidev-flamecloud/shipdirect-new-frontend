@@ -10,7 +10,7 @@ const PageContainer = ({ title, end, desc, children }) => {
 
         {end}
       </Stack>
-      <Typography mb={2} mt={1}>
+      <Typography mb={2} mt={0.5} color="text.secondary">
         {desc}
       </Typography>
 

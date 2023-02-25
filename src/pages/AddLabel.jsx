@@ -582,7 +582,8 @@ const AddLabel = () => {
 
   return (
     <PageContainer
-      title="Create a Label"
+      title="Create Label"
+      desc="Add the required details and get your label instantly"
       end={
         <PriceButton
           finalPrice={finalPrice}
@@ -598,6 +599,26 @@ const AddLabel = () => {
         <form onSubmit={createOrder}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={7}>
+              <Section sx={{ mb: 2 }}>
+                <FormControl>
+                  <FormLabel sx={{ mb: 2 }}>Select Courier</FormLabel>
+                  <Grid container gap={2} mb={2}>
+                    {pricingItems.map((p) => (
+                      <OptionCard
+                        imgSrc={
+                          "/assets/images/" +
+                          p +
+                          (theme.palette.mode === "dark" ? "2" : "") +
+                          ".svg"
+                        }
+                        name={p}
+                        active={selectedCourier === p}
+                        activate={() => setSelectedCourier(p)}
+                      />
+                    ))}
+                  </Grid>
+                </FormControl>
+              </Section>
               <AddressForm
                 sender
                 address={address}
@@ -623,22 +644,7 @@ const AddLabel = () => {
               />
             </Grid>
             <Grid item xs={12} sm={5}>
-              <Section title="Available Carriers" sx={{ mb: 2 }}>
-                <Grid container gap={2} mb={2}>
-                  {pricingItems.map((p) => (
-                    <OptionCard
-                      imgSrc={
-                        "/assets/images/" +
-                        p +
-                        (theme.palette.mode === "dark" ? "2" : "") +
-                        ".svg"
-                      }
-                      name={p}
-                      active={selectedCourier === p}
-                      activate={() => setSelectedCourier(p)}
-                    />
-                  ))}
-                </Grid>
+              <Section title="Label details" sx={{ mb: 2 }}>
                 <CustomSelect
                   sx={{ mb: 2 }}
                   label="Choose carrier"
@@ -703,20 +709,33 @@ const AddLabel = () => {
                 </Stack>
               </Section>
 
-              <Stack direction="row" justifyContent="space-between">
-                <PriceButton
+              <Stack
+                justifyContent="space-between"
+                alignItems={"center"}
+                spacing={2}
+              >
+                {/* <PriceButton
                   finalPrice={finalPrice}
                   originalPrice={originalPrice}
                   activeType={activeType}
-                />{" "}
+                />{" "} */}
                 <Button
+                  fullWidth
                   disabled={!finalPrice || isDisabled}
                   type="submit"
                   variant="contained"
                   sx={{ px: 5 }}
+                  size="large"
                 >
-                  {isDisabled ? <Loader /> : "Create Label"}
+                  {isDisabled ? (
+                    <Loader />
+                  ) : (
+                    "Create Label | $" + finalPrice.toFixed(2)
+                  )}
                 </Button>
+                <Typography variant="body2" color="text.secondary">
+                  Your purchase would be deducted from your Balance.
+                </Typography>
               </Stack>
             </Grid>
           </Grid>

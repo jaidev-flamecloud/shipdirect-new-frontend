@@ -27,7 +27,10 @@ const Faqs = () => {
   }, [])
 
   return (
-    <PageContainer title="Frequently Asked Questions">
+    <PageContainer
+      title="Frequently Asked Questions"
+      desc="We’ve got answers to all your questions"
+    >
       <LoadingContainer loading={loading}>
         <Stack spacing={2}>
           {faqs.map((faq, i) => (

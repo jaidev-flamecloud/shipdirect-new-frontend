@@ -23,10 +23,11 @@ import { toast } from "react-toastify"
 import LoadingContainer from "../components/containers/LoadingContainer"
 import { useUserContext } from "../App"
 import Loader from "../components/ui/Loader"
-import { copyToClipboard, formatDate, statusMap } from "../utilities/misc"
+import { copyToClipboard, formatDate } from "../utilities/misc"
 
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
 import StatusComp from "../components/common/StatusComp"
+import env from "../config/env"
 
 const gatewayMap = {
   Venmo: {
@@ -37,7 +38,7 @@ const gatewayMap = {
     icon: "zelle",
     bg: "#6C1CD3",
   },
-  "Apple Pay": { icon: "apple pay", bg: "#FFF" },
+  "APPLE PAY": { icon: "apple pay", bg: "#FFF" },
 }
 
 const paymentMethods = [
@@ -45,13 +46,11 @@ const paymentMethods = [
     name: "Cash App",
     val: "cashapp",
     imgSrc: "/assets/images/cashapp.svg",
-    bg: "#00D54B",
   },
   {
-    name: "Cash App",
-    val: "cashapp",
-    imgSrc: "/assets/images/cashapp.svg",
-    bg: "#00D54B",
+    name: "Stripe",
+    val: "stripe",
+    imgSrc: "/assets/images/stripe.svg",
   },
 ]
 
@@ -84,9 +83,10 @@ const Deposit = () => {
   const [minConfirmations, setMinConfirmations] = useState("")
   const [minAmount, setMinAmount] = useState("")
   const [coinLoader, setCoinLoader] = useState(false)
-  const [gateways, setGateways] = useState([])
+  const [paySettings, setPaySettings] = useState({})
   const [gateway, setGateway] = useState({})
   const [showGateway, setShowGateway] = useState(false)
+
   const readCrypto = async () => {
     setCoinLoader(true)
     await api("/dashboard/crypto-coin")
@@ -112,10 +112,10 @@ const Deposit = () => {
 
   const getGateways = async () => {
     await api
-      .get("/manual-payment/read")
+      .get("/admin-settings/topup")
       .then((res) => {
-        console.log(res.data)
-        setGateways(res.data)
+        console.log(res.data.topup)
+        setPaySettings(res.data.topup)
       })
       .catch((err) => {
         console.log(err)
@@ -327,7 +327,12 @@ const Deposit = () => {
                         <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
                           Quick add
                         </FormLabel>
-                        <Stack direction="row" spacing={1}>
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          flexWrap="wrap"
+                          gap={1}
+                        >
                           {presetAmounts.map((amount, i) => (
                             <OptionCard
                               key={i}
@@ -338,6 +343,82 @@ const Deposit = () => {
                             />
                           ))}
                         </Stack>
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <FormControl fullWidth>
+                        <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+                          Choose Payment Method
+                        </FormLabel>
+                        <Grid container spacing={1}>
+                          {paymentMethods.map((method, i) => (
+                            <Grid item xs={6} sm={1.5}>
+                              <OptionCard
+                                key={i}
+                                {...method}
+                                active={selectedPayementMethod === method.val}
+                                activate={() =>
+                                  setSelectedPayementMethod(method.val)
+                                }
+                                border
+                              />
+                            </Grid>
+                          ))}
+                          {paySettings?.manualMethods?.map((gateway, i) =>
+                            gateway.method ? (
+                              <Grid item xs={6} sm={1.5}>
+                                <OptionCard
+                                  key={i}
+                                  name={gateway.method}
+                                  val={gateway.method}
+                                  imgSrc={
+                                    "/assets/images/" +
+                                    gatewayMap[gateway.method].icon +
+                                    ".svg"
+                                  }
+                                  active={
+                                    selectedPayementMethod === gateway.method
+                                  }
+                                  activate={() => {
+                                    setSelectedPayementMethod(gateway.method)
+                                    setGateway(gateway)
+                                  }}
+                                  border
+                                />
+                              </Grid>
+                            ) : (
+                              ""
+                            )
+                          )}
+                        </Grid>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={8}>
+                      <FormControl fullWidth>
+                        <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+                          Pay using cryptocurrency
+                        </FormLabel>
+                        <LoadingContainer loading={coinLoader}>
+                          <Grid container spacing={1} sx={{ mt: 2 }}>
+                            {cryptoCoin?.map((coin) => (
+                              <Grid item xs={6} sm={1.5}>
+                                <OptionCard
+                                  sx={{ px: 2.5 }}
+                                  key={coin.id}
+                                  name={coin.name}
+                                  onClick={() => {
+                                    setShowCrypto(true)
+                                    setCryptoData(coin)
+                                    AddBalanceCrypt(coin.ticker)
+                                    setShowCrypto(true)
+                                  }}
+                                  imgSrc={env.BASE_API_URL + "/" + coin.logo}
+                                />
+                              </Grid>
+                            ))}
+                          </Grid>
+                        </LoadingContainer>
                       </FormControl>
                     </Grid>
                   </Grid>
@@ -454,7 +535,7 @@ const CashAppConfirm = ({
         >
           <Stack alignItems={"center"}>
             <img
-              src={"https://api.shipease.io/" + qr}
+              src={env.BASE_API_URL + "/" + qr}
               alt=""
               style={{
                 height: "200px",
@@ -605,7 +686,7 @@ const GatewayConfirm = ({ back, gateway, cashLoader, addComment }) => {
           <form onSubmit={addComment}>
             <Stack mt={3} spacing={2} alignItems="center">
               <img
-                src={"https://api.shipease.io/" + gateway?.image}
+                src={env.BASE_API_URL + "/" + gateway?.image}
                 alt=""
                 style={{ width: "200px", height: "200px" }}
               />

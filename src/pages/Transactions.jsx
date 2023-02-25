@@ -79,7 +79,10 @@ const Transactions = () => {
   })
 
   return (
-    <PageContainer title="Your Transaction History">
+    <PageContainer
+      title="Transaction Log"
+      desc="A detailed view of all transactions on your account"
+    >
       <CustomTable
         start={<FilterTabs filter={filter} setFilter={setFilter} />}
         end={

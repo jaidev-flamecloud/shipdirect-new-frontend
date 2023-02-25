@@ -13,6 +13,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined"
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined"
 import LiveHelpOutlinedIcon from "@mui/icons-material/LiveHelpOutlined"
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined"
+import CodeRoundedIcon from "@mui/icons-material/CodeRounded"
 
 const contactLinks = [
   {
@@ -91,6 +92,11 @@ const navItems = [
     name: "Support",
     icon: <ForumOutlinedIcon />,
     link: routes.SUPPORT,
+  },
+  {
+    name: "API",
+    icon: <CodeRoundedIcon />,
+    link: "/api",
   },
 ]
 

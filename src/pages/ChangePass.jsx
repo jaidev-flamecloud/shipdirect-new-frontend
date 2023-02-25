@@ -1,10 +1,13 @@
 import { Button, Grid, Stack } from "@mui/material"
 import React, { useState } from "react"
 import { toast } from "react-toastify"
+import { useUserContext } from "../App"
 import PageContainer from "../components/containers/PageContainer"
-import { PasswordField } from "../components/ui/Field"
+import Field, { PasswordField } from "../components/ui/Field"
 import Loader from "../components/ui/Loader"
+import Section from "../components/ui/Section"
 import api from "../config/axios"
+import { formatDate } from "../utilities/misc"
 
 const ChangePass = () => {
   const [loading, setLoading] = useState(false)
@@ -34,32 +37,52 @@ const ChangePass = () => {
       .finally(() => setLoading(false))
   }
 
+  const { user } = useUserContext()
+
   return (
-    <PageContainer title="Change Password">
-      <Grid container>
-        <Grid sm={6} sx={{ mx: "auto" }}>
-          <form onSubmit={changePassword}>
+    <PageContainer
+      title="My Profile"
+      desc="Edit all your profile related settings here"
+    >
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={4}>
+          <Section title="Profile Details">
             <Stack spacing={2}>
-              <PasswordField
-                label="Current Password"
-                name="oldPassword"
-                placeholder="Your existing password"
+              <Field disabled value={user.username} label="Username" />
+              <Field disabled value={user.email} label="Email Address" />
+              <Field
+                disabled
+                value={formatDate(user.createdAt)}
+                label="Joined"
               />
-              <PasswordField
-                name="newPassword"
-                label="New Password"
-                placeholder="Enter your new password"
-              />
-              <PasswordField
-                name="password2"
-                label="Confirm Password"
-                placeholder="Confirm your new password"
-              />
-              <Button type="submit" variant="contained">
-                {loading ? <Loader /> : "Change"}
-              </Button>
             </Stack>
-          </form>
+          </Section>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Section title="Reset Password">
+            <form onSubmit={changePassword}>
+              <Stack spacing={2}>
+                <PasswordField
+                  label="Current Password"
+                  name="oldPassword"
+                  placeholder="Your existing password"
+                />
+                <PasswordField
+                  name="newPassword"
+                  label="New Password"
+                  placeholder="Enter your new password"
+                />
+                <PasswordField
+                  name="password2"
+                  label="Confirm Password"
+                  placeholder="Confirm your new password"
+                />
+                <Button type="submit" variant="contained">
+                  {loading ? <Loader /> : "Reset Password"}
+                </Button>
+              </Stack>
+            </form>
+          </Section>
         </Grid>
       </Grid>
     </PageContainer>

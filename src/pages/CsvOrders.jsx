@@ -160,7 +160,8 @@ const CsvOrders = () => {
   }
   return (
     <PageContainer
-      title="Create a CSV Order"
+      title="CSV Orders"
+      desc="Place orders in bulk using CSV File"
       end={
         <a href="/assets/sample.csv" download>
           <Button variant="contained">Download Sample CSV</Button>
@@ -202,7 +203,9 @@ const CsvOrders = () => {
                 )
               }}
               options={types
-                .filter((type) => type.uid.includes(selectedCourier))
+                .filter((type) =>
+                  type.name.toLowerCase().includes(selectedCourier)
+                )
                 .map((type) => ({
                   label: type.name,
                   value: type._id,

@@ -21,6 +21,7 @@ import NotFound from "../pages/landing/NotFound"
 import Verify from "../pages/auth/Verify"
 import ViewLabel from "../pages/ViewLabel"
 import ChangePass from "../pages/ChangePass"
+import API from "../pages/API"
 
 const routes = {
   LANDING: "/",
@@ -96,8 +97,12 @@ const AppRoutes = () =>
       element: <ViewLabel />,
     },
     {
-      path: "/change-password",
+      path: "/profile",
       element: <ChangePass />,
+    },
+    {
+      path: "/api",
+      element: <API />,
     },
   ])
 

@@ -15,7 +15,7 @@ export default function CustomTable({
   fields,
   children,
   loading,
-  dense,
+  dense = true,
   pagination,
   count,
   page,

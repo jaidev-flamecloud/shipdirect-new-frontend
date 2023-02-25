@@ -1,12 +1,5 @@
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
-import {
-  Button,
-  Divider,
-  Grid,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Button, Divider, IconButton, Stack, Typography } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -81,14 +74,9 @@ const ViewLabel = () => {
 
   return (
     <LoadingContainer loading={loading}>
-      <PageContainer
-        title={
-          isNew ? "Your Label has been created successfully" : "Label Details"
-        }
-        desc="View details of a label"
-      >
+      <PageContainer>
         <Section
-          title="Label Details"
+          title={isNew ? "Label created successfully" : "Label Details"}
           end={
             <Link to={"/labels"} className="yellow-text">
               <Button>View all labels</Button>
@@ -114,28 +102,42 @@ const ViewLabel = () => {
               half
               label="Tracking Number"
               val={
-                <Stack direction="row" alignItems={"center"} gap={2}>
+                <Stack
+                  sx={{ color: "primary.main" }}
+                  direction="row"
+                  alignItems={"center"}
+                  gap={2}
+                >
                   {order?.tracking}
                   <IconButton onClick={() => copyToClipboard(order?.tracking)}>
-                    <ContentCopyRoundedIcon />
+                    <ContentCopyRoundedIcon color="primary" />
                   </IconButton>
                 </Stack>
               }
             />
-            <DetailComp label="Amount" val={<>${order?.price?.toFixed(2)}</>} />
+            <DetailComp
+              sx={{ color: "success.main" }}
+              label="Amount"
+              val={<>${order?.price?.toFixed(2)}</>}
+            />
             <DetailComp
               label="Status"
               val={<StatusComp status={order?.status} />}
             />
           </Stack>
-          <DetailComp label="Notes:" val={order?.statusMessage || "N/A"} />
-          <Divider mt={2} />
+          <DetailComp
+            sx={{ mb: 2 }}
+            label="Notes:"
+            val={order?.statusMessage || "N/A"}
+          />
+          <Divider />
           <Typography mt={2}>Sender's Details</Typography>
           <Stack
             direction="row"
             spacing={3}
             justifyContent="space-between"
-            mt={2}
+            mt={1}
+            mb={2}
           >
             <DetailComp label="Contact name" val={order?.FromName} />
             <DetailComp label="Address Line A" val={order?.FromStreet} />
@@ -156,7 +158,8 @@ const ViewLabel = () => {
             direction="row"
             spacing={3}
             justifyContent="space-between"
-            mt={2}
+            mt={1}
+            mb={2}
           >
             <DetailComp label="Contact name" val={order?.ToName} />
             <DetailComp label="Address Line A" val={order?.ToStreet} />
@@ -168,153 +171,41 @@ const ViewLabel = () => {
             <DetailComp label="State" val={order?.ToState} />
             <DetailComp label="Zip" val={order?.ToZip} />
           </Stack>
-          <Divider mt={2} />
-          <Stack direction="row" alignItems={"center"} spacing={2}>
+          <Divider />
+          <Stack direction="row" alignItems={"center"} spacing={2} mt={2}>
             <Typography>Actions</Typography>
-            <Button></Button>
+            <Button
+              onClick={() => downloadPdf(order?._id)}
+              variant="outlined"
+              color="warning"
+            >
+              Download
+            </Button>
+            <Button
+              onClick={() => setDuplicateConfirmShow(true)}
+              variant="outlined"
+              color="success"
+            >
+              Duplicate
+            </Button>
+            <Button variant="outlined" color="error">
+              Request Refund
+            </Button>
           </Stack>
         </Section>
-        <Grid container sx={{ pt: 3 }}>
-          <Grid item sm={6} sx={{ mx: "auto" }}>
-            <Section
-              title={isNew ? "Label Created Successfully" : "Label details"}
-              end={
-                isNew ? (
-                  <Link to={"/labels"} className="yellow-text">
-                    <Button>Go to My Labels</Button>
-                  </Link>
-                ) : (
-                  <Link to={"/labels"} className="yellow-text">
-                    <Button>Back</Button>
-                  </Link>
-                )
-              }
-            >
-              <Grid container spacing={2} mb={2}>
-                <Detail label="ID" val={order?._id} half />
-                <Detail
-                  half
-                  label="Tracking Number"
-                  val={
-                    <Stack direction="row" alignItems={"center"} gap={2}>
-                      {order?.tracking}
-                      <IconButton
-                        onClick={() => copyToClipboard(order?.tracking)}
-                      >
-                        <ContentCopyRoundedIcon />
-                      </IconButton>
-                    </Stack>
-                  }
-                />
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Detail label="Type" val={order?.labelType?.name} />
-                <Detail label="Weight" val={order?.Weight + " lbs"} />
-                <Detail
-                  label="Status"
-                  val={<StatusComp status={order?.status} />}
-                />
-                <Detail
-                  label="Date and Time"
-                  val={formatDate(order?.createdAt)}
-                />
-                <Detail
-                  label="Sender"
-                  val={
-                    <span>
-                      {order?.FromName}
-                      <br /> {order?.FromStreet}
-                      <br />
-                      {order?.FromStreet2 ? (
-                        <>
-                          {order?.FromStreet2}
-                          <br />
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      {order?.FromCity}
-                      <br /> {order?.FromState}, {order?.FromZip}
-                      <br />
-                      {order?.FromPhone}
-                    </span>
-                  }
-                />
-                <Detail
-                  label="Recipient"
-                  val={
-                    <span>
-                      {order?.ToName}
-                      <br /> {order?.ToStreet}
-                      <br />
-                      {order?.ToStreet2 ? (
-                        <>
-                          {order?.ToStreet2}
-                          <br />
-                        </>
-                      ) : (
-                        ""
-                      )}
-                      {order?.ToCity}
-                      <br /> {order?.ToState}, {order?.ToZip}
-                      <br />
-                      {order?.ToPhone}
-                    </span>
-                  }
-                />
-              </Grid>
-              <Detail
-                label="Tracking status"
-                desc={order?.statusMessage || "N/A"}
-              />
-              <Stack direction="row" justifyContent={"space-between"} mt={3}>
-                <Button variant="contained">${order?.price?.toFixed(2)}</Button>
-                {order?.status === "completed" && (
-                  <Stack direction="row" gap={2}>
-                    <Button
-                      onClick={() => downloadPdf(order?._id)}
-                      variant="outlined"
-                    >
-                      Download
-                    </Button>
-                    <Button
-                      onClick={() => setDuplicateConfirmShow(true)}
-                      variant="outlined"
-                    >
-                      Duplicate
-                    </Button>
-                  </Stack>
-                )}
-              </Stack>
-            </Section>
-          </Grid>
-          <ConfirmDuplicate
-            open={duplicateConfirmShow}
-            onClose={() => setDuplicateConfirmShow(false)}
-            action={() => duplicateOrder(order?._id)}
-            loading={duplicating}
-          />
-        </Grid>
       </PageContainer>
+      <ConfirmDuplicate
+        open={duplicateConfirmShow}
+        onClose={() => setDuplicateConfirmShow(false)}
+        action={() => duplicateOrder(order?._id)}
+        loading={duplicating}
+      />
     </LoadingContainer>
   )
 }
 
-const Detail = ({ label, val, desc, half }) => (
-  <Grid item xs={half ? 12 : 6} sm={half ? 6 : 4}>
-    <Stack style={{ fontSize: 15 }} gap={1}>
-      <Typography sx={{ fontSize: 14 }} color="text.secondary">
-        {label}
-      </Typography>
-      <Typography>{val}</Typography>
-      <Typography>{desc}</Typography>
-    </Stack>
-  </Grid>
-)
-
-const DetailComp = ({ label, val, desc }) => (
-  <Stack style={{ fontSize: 15 }} gap={1}>
+const DetailComp = ({ label, val, desc, sx }) => (
+  <Stack sx={{ fontSize: 15, ...sx }} gap={0.5}>
     <Typography sx={{ fontSize: 14 }} color="text.secondary">
       {label}
     </Typography>
