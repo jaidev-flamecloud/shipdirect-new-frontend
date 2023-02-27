@@ -29,39 +29,38 @@ const LandingFaqs = () => {
   useEffect(() => {
     readFaq()
   }, [])
-  return (
-    <LandingLayout>
-      <LandingSection sx={{ pb: "17rem" }}>
-        <Toolbar />
-        <Stack spacing={2} alignItems="center" textAlign="center" mb={3}>
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>
-            Frequently Asked Questions
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ width: "60%" }}
-            color="text.secondary"
-          >
-            We’ve answered all the most Frequently Asked ones
-          </Typography>{" "}
-        </Stack>
-        <LoadingContainer loading={loading}>
-          <Stack spacing={2}>
-            {faqs.map((faq, i) => (
-              <Accordion key={i}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography sx={{ fontSize: 18 }}>{faq.question}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>{faq.answer}</Typography>
-                </AccordionDetails>
-              </Accordion>
-            ))}
-          </Stack>
-        </LoadingContainer>
-      </LandingSection>
-    </LandingLayout>
-  )
+  return "Shipdirect"
+  // <LandingLayout>
+  //   <LandingSection sx={{ pb: "17rem" }}>
+  //     <Toolbar />
+  //     <Stack spacing={2} alignItems="center" textAlign="center" mb={3}>
+  //       <Typography variant="h4" sx={{ fontWeight: 600 }}>
+  //         Frequently Asked Questions
+  //       </Typography>
+  //       <Typography
+  //         variant="body2"
+  //         sx={{ width: "60%" }}
+  //         color="text.secondary"
+  //       >
+  //         We’ve answered all the most Frequently Asked ones
+  //       </Typography>{" "}
+  //     </Stack>
+  //     <LoadingContainer loading={loading}>
+  //       <Stack spacing={2}>
+  //         {faqs.map((faq, i) => (
+  //           <Accordion key={i}>
+  //             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+  //               <Typography sx={{ fontSize: 18 }}>{faq.question}</Typography>
+  //             </AccordionSummary>
+  //             <AccordionDetails>
+  //               <Typography>{faq.answer}</Typography>
+  //             </AccordionDetails>
+  //           </Accordion>
+  //         ))}
+  //       </Stack>
+  //     </LoadingContainer>
+  //   </LandingSection>
+  // </LandingLayout>
 }
 
 export default LandingFaqs
