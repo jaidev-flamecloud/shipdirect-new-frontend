@@ -209,8 +209,8 @@ const DetailComp = ({ label, val, desc, sx }) => (
     <Typography sx={{ fontSize: 14 }} color="text.secondary">
       {label}
     </Typography>
-    <Typography>{val}</Typography>
-    <Typography>{desc}</Typography>
+    <Typography fontWeight={500}>{val}</Typography>
+    <Typography fontWeight={500}>{desc}</Typography>
   </Stack>
 )
 

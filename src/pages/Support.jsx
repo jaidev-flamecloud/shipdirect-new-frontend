@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Stack } from "@mui/material"
+import { Button, Grid, IconButton, Stack, useTheme, alpha } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import PageContainer from "../components/containers/PageContainer"
 import Field from "../components/ui/Field"
@@ -82,6 +82,8 @@ const Support = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, limit, filter, sort])
 
+  const theme = useTheme()
+
   return (
     <PageContainer
       title="Ticket Support"
@@ -125,7 +127,15 @@ const Support = () => {
               direction={{ xs: "column", sm: "row", fontSize: 14 }}
               alignItems="center"
             >
-              <Button type="button" variant="outlined" sx={{ mr: 2, px: 3 }}>
+              <Button
+                type="button"
+                variant="outlined"
+                sx={{
+                  mr: 2,
+                  px: 3,
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                }}
+              >
                 Add Attachment (Upto 2MB)
               </Button>
               <span>
@@ -146,6 +156,7 @@ const Support = () => {
         </form>
       </Section>
       <CustomTable
+        title="Your Previous Tickets"
         fields={[
           "ORDER ID",
           "TITLE",

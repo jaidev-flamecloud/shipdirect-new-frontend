@@ -324,7 +324,9 @@ const Deposit = () => {
 
                     <Grid item xs={12} sm={8}>
                       <FormControl fullWidth>
-                        <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+                        <FormLabel
+                          sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}
+                        >
                           Quick add
                         </FormLabel>
                         <Stack
@@ -348,7 +350,9 @@ const Deposit = () => {
 
                     <Grid item xs={12}>
                       <FormControl fullWidth>
-                        <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+                        <FormLabel
+                          sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}
+                        >
                           Choose Payment Method
                         </FormLabel>
                         <Grid container spacing={1}>
@@ -396,7 +400,9 @@ const Deposit = () => {
                     </Grid>
                     <Grid item xs={12} sm={8}>
                       <FormControl fullWidth>
-                        <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+                        <FormLabel
+                          sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}
+                        >
                           Pay using cryptocurrency
                         </FormLabel>
                         <LoadingContainer loading={coinLoader}>
@@ -433,6 +439,7 @@ const Deposit = () => {
                     <Chip
                       label="Earn 5% bonus on selecting Crypto Payments"
                       color="primary"
+                      sx={{ borderRadius: 1 }}
                     />
                     <Box
                       sx={{
@@ -447,12 +454,13 @@ const Deposit = () => {
                           display: "flex",
                           gap: "10px",
                           alignItems: "center",
+                          fontWeight: 500,
                         }}
                       >
-                        <span style={{ color: "silver", flex: "none" }}>
+                        <span style={{ flex: "none" }}>
                           Your Resulting Balance :
                         </span>
-                        <Typography color="primary">
+                        <Typography color="primary" fontWeight={700}>
                           $
                           {(user.balance + parseFloat(amount || "0")).toFixed(
                             2

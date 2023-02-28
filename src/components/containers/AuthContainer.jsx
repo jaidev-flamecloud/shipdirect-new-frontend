@@ -7,7 +7,6 @@ import {
   useTheme,
   Box,
 } from "@mui/material"
-import ColorModeToggle from "../common/ColorModeToggle"
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded"
 import { Link } from "react-router-dom"
 import routes from "../../config/routes"
@@ -65,8 +64,8 @@ const AuthContainer = ({
             sx={{
               fontWeight: 600,
               fontSize: {
-                xs: 24,
-                md: 34,
+                xs: 22,
+                md: 27,
               },
             }}
             mb={0.5}
@@ -77,8 +76,8 @@ const AuthContainer = ({
             color="grey"
             sx={{
               fontSize: {
-                xs: 16,
-                md: 20,
+                xs: 14,
+                md: 16,
               },
             }}
           >
@@ -93,8 +92,7 @@ const AuthContainer = ({
               type="submit"
               variant="contained"
               sx={{
-                py: 1.5,
-                fontSize: 18,
+                fontSize: 16,
               }}
             >
               {loading ? (
@@ -147,7 +145,7 @@ const AuthContainer = ({
           bottom: 0,
         }}
       >
-        © 2022 ShipEase Ltd | All Rights Reserved
+        © 2022 ShipDirect Ltd | All Rights Reserved
       </Typography> */}
     </Container>
   )

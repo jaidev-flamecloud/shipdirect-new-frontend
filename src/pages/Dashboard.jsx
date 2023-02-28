@@ -100,31 +100,15 @@ const Dashboard = () => {
       }
 
       <Grid container spacing={2}>
-        {/* <Grid item xs={12} sm={4}>
-          <Section title="My Profile">
-            <Stack spacing={2}>
-              <Field disabled value={user.username} label="Username" />
-              <Field disabled value={user.email} label="Email Address" />
-              <Field
-                disabled
-                value={formatDate(user.createdAt)}
-                label="Joined"
-              />
-              <Link to="/change-password">
-                <Button fullWidth variant="outlined">
-                  Reset Password
-                </Button>
-              </Link>
-            </Stack>
-          </Section>
-        </Grid> */}
         <Grid item xs={12} sm={6}>
           <LoadingContainer loading={statsLoading}>
             <CustomTable
               title="Your Recent Orders"
               end={
                 <Link to={routes.LABELS}>
-                  <Typography color="primary">View All Orders</Typography>
+                  <Typography color="primary" fontWeight={600} variant="body2">
+                    View All Orders
+                  </Typography>
                 </Link>
               }
               fields={["DATE & TIME", "TYPE", "FROM", "TO", "AMOUNT", "STATUS"]}
@@ -152,7 +136,9 @@ const Dashboard = () => {
               title="Your Recent Transactions"
               end={
                 <Link to={routes.TRANSACTIONS}>
-                  <Typography color="primary">View All Transactions</Typography>
+                  <Typography color="primary" fontWeight={600} variant="body2">
+                    View All Transactions
+                  </Typography>
                 </Link>
               }
               fields={["DATE & TIME", "AMOUNT", "DESCRIPTION", "STATUS"]}

@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material"
+import { Grid, Paper, Typography, useTheme } from "@mui/material"
 import Field, { PasswordField } from "../../components/ui/Field"
 import AuthContainer from "../../components/containers/AuthContainer"
 import AuthSidePic from "../../components/common/AuthSidePic"
@@ -7,13 +7,15 @@ import { useRef, useState } from "react"
 import api from "../../config/axios"
 import env from "../../config/env"
 import { toast } from "react-toastify"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link } from "react-router-dom"
+import routes from "../../config/routes"
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
   const recaptchaRef = useRef(null)
+  const theme = useTheme()
 
-  const [searchParams, setSearchParams] = useSearchParams()
+  // const [searchParams, setSearchParams] = useSearchParams()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -46,30 +48,41 @@ const Register = () => {
     <Grid container sx={{ minHeight: "100vh" }}>
       <Grid item xs>
         <AuthContainer
-          title={
-            <>
-              Welcome to{" "}
-              <Typography component="span" variant="inherit" color="primary">
-                ShipEase
-              </Typography>
-            </>
-          }
-          subtitle="Create your free account and get started"
+          title={"Welcome to ShipDirect"}
+          subtitle="Get access to the most reliable label providers on the internet "
           submitText="Get Started"
           hideColorToggle
           submit={handleSubmit}
           loading={loading}
           bottomContent={
-            <Typography color="text.secondary" textAlign={"center"}>
-              By Proceeding you agree to our <br />{" "}
-              <Link to="/terms">
-                <u>Terms of Service</u>{" "}
-              </Link>
-              and{" "}
-              <Link to="/terms">
-                <u>Privacy Policy </u>
-              </Link>
-            </Typography>
+            <>
+              <Typography color="text.secondary" textAlign={"center"}>
+                By Proceeding you agree to our
+                <Link to="/terms">
+                  <u>Terms of Service</u>{" "}
+                </Link>
+                and{" "}
+                <Link to="/terms">
+                  <u>Privacy Policy </u>
+                </Link>
+              </Typography>
+              <Paper
+                elevation={0}
+                sx={{
+                  textAlign: "center",
+                  py: 2,
+                  fontWeight: 500,
+                }}
+              >
+                Already have an account?{" "}
+                <Link
+                  to={routes.LOGIN}
+                  style={{ color: theme.palette.primary.main }}
+                >
+                  Log In
+                </Link>
+              </Paper>{" "}
+            </>
           }
         >
           <Field

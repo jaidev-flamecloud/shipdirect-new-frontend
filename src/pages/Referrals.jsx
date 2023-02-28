@@ -1,10 +1,13 @@
 import {
+  Button,
   Chip,
   Grid,
   IconButton,
+  Paper,
   Stack,
   TableCell,
   TableRow,
+  Typography,
 } from "@mui/material"
 import StatCard from "../components/common/StatCard"
 import PageContainer from "../components/containers/PageContainer"
@@ -79,7 +82,7 @@ const Referrals = () => {
 
   return (
     <PageContainer
-      title="Your Referrals"
+      title="Referrals"
       desc="Add members to earn from your referrals"
       end={
         <Chip
@@ -93,13 +96,35 @@ const Referrals = () => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems={"flex-end"}
+          alignItems={"center"}
           spacing={2}
         >
-          <Field label="Your Referal Link" value={REF_LINK} disabled />
-          <IconButton onClick={() => copyToClipboard(REF_LINK)}>
-            <ContentCopyRoundedIcon />
-          </IconButton>
+          <Typography fontWeight={600} display="inline" variant="h6">
+            Your Referral Link
+          </Typography>
+          <Paper
+            elevation={0}
+            sx={{
+              borderColor: "primary.main",
+              borderWidth: 2,
+              borderStyle: "solid",
+              py: 0.3,
+              px: 2,
+              fontWeight: 500,
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {REF_LINK}
+            <Button
+              sx={{ fontWeight: 600 }}
+              onClick={() => copyToClipboard(REF_LINK)}
+            >
+              COPY LINK
+            </Button>
+          </Paper>
         </Stack>
       </Section>
 

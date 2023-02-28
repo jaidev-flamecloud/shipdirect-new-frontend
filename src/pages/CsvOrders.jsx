@@ -1,4 +1,5 @@
 import {
+  alpha,
   Button,
   Divider,
   FormControl,
@@ -175,7 +176,9 @@ const CsvOrders = () => {
           alignItems={{ xs: "stretch", sm: "center" }}
           mb={2}
         >
-          <span style={{ flex: "none" }}>Select Courier</span>
+          <FormLabel style={{ flex: "none", fontWeight: 600, color: "#000" }}>
+            Select Courier
+          </FormLabel>
           <Grid container gap={2}>
             {pricingItems.map((p) => (
               <OptionCard
@@ -195,7 +198,7 @@ const CsvOrders = () => {
         <Grid container spacing={3} mb={2}>
           <Grid item xs={12} sm={6}>
             <CustomSelect
-              label="Select Type"
+              label="Select Service"
               name="labeltype"
               onChange={(e) => {
                 setActiveUspsType(
@@ -223,13 +226,17 @@ const CsvOrders = () => {
           </Grid>
           <Grid item xs={12} sm={3}>
             <FormControl sx={{ height: "100%" }} fullWidth>
-              <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+              <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}>
                 Upload CSV
               </FormLabel>
               <Button
                 variant="outlined"
                 component="label"
-                sx={{ height: "100%" }}
+                sx={{
+                  height: "100%",
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  borderStyle: "dashed",
+                }}
               >
                 {CSV?.name || "+ Upload CSV File"}
 
@@ -255,6 +262,7 @@ const CsvOrders = () => {
           alignItems="center"
           spacing={1}
           mt={2}
+          sx={{ fontWeight: 500 }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <Button
@@ -262,7 +270,12 @@ const CsvOrders = () => {
               onClick={validateCSV}
               variant="outlined"
               color="success"
-              sx={{ mr: 2, flex: "none" }}
+              sx={{
+                mr: 2,
+                flex: "none",
+                bgcolor: alpha(theme.palette.success.main, 0.1),
+                fontWeight: 600,
+              }}
             >
               {validateLoader ? <Loader /> : "Validate CSV"}
             </Button>
@@ -272,7 +285,7 @@ const CsvOrders = () => {
           </div>
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <span style={{ color: "silver" }}>Your Total :</span>
-            <Typography color="primary">
+            <Typography color="primary" fontWeight={600}>
               {typeof csvPrice === "number" ? (
                 <>${csvPrice?.toFixed(2)}</>
               ) : (
@@ -285,7 +298,7 @@ const CsvOrders = () => {
               variant="contained"
               sx={{ ml: 1, px: 3 }}
             >
-              {loader ? <Loader /> : "Pay Amount"}
+              {loader ? <Loader /> : "Create Order"}
             </Button>
           </div>
         </Stack>

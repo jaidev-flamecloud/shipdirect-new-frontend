@@ -69,7 +69,7 @@ const AddAddress = ({ address, edit, refresh, ...props }) => {
     <ModalContainer
       {...props}
       title="Enter Address Details"
-      actionText={edit ? "Edit Address" : "Create New Address"}
+      actionText={edit ? "Edit Address" : "Add New Address"}
       action={edit ? updateAddress : createAddress}
       loading={loader}
     >

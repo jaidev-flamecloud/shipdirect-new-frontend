@@ -1,1 +1,1 @@
-Frontend for Ship Ease's web app
+Frontend for Ship Direct's web app

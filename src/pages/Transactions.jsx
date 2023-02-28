@@ -1,6 +1,14 @@
 import PageContainer from "../components/containers/PageContainer"
 import CustomTable from "../components/ui/CustomTable"
-import { Stack, TableCell, TableRow, Typography, useTheme } from "@mui/material"
+import {
+  alpha,
+  Box,
+  Stack,
+  TableCell,
+  TableRow,
+  Typography,
+  useTheme,
+} from "@mui/material"
 import { useEffect, useState } from "react"
 import api from "../config/axios"
 import { formatDate } from "../utilities/misc"
@@ -18,20 +26,21 @@ const filters = [
 const FilterTabs = ({ filter, setFilter }) => {
   const theme = useTheme()
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={1}>
       {filters.map((f, i) => (
-        <Typography
+        <Box
           onClick={() => setFilter(i)}
           sx={{
             cursor: "pointer",
-            p: 1,
-            color: i !== filter && "silver",
-            borderBottom:
-              i === filter && `solid 2px ${theme.palette.primary.main}`,
+            px: 1,
+            borderRadius: 0.8,
+            border: i === filter && `solid 1px ${theme.palette.primary.main}`,
+            bgcolor: i === filter && alpha(theme.palette.primary.main, 0.2),
+            fontWeight: 500,
           }}
         >
           {f[0]}
-        </Typography>
+        </Box>
       ))}
     </Stack>
   )

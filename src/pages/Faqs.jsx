@@ -36,10 +36,12 @@ const Faqs = () => {
           {faqs.map((faq, i) => (
             <Accordion key={i}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography sx={{ fontSize: 18 }}>{faq.question}</Typography>
+                <Typography sx={{ fontSize: 16, fontWeight: 500 }}>
+                  {faq.question}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>{faq.answer}</Typography>
+                <Typography color="text.secondary">{faq.answer}</Typography>
               </AccordionDetails>
             </Accordion>
           ))}

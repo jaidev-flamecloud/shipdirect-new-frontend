@@ -4,13 +4,11 @@ const PageContainer = ({ title, end, desc, children }) => {
   return (
     <>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6" sx={{ fontWeight: 500 }}>
-          {title}
-        </Typography>
+        <Typography sx={{ fontWeight: 500, fontSize: 20 }}>{title}</Typography>
 
         {end}
       </Stack>
-      <Typography mb={2} mt={0.5} color="text.secondary">
+      <Typography mb={2} mt={0.3} color="text.secondary" fontWeight={500}>
         {desc}
       </Typography>
 

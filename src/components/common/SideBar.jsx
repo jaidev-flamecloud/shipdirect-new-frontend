@@ -1,6 +1,14 @@
 import Drawer from "@mui/material/Drawer"
 import Toolbar from "@mui/material/Toolbar"
-import { alpha, Box, Stack, Typography, useTheme } from "@mui/material"
+import {
+  alpha,
+  Box,
+  Button,
+  Divider,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material"
 import routes from "../../config/routes"
 import { Link, useLocation } from "react-router-dom"
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined"
@@ -14,19 +22,20 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined"
 import LiveHelpOutlinedIcon from "@mui/icons-material/LiveHelpOutlined"
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined"
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded"
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded"
 
 const contactLinks = [
   {
     icon: "Telegram",
-    link: "https://t.me/shipease",
+    link: "#",
   },
   {
     icon: "Discord",
-    link: "https://discord.gg/shipease",
+    link: "#",
   },
   {
     icon: "Zalo",
-    link: "https://zalo.me/g/foxpbx914",
+    link: "#",
   },
   // {
   //   icon: "Linkedin",
@@ -38,7 +47,7 @@ const contactLinks = [
   // },
   {
     icon: "Reddit",
-    link: "https://www.reddit.com/r/shipease/",
+    link: "#",
   },
 ]
 
@@ -136,7 +145,7 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
   return (
     <Stack justifyContent={"space-between"} sx={{ height: "100%" }}>
       <div>
-        <Toolbar>
+        <Toolbar sx={{ px: 3 }}>
           <img
             src={`/assets/images/logo${miniDrawer ? "-small" : ""}.svg`}
             alt="logo"
@@ -145,7 +154,35 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
           />
         </Toolbar>
 
-        <Stack spacing={1} px={3} mt={2} pb={2}>
+        <Stack spacing={1} px={3} pb={2}>
+          <Divider />
+          <Stack spacing={1.4} sx={{ py: 0.7 }}>
+            <Button
+              sx={{
+                justifyContent: "flex-start",
+                color: "#000",
+                border: "1px solid #e0e0e0",
+                fontSize: 13,
+                bgcolor: "#fafafa",
+                px: 1.5,
+                fontWeight: 500,
+                gap: 1,
+              }}
+            >
+              <PersonRoundedIcon /> Regular Member
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                fontWeight: 500,
+                fontSize: 13,
+                bgcolor: alpha(theme.palette.primary.main, 0.1),
+              }}
+            >
+              Upgrade to Premium
+            </Button>
+          </Stack>
+          <Divider />
           {navItems.map((navItem) => (
             <NavItem
               {...navItem}
@@ -155,6 +192,7 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
               miniDrawer={miniDrawer}
             />
           ))}
+          <Divider />
         </Stack>
       </div>
 
@@ -192,8 +230,10 @@ const SideBar = ({ drawerWidth, window, toggle, mobileOpen, miniDrawer }) => {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      aria-label="mailbox folders"
+      sx={{
+        width: { sm: drawerWidth },
+        flexShrink: { sm: 0 },
+      }}
     >
       <Drawer
         container={container}

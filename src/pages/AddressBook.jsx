@@ -63,7 +63,7 @@ const AddressBook = () => {
   }, [])
   return (
     <PageContainer
-      title="All your saved Address"
+      title="Address Book"
       desc="Manage all your saved address and add new address for quicker checkouts"
       end={
         <Button
@@ -74,7 +74,7 @@ const AddressBook = () => {
           }}
           variant="contained"
         >
-          Create New Address
+          Add New Address
         </Button>
       }
     >
@@ -102,8 +102,10 @@ const AddressBook = () => {
             <TableCell>{address.street}</TableCell>
             <TableCell>{address.street2}</TableCell>
             <TableCell>{address.city}</TableCell>
-            <TableCell>{address.state}</TableCell>
-            <TableCell>{address.zip}</TableCell>
+            <TableCell sx={{ color: "success.main" }}>
+              {address.state}
+            </TableCell>
+            <TableCell sx={{ color: "success.main" }}>{address.zip}</TableCell>
             <TableCell>
               <IconButton
                 onClick={() => {

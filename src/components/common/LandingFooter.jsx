@@ -91,32 +91,7 @@ const footerLinks = [
   },
 ]
 
-const contactLinks = [
-  {
-    icon: "Telegram",
-    link: "https://t.me/shipease",
-  },
-  {
-    icon: "Discord",
-    link: "https://discord.gg/shipease",
-  },
-  {
-    icon: "Zalo",
-    link: "https://zalo.me/g/foxpbx914",
-  },
-  // {
-  //   icon: "Linkedin",
-  //   link: "#",
-  // },
-  // {
-  //   icon: "Instagram",
-  //   link: "#",
-  // },
-  {
-    icon: "Reddit",
-    link: "https://www.reddit.com/r/shipease/",
-  },
-]
+const contactLinks = []
 
 const LandingFooter = () => {
   const { isDark } = useColorModeContext()
@@ -178,7 +153,6 @@ const LandingFooter = () => {
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <MailOutlineRoundedIcon />{" "}
-              <Typography>support@shipease.io</Typography>
             </Stack>
           </Stack>
         </Grid>
@@ -204,7 +178,7 @@ const LandingFooter = () => {
       >
         <Stack direction="row" spaacing={1} alignItems="center">
           <Typography variant="body2" color="silver">
-            © 2022 ShipEase Ltd | All Rights Reserved
+            © 2022 ShipDirect Ltd | All Rights Reserved
           </Typography>
         </Stack>
         <Stack direction="row" spacing={2} alignItems="center">

@@ -14,10 +14,6 @@ import Support from "../pages/Support"
 import Referrals from "../pages/Referrals"
 import AddLabel from "../pages/AddLabel"
 import Labels from "../pages/Labels"
-import Landing from "../pages/landing/Landing"
-import LandingFaqs from "../pages/landing/LandingFaqs"
-import Terms from "../pages/landing/Terms"
-import NotFound from "../pages/landing/NotFound"
 import Verify from "../pages/auth/Verify"
 import ViewLabel from "../pages/ViewLabel"
 import ChangePass from "../pages/ChangePass"
@@ -26,7 +22,7 @@ import API from "../pages/API"
 const routes = {
   LANDING: "/",
   HOME: "/",
-  LOGIN: "/login",
+  LOGIN: "/",
   REGISTER: "/register",
   FORGOT_PASS: "/forgot-password",
   RESET_PASS: "/reset-password",
@@ -109,24 +105,12 @@ const AppRoutes = () =>
 const AuthRoutes = () =>
   useRoutes([
     {
-      path: "*",
-      element: <NotFound />,
-    },
-    {
       path: "/",
-      element: <Landing />,
-    },
-    {
-      path: "/faqs",
-      element: <LandingFaqs />,
-    },
-    {
-      path: "/terms",
-      element: <Terms />,
-    },
-    {
-      path: "/login",
       element: <Login />,
+    },
+    {
+      path: "*",
+      element: <Navigate to={"/"} />,
     },
     {
       path: "/verify",

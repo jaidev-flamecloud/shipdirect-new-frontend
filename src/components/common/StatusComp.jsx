@@ -7,7 +7,8 @@ const StatusComp = ({ status }) => {
     <Chip
       label={statusMap[status]?.text}
       color={statusMap[status]?.color.split(".")[0] || "error"}
-      sx={{ borderRadius: 0.8 }}
+      sx={{ borderRadius: 0.5, color: "#fff" }}
+      size="small"
     />
   )
 }

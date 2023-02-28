@@ -65,8 +65,8 @@ const Login = () => {
       <Grid item xs>
         <AuthContainer
           title="Welcome Back"
-          subtitle="Login to get straight to your dashboard"
-          submitText="Get Started"
+          subtitle="Manage all your labels, and create new labels instantly"
+          submitText="Login"
           createAccountBtn
           forgotPassBtn
           submit={handleSubmit}

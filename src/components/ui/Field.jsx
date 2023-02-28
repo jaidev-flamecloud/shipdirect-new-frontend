@@ -13,7 +13,9 @@ const Field = ({ label, ...props }) => {
   return (
     <FormControl fullWidth>
       {label && (
-        <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>{label}</FormLabel>
+        <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}>
+          {label}
+        </FormLabel>
       )}
       <TextField {...props} size="small" />
     </FormControl>
@@ -25,7 +27,9 @@ const PasswordField = ({ label, ...props }) => {
 
   return (
     <FormControl>
-      <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>{label}</FormLabel>
+      <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}>
+        {label}
+      </FormLabel>
       <TextField
         size="small"
         type={showPassword ? "text" : "password"}

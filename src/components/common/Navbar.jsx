@@ -34,7 +34,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
   const logOut = () => {
     localStorage.removeItem("token")
     setUser(null)
-    navigate("/login")
+    navigate("/")
   }
   const theme = useTheme()
 
@@ -56,6 +56,8 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
         ml: { sm: `${drawerWidth}px` },
         bgcolor: "transparent",
         color: theme.palette.text.primary,
+        py: 1,
+        px: { xs: 1, sm: 5 },
       }}
     >
       <Toolbar>
@@ -83,10 +85,17 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
               aria-label="open drawer"
               edge="start"
               onClick={toggle}
-              sx={{ mr: 1, display: { sm: "none" } }}
+              sx={{ mr: 0.4, display: { sm: "none" } }}
             >
               <MenuIcon />
             </IconButton>
+            <Box sx={{ mr: 1, display: { sm: "none" } }}>
+              <img
+                src={`/assets/images/logo.svg`}
+                alt="logo"
+                style={{ margin: "0 auto", width: "9rem" }}
+              />
+            </Box>
             <Typography
               sx={{ display: { xs: "none", sm: "block" } }}
               variant="body1"
@@ -111,7 +120,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                 </Typography>
               </Button>
             </Link>
-            <Link to="/deposit">
+            {/* <Link to="/deposit">
               <Button
                 variant="contained"
                 color="success"
@@ -125,12 +134,18 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                   ${user.balance.toFixed(2)}
                 </Typography>
               </Button>
-            </Link>
+            </Link> */}
 
             {/* <ColorModeToggle /> */}
-            <IconBtn onClick={logOut} color="error" bg="#f00">
-              <LogoutOutlinedIcon />
-            </IconBtn>
+            <IconButton
+              sx={{
+                backgroundColor: "#fff",
+                borderRadius: `${theme.shape.borderRadius}px !important`,
+              }}
+              onClick={logOut}
+            >
+              <LogoutOutlinedIcon color="error" />
+            </IconButton>
           </Stack>
 
           <Stack
@@ -144,7 +159,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                 <Button variant="contained" sx={{ height: "100%" }}>
                   <AddRoundedIcon fontSize="small" />
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
-                    Create New Label
+                    Create Label
                   </Typography>
                 </Button>
               </Link>
@@ -170,45 +185,50 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                   color="success"
                 />
                 <Typography variant="body2" sx={{ mx: 0.5 }}>
-                  Balance : ${user.balance.toFixed(2)}
+                  <span style={{ fontWeight: 600 }}>Balance</span> : $
+                  {user.balance.toFixed(2)}
                 </Typography>
                 <ArrowForwardRoundedIcon fontSize="small" />
               </Button>
             </Link>
 
-            <Paper
-              elevation={0}
+            <IconButton
               sx={{
-                display: { xs: "none", sm: "flex" },
-                alignItems: "center",
-                px: 2,
-                gap: 1,
-                border: "1px solid #e0e0e0",
+                backgroundColor: "#fff",
+                borderRadius: `${theme.shape.borderRadius}px !important`,
+                gap: 0.5,
+                px: 1.8,
+                color: "#000",
               }}
             >
               <WatchLaterRoundedIcon />
               <Typography variant="body2">{liveTime}</Typography>
-            </Paper>
+            </IconButton>
 
             <Stack direction="row" spacing={2} alignItems="stretch">
-              <Paper
+              <IconButton
                 onClick={() => navigate("/profile")}
-                elevation={0}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  px: 2,
-                  gap: 1,
-                  cursor: "pointer",
-                  border: "1px solid #e0e0e0",
+                  backgroundColor: "#fff",
+                  borderRadius: `${theme.shape.borderRadius}px !important`,
+                  gap: 0.5,
+                  px: 1.8,
+                  color: "#000",
                 }}
               >
                 <PersonRoundedIcon />
                 <Typography variant="body2">{user.username}</Typography>
-              </Paper>
-              <IconBtn onClick={logOut} color="error" bg="#f00">
-                <LogoutOutlinedIcon />
-              </IconBtn>
+              </IconButton>
+
+              <IconButton
+                onClick={logOut}
+                sx={{
+                  backgroundColor: "#fff",
+                  borderRadius: `${theme.shape.borderRadius}px !important`,
+                }}
+              >
+                <LogoutOutlinedIcon color="error" />
+              </IconButton>
             </Stack>
           </Stack>
         </Stack>

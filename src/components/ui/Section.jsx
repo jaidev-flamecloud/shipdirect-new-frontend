@@ -11,7 +11,9 @@ const Section = ({ title, sx, end, mb0, children }) => {
           alignItems="center"
           mb={mb0 ? 0 : 2}
         >
-          <Typography variant="h6">{title}</Typography>
+          <Typography fontSize={16} fontWeight={500}>
+            {title}
+          </Typography>
           {end}
         </Stack>
       )}

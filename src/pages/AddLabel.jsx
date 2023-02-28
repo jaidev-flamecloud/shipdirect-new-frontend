@@ -77,7 +77,7 @@ const AddressForm = ({
   const [collapsed, setCollapsed] = useState(false)
 
   // for google autofill
-  const [showAutocomplete, setShowAutocomplete] = useState(true)
+  const [showAutocomplete, setShowAutocomplete] = useState(false)
   const inputRef = useRef()
   const handlePlaceChanged = () => {
     const place = inputRef.current.getPlace()
@@ -309,7 +309,7 @@ const AddressForm = ({
                   required
                 />
                 <Stack>
-                  <FormControlLabel
+                  {/* <FormControlLabel
                     control={
                       <Checkbox
                         checked={showAutocomplete}
@@ -317,7 +317,7 @@ const AddressForm = ({
                       />
                     }
                     label={"Autocomplete"}
-                  />
+                  /> */}
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -601,7 +601,9 @@ const AddLabel = () => {
             <Grid item xs={12} sm={7}>
               <Section sx={{ mb: 2 }}>
                 <FormControl>
-                  <FormLabel sx={{ mb: 2 }}>Select Courier</FormLabel>
+                  <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 2 }}>
+                    Select Courier
+                  </FormLabel>
                   <Grid container gap={2} mb={2}>
                     {pricingItems.map((p) => (
                       <OptionCard

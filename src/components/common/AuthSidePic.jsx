@@ -12,7 +12,7 @@ import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded"
 import ColorModeToggle from "../../components/common/ColorModeToggle"
 import { Link } from "react-router-dom"
 import routes from "../../config/routes"
-import { testimonials } from "../../pages/landing/Landing"
+// import { testimonials } from "../../pages/landing/Landing"
 
 const AuthSidePic = ({ loginBtn }) => {
   return (
@@ -43,14 +43,14 @@ const AuthSidePic = ({ loginBtn }) => {
         <Box sx={{ background: "rgba(0,0,0,0.3)" }}>
           <Container maxWidth="sm">
             <Stack
-              direction={"column-reverse"}
+              direction={"column"}
               justifyContent="space-between"
               alignItems="center"
               pt={3}
               pb={6}
               sx={{ minHeight: "96vh" }}
             >
-              <div>
+              {/* <div>
                 <Stack
                   direction="row"
                   justifyContent={"space-between"}
@@ -75,7 +75,7 @@ const AuthSidePic = ({ loginBtn }) => {
                     </Typography>
                   </div>
                 </Stack>
-              </div>
+              </div> */}
               {loginBtn && (
                 <Stack direction="row" spacing={2} alignItems="center">
                   <Typography color="white">

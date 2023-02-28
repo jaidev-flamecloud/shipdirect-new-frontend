@@ -73,9 +73,14 @@ const Pricing = () => {
     checkSubscription()
   }, [])
 
+  const theme = useTheme()
+
   return (
-    <PageContainer title="Pricing">
-      <Section sx={{ mb: 2 }}>
+    <PageContainer
+      title="Upgrade to Premium"
+      desc="Save on all your purchases with our premium membership"
+    >
+      <Section sx={{ mb: 2, py: 2.5, fontWeight: 600 }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
@@ -83,7 +88,9 @@ const Pricing = () => {
           spacing={2}
         >
           <div>
-            <span>Subscription Status</span>
+            <Typography fontWeight={600} display="inline" variant="h6">
+              Subscription Status
+            </Typography>
             {userData.premiumRecurring ? (
               <Chip
                 label="PREMIUM"
@@ -118,13 +125,23 @@ const Pricing = () => {
         </Stack>
       </Section>
       <PricingComp />
-      <Section sx={{ mt: 3 }}>
+      <Section
+        sx={{
+          mt: 3,
+          bgcolor: alpha(theme.palette.primary.main, 0.1),
+          border: `solid 2px ${theme.palette.primary.main}`,
+        }}
+      >
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
           alignItems="center"
           spacing={2}
-          sx={{ color: "primary.main" }}
+          sx={{
+            color: "primary.main",
+            fontSize: 16,
+            fontWeight: 600,
+          }}
         >
           {userData.premiumRecurring ? (
             <div>Subscribed to Premium</div>

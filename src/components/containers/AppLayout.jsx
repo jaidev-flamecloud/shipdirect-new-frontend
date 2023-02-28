@@ -33,7 +33,8 @@ export default function AppLayout(props) {
         sx={{
           flexGrow: 1,
           bgcolor: "background.default",
-          p: { xs: 2, sm: 3 },
+          py: { xs: 2, sm: 3 },
+          px: { xs: 2, sm: 8 },
           width: {
             xs: "100vw",
             sm: `calc(100% - ${

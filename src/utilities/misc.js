@@ -367,33 +367,18 @@ export const statusMap = {
     icon: <DoneRoundedIcon fontSize="small" />,
   },
   refundRequested: {
-    text: (
-      <>
-        Refund <br />
-        Requested
-      </>
-    ),
+    text: <>Refund Requested</>,
     color: "warning.main",
     icon: <WarningRoundedIcon fontSize="small" />,
   },
   refundAccepted: {
-    text: (
-      <>
-        Refund <br />
-        Accepted
-      </>
-    ),
+    text: <>Refund Accepted</>,
 
     color: "success.main",
     icon: <DoneRoundedIcon fontSize="small" />,
   },
   refundRejected: {
-    text: (
-      <>
-        Refund <br />
-        Rejected
-      </>
-    ),
+    text: <>Refund Rejected</>,
 
     color: "error.main",
     icon: <CloseRoundedIcon fontSize="small" />,

@@ -1,4 +1,6 @@
 import {
+  alpha,
+  Box,
   Button,
   Checkbox,
   Chip,
@@ -40,20 +42,21 @@ const filters = [
 const FilterTabs = ({ filter, setFilter }) => {
   const theme = useTheme()
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={1}>
       {filters.map((f, i) => (
-        <Typography
+        <Box
           onClick={() => setFilter(i)}
           sx={{
             cursor: "pointer",
-            p: 1,
-            color: i !== filter && "silver",
-            borderBottom:
-              i === filter && `solid 2px ${theme.palette.primary.main}`,
+            px: 1,
+            borderRadius: 0.8,
+            border: i === filter && `solid 1px ${theme.palette.primary.main}`,
+            bgcolor: i === filter && alpha(theme.palette.primary.main, 0.2),
+            fontWeight: 500,
           }}
         >
           {f[0]}
-        </Typography>
+        </Box>
       ))}
     </Stack>
   )
@@ -223,9 +226,10 @@ const Labels = () => {
     <PageContainer title="My Labels" desc="Manage all your ordered labels">
       <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mb={2}>
         <Field
-          placeholder="Search using From Name, To Name, or Tracking ID"
+          placeholder="Search using Order ID, Tracking ID, address and more"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          inputProps={{ sx: { bgcolor: "#fff" } }}
         />
         <DateFilter
           dateRange={dateRange}
@@ -250,16 +254,16 @@ const Labels = () => {
                 onChange={(e) => setSort(e.target.value)}
                 options={[
                   {
-                    label: "Date Acscending",
+                    label: "Oldest First",
                     value: "asc",
                   },
                   {
-                    label: "Date Descending",
+                    label: "Newest First",
                     value: "des",
                   },
                 ]}
               />
-              <span style={{ flex: "none" }}>View orders :</span>
+              <span style={{ flex: "none" }}>View labels :</span>
               <CustomSelect
                 value={limit}
                 onChange={(e) => setLimit(e.target.value)}
@@ -286,6 +290,7 @@ const Labels = () => {
                       color="success"
                       size="small"
                       onClick={downloadPdfAllPDF}
+                      sx={{ color: "#fff" }}
                     >
                       PDF
                     </Button>
@@ -294,12 +299,13 @@ const Labels = () => {
                       color="success"
                       size="small"
                       onClick={downloadPdfAll}
+                      sx={{ color: "#fff" }}
                     >
                       ZIP
                     </Button>
                   </Stack>
                 }
-                sx={{ height: "100%", py: 1 }}
+                sx={{ height: "100%", py: 1, borderRadius: 1 }}
               />
             )}
           </Stack>
@@ -349,8 +355,12 @@ const Labels = () => {
             <TableCell>{order.FromName}</TableCell>
             <TableCell>{order.ToName}</TableCell>
             <TableCell>{order.labelType?.name}</TableCell>
-            <TableCell>{order.tracking}</TableCell>
-            <TableCell>{"$" + order?.price?.toFixed(2)}</TableCell>
+            <TableCell sx={{ color: "primary.main" }}>
+              {order.tracking}
+            </TableCell>
+            <TableCell sx={{ color: "success.main" }}>
+              {"$" + order?.price?.toFixed(2)}
+            </TableCell>
             <TableCell>
               <StatusComp status={order?.status} />
             </TableCell>

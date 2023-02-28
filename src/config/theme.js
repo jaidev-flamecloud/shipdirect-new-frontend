@@ -1,6 +1,7 @@
 const getTheme = (mode) => ({
   typography: {
-    fontFamily: "'Lexend', sans-serif",
+    fontFamily: "'Figtree', sans-serif",
+    fontSize: 12,
     button: {
       textTransform: "none",
     },
@@ -17,7 +18,7 @@ const getTheme = (mode) => ({
       ? {
           // palette values for light mode
           primary: {
-            main: "#2299F5",
+            main: "#0393FB",
           },
           background: {
             default: "#F6F8FA",
@@ -27,7 +28,7 @@ const getTheme = (mode) => ({
       : {
           // palette values for dark mode
           primary: {
-            main: "#2299F5",
+            main: "#0393FB",
           },
           background: {
             default: "#283143",
@@ -39,6 +40,13 @@ const getTheme = (mode) => ({
     MuiButton: {
       defaultProps: {
         disableElevation: true,
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          fontWeight: 500,
+        },
       },
     },
     MuiAccordion: {
