@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow"
 import LoadingContainer from "../containers/LoadingContainer"
 
 export default function CustomTable({
+  w,
   title,
   start,
   end,
@@ -29,6 +30,7 @@ export default function CustomTable({
         pb: 1,
         overflow: "hidden",
         border: "1px solid #e0e0e0",
+        width: w || "auto",
         ...sx,
       }}
     >

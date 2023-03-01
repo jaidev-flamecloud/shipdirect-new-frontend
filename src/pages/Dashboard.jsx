@@ -1,7 +1,6 @@
 import { Grid, Stack, TableCell, TableRow, Typography } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import Section from "../components/ui/Section"
-import InventoryIcon from "@mui/icons-material/Inventory"
 import PageContainer from "../components/containers/PageContainer"
 import { Link } from "react-router-dom"
 import routes from "../config/routes"
@@ -11,11 +10,9 @@ import api from "../config/axios"
 import LoadingContainer from "../components/containers/LoadingContainer"
 import { useUserContext } from "../App"
 import { formatDate } from "../utilities/misc"
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet"
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney"
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer"
 import PushPinIcon from "@mui/icons-material/PushPin"
 import StatusComp from "../components/common/StatusComp"
+import Icon from "../components/common/Icon"
 
 const Dashboard = () => {
   const { user } = useUserContext()
@@ -69,28 +66,28 @@ const Dashboard = () => {
           <Grid container spacing={2} mb={2}>
             <Grid item xs={12} sm={3}>
               <StatCard
-                icon={<InventoryIcon />}
+                icon={<Icon path="bulk/receipt-2" />}
                 name="Orders Placed       "
                 value={stats.orders}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
               <StatCard
-                icon={<AccountBalanceWalletIcon />}
+                icon={<Icon path="bulk/wallet" />}
                 name="Your Balance"
                 value={"$" + stats.balance?.toFixed(2)}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
               <StatCard
-                icon={<AttachMoneyIcon />}
+                icon={<Icon path="bulk/coin" />}
                 name="Balance Spent"
                 value={"$" + stats.totalSpent?.toFixed(2)}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
               <StatCard
-                icon={<QuestionAnswerIcon />}
+                icon={<Icon path="bulk/ticket" />}
                 name="Open Tickets"
                 value={stats.tickets}
               />

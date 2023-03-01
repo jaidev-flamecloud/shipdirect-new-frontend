@@ -11,22 +11,28 @@ import {
 } from "@mui/material"
 import routes from "../../config/routes"
 import { Link, useLocation } from "react-router-dom"
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined"
-import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined"
-import InboxOutlinedIcon from "@mui/icons-material/InboxOutlined"
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined"
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined"
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined"
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined"
-import LiveHelpOutlinedIcon from "@mui/icons-material/LiveHelpOutlined"
-import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined"
-import CodeRoundedIcon from "@mui/icons-material/CodeRounded"
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded"
+import { useUserContext } from "../../App"
+import StarsIcon from "@mui/icons-material/Stars"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import Icon from "./Icon"
 
 const contactLinks = [
   {
     icon: "Telegram",
+    link: "#",
+  },
+
+  // {
+  //   icon: "Zalo",
+  //   link: "#",
+  // },
+  // {
+  //   icon: "Linkedin",
+  //   link: "#",
+  // },
+  {
+    icon: "Instagram",
     link: "#",
   },
   {
@@ -34,84 +40,105 @@ const contactLinks = [
     link: "#",
   },
   {
-    icon: "Zalo",
+    icon: "Instagram",
     link: "#",
   },
   // {
-  //   icon: "Linkedin",
+  //   icon: "Reddit",
   //   link: "#",
   // },
-  // {
-  //   icon: "Instagram",
-  //   link: "#",
-  // },
-  {
-    icon: "Reddit",
-    link: "#",
-  },
 ]
 
 const navItems = [
   {
+    type: "header",
+    name: "MAIN MENU",
+  },
+  {
     name: "Dashboard",
-    icon: <DashboardOutlinedIcon />,
+    icon: "home",
     link: routes.HOME,
   },
   {
-    name: "Pricing",
-    icon: <PaidOutlinedIcon />,
-    link: routes.PRICING,
-  },
-  {
     name: "My Labels",
-    icon: <InboxOutlinedIcon />,
+    icon: "receipt-2",
     link: routes.LABELS,
   },
   {
     name: "CSV Orders",
-    icon: <ArticleOutlinedIcon />,
+    icon: "document-text",
     link: routes.CSV,
   },
   {
     name: "Address Book",
-    icon: <HomeOutlinedIcon />,
+    icon: "house-2",
     link: routes.ADDRESSES,
   },
   {
+    type: "header",
+    name: "DEPOSITS",
+  },
+  {
+    name: "Pricing",
+    icon: "dollar-circle",
+    link: routes.PRICING,
+  },
+  {
     name: "Deposit Balance",
-    icon: <AccountBalanceWalletOutlinedIcon />,
+    icon: "wallet",
     link: routes.DEPOSIT,
   },
   {
-    name: "Transactions",
-    icon: <DescriptionOutlinedIcon />,
+    name: "Transactions Log",
+    icon: "receipt-item",
     link: routes.TRANSACTIONS,
   },
   {
+    type: "header",
+    name: "REWARDS",
+  },
+  {
     name: "Referrals",
-    icon: <GroupsOutlinedIcon />,
+    icon: "people",
     link: routes.REFERRALS,
   },
   {
+    type: "header",
+    name: "SUPPORT",
+  },
+  {
     name: "FAQs",
-    icon: <LiveHelpOutlinedIcon />,
+    icon: "message-question",
     link: routes.FAQS,
   },
   {
-    name: "Support",
-    icon: <ForumOutlinedIcon />,
+    name: "Ticket Support",
+    icon: "ticket",
     link: routes.SUPPORT,
   },
   {
     name: "API",
-    icon: <CodeRoundedIcon />,
+    icon: "code-circle",
     link: "/api",
   },
 ]
 
-const NavItem = ({ name, icon, link, active, toggle, miniDrawer }) => {
+const NavItem = ({ name, type, icon, link, active, toggle, miniDrawer }) => {
   const theme = useTheme()
-  return (
+  return type ? (
+    miniDrawer ? (
+      ""
+    ) : (
+      <Typography
+        variant="body2"
+        color={alpha("#000", 0.4)}
+        fontWeight={700}
+        pt={1}
+      >
+        {name}
+      </Typography>
+    )
+  ) : (
     <Link to={link} onClick={toggle}>
       <Stack
         direction="row"
@@ -130,9 +157,11 @@ const NavItem = ({ name, icon, link, active, toggle, miniDrawer }) => {
           borderRadius: 1,
         }}
       >
-        {icon}
+        <Icon path={`${active ? "bulk" : "outline"}/${icon}`} />
         {!miniDrawer && (
-          <Typography sx={{ fontWeight: 500 }}>{name}</Typography>
+          <Typography sx={{ fontWeight: active ? 600 : 500, fontSize: 15 }}>
+            {name}
+          </Typography>
         )}
       </Stack>
     </Link>
@@ -142,6 +171,8 @@ const NavItem = ({ name, icon, link, active, toggle, miniDrawer }) => {
 const DrawerContent = ({ toggle, miniDrawer }) => {
   const location = useLocation()
   const theme = useTheme()
+  const { user } = useUserContext()
+
   return (
     <Stack justifyContent={"space-between"} sx={{ height: "100%" }}>
       <div>
@@ -154,35 +185,47 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
           />
         </Toolbar>
 
-        <Stack spacing={1} px={3} pb={2}>
-          <Divider />
-          <Stack spacing={1.4} sx={{ py: 0.7 }}>
-            <Button
-              sx={{
-                justifyContent: "flex-start",
-                color: "#000",
-                border: "1px solid #e0e0e0",
-                fontSize: 13,
-                bgcolor: "#fafafa",
-                px: 1.5,
-                fontWeight: 500,
-                gap: 1,
-              }}
-            >
-              <PersonRoundedIcon /> Regular Member
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                fontWeight: 500,
-                fontSize: 13,
-                bgcolor: alpha(theme.palette.primary.main, 0.1),
-              }}
-            >
-              Upgrade to Premium
-            </Button>
+        <Stack spacing={0.7} px={3} pb={2}>
+          <Stack spacing={1} sx={{ display: miniDrawer ? "none" : "flex" }}>
+            <Divider />
+            <Stack spacing={1.4} sx={{ py: 0.7 }}>
+              <Button
+                sx={{
+                  justifyContent: "flex-start",
+                  color: user?.isPremium ? "primary.main" : "#000",
+                  border: "1px solid #e0e0e0",
+                  fontSize: 13,
+                  bgcolor: "#fafafa",
+                  px: 1.5,
+                  fontWeight: user?.isPremium ? 700 : 500,
+                  gap: 1,
+                }}
+              >
+                {user?.isPremium ? (
+                  <>
+                    <StarsIcon /> Premium Member
+                  </>
+                ) : (
+                  <>
+                    <PersonRoundedIcon /> Regular Member
+                  </>
+                )}
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 13,
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  gap: 0.5,
+                }}
+              >
+                Upgrade to Premium <ArrowForwardIcon fontSize="small" />
+              </Button>
+            </Stack>
+            <Divider />
           </Stack>
-          <Divider />
+
           {navItems.map((navItem) => (
             <NavItem
               {...navItem}
@@ -262,7 +305,7 @@ const SideBar = ({ drawerWidth, window, toggle, mobileOpen, miniDrawer }) => {
             boxSizing: "border-box",
             borderRight: "solid 2px rgba(0,0,0,0.1)",
             transition: "width 0.3s",
-            overflow: "hidden",
+            overflow: "auto",
           },
         }}
         variant="permanent"

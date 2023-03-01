@@ -16,6 +16,7 @@ import Section from "../components/ui/Section"
 import { useUserContext } from "../App"
 import { toast } from "react-toastify"
 import Loader from "../components/ui/Loader"
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
 
 const pricingItems = ["ups", "usps", "fedex"]
 
@@ -201,30 +202,16 @@ export const PricingComp = () => {
             types={types?.filter((type) => type.name.toLowerCase().includes(p))}
           />
         ))}
-        {pricingItems.map((p) => (
-          <PricingBlock
-            premium
-            name={p}
-            types={types?.filter((type) => type.name.toLowerCase().includes(p))}
-          />
-        ))}
       </Grid>
     </LoadingContainer>
   )
 }
 
-const PricingBlock = ({ types, name, premium }) => {
+const PricingBlock = ({ types, name }) => {
   const theme = useTheme()
   return (
     <Grid item xs={12} sm={4}>
-      <Stack
-        spacing={2}
-        sx={{
-          bgcolor: alpha(theme.palette.primary.main, 0.1),
-          borderRadius: 1,
-          p: 3,
-        }}
-      >
+      <Section sx={{ p: 3 }}>
         <div>
           <img
             src={`/assets/images/${
@@ -235,33 +222,84 @@ const PricingBlock = ({ types, name, premium }) => {
           />
         </div>
 
-        {types?.map((type) =>
-          type[premium ? "premiumPrices" : "normalPrices"].length ? (
-            <div>
-              <Typography color="text.secondary">{type?.name}</Typography>
-              {type[premium ? "premiumPrices" : "normalPrices"].map(
-                (price, i) => (
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    justifyContent="space-between"
-                  >
-                    <Typography variant="h6">
-                      {price?.fromWeight}-{price?.toWeight}{" "}
-                      {type?.uid?.includes("first_class") ? "Oz" : "Lbs"}
-                    </Typography>{" "}
-                    <Typography variant="h6" color={premium ? "primary" : ""}>
-                      {"$" + price?.price?.toFixed(2)}
-                    </Typography>
-                  </Stack>
-                )
-              )}
-            </div>
-          ) : (
-            ""
-          )
-        )}
-      </Stack>
+        <Stack direction="row" spacing={5} mt={1}>
+          <Stack spacing={1} sx={{ width: "50%" }}>
+            <Chip
+              label="FOR REGULARS"
+              size="large"
+              sx={{ borderRadius: 1, width: "100%", mb: 2 }}
+            />
+            {types?.map((type) =>
+              type?.normalPrices?.length ? (
+                <div>
+                  <Typography color="text.secondary" fontWeight={500}>
+                    {type?.name}
+                  </Typography>
+                  {type.normalPrices.map((price, i) => (
+                    <Stack
+                      direction="row"
+                      spacing={2}
+                      justifyContent="space-between"
+                      alignItems={"center"}
+                      mb={0.3}
+                    >
+                      <Typography variant="body1">
+                        {price?.fromWeight}-{price?.toWeight}{" "}
+                        {type?.uid?.includes("firstclass") ? "Oz" : "Lbs"}
+                      </Typography>{" "}
+                      <Typography variant="h6" fontWeight={600}>
+                        {"$" + price?.price?.toFixed(2)}
+                      </Typography>
+                    </Stack>
+                  ))}
+                </div>
+              ) : (
+                ""
+              )
+            )}
+          </Stack>
+          <Stack spacing={1} sx={{ width: "50%" }}>
+            <Chip
+              icon={<VerifiedRoundedIcon fontSize="small" />}
+              label="FOR PREMIUM"
+              size="large"
+              sx={{ borderRadius: 1, width: "100%", mb: 2 }}
+              color="primary"
+            />
+            {types?.map((type) =>
+              type?.premiumPrices?.length ? (
+                <div>
+                  <Typography color="text.secondary" fontWeight={500}>
+                    {type?.name}
+                  </Typography>
+                  {type.premiumPrices.map((price, i) => (
+                    <Stack
+                      direction="row"
+                      spacing={2}
+                      justifyContent="space-between"
+                      alignItems={"center"}
+                    >
+                      <Typography variant="body1">
+                        {price?.fromWeight}-{price?.toWeight}{" "}
+                        {type?.uid?.includes("firstclass") ? "Oz" : "Lbs"}
+                      </Typography>{" "}
+                      <Typography
+                        variant="h6"
+                        color={"primary"}
+                        fontWeight={600}
+                      >
+                        {"$" + price?.price?.toFixed(2)}
+                      </Typography>
+                    </Stack>
+                  ))}
+                </div>
+              ) : (
+                ""
+              )
+            )}
+          </Stack>
+        </Stack>
+      </Section>
     </Grid>
   )
 }

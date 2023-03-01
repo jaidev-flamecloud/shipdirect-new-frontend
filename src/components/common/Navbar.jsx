@@ -3,29 +3,21 @@ import {
   Box,
   Button,
   IconButton,
-  Paper,
   Stack,
   Toolbar,
   Typography,
   useTheme,
 } from "@mui/material"
-import IconBtn from "../ui/IconBtn"
-import ColorModeToggle from "./ColorModeToggle"
-import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded"
-import WatchLaterRoundedIcon from "@mui/icons-material/WatchLaterRounded"
-import AddRoundedIcon from "@mui/icons-material/AddRounded"
-import AccountBalanceWalletRoundedIcon from "@mui/icons-material/AccountBalanceWalletRounded"
-import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded"
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 import { Link, useNavigate } from "react-router-dom"
 import routes from "../../config/routes"
-import MenuIcon from "@mui/icons-material/Menu"
 import { useUserContext } from "../../App"
 import { useEffect } from "react"
 import { useState } from "react"
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded"
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded"
 import { formatDate } from "../../utilities/misc"
+import Icon from "./Icon"
 
 const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
   const { user, setUser } = useUserContext()
@@ -72,7 +64,13 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
               color="inherit"
               edge="start"
               onClick={toggleMiniDrawer}
-              sx={{ mr: 1, display: { xs: "none", sm: "flex" } }}
+              size="small"
+              sx={{
+                mr: 1,
+                display: { xs: "none", sm: "flex" },
+                bgcolor: "#fff",
+                border: "1px solid #e0e0e0",
+              }}
             >
               {miniDrawer ? (
                 <ChevronRightRoundedIcon />
@@ -82,28 +80,33 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
             </IconButton>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
               edge="start"
               onClick={toggle}
-              sx={{ mr: 0.4, display: { sm: "none" } }}
+              size="small"
+              sx={{
+                mr: 1,
+                display: { xs: "flex", sm: "none" },
+                bgcolor: "#fff",
+                border: "1px solid #e0e0e0",
+              }}
             >
-              <MenuIcon />
+              <ChevronRightRoundedIcon />
             </IconButton>
-            <Box sx={{ mr: 1, display: { sm: "none" } }}>
+            <Box sx={{ mr: 1, mt: 1, display: { sm: "none" } }}>
               <img
                 src={`/assets/images/logo.svg`}
                 alt="logo"
                 style={{ margin: "0 auto", width: "9rem" }}
               />
             </Box>
-            <Typography
+            {/* <Typography
               sx={{ display: { xs: "none", sm: "block" } }}
               variant="body1"
               noWrap
               component="div"
             >
               Dashboard
-            </Typography>
+            </Typography> */}
           </Stack>
 
           <Stack
@@ -114,7 +117,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
           >
             <Link to={routes.ADD_LABEL}>
               <Button variant="contained" sx={{ height: "100%" }} size="small">
-                <AddRoundedIcon fontSize="small" />
+                <Icon path="bulk/box" />
                 <Typography variant="body2" sx={{ ml: 0.5 }}>
                   Label
                 </Typography>
@@ -144,7 +147,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
               }}
               onClick={logOut}
             >
-              <LogoutOutlinedIcon color="error" />
+              <Icon path="bulk/login" />
             </IconButton>
           </Stack>
 
@@ -157,7 +160,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
             <Box sx={{ display: { xs: "none", sm: "flex" } }}>
               <Link to={routes.ADD_LABEL}>
                 <Button variant="contained" sx={{ height: "100%" }}>
-                  <AddRoundedIcon fontSize="small" />
+                  <Icon path="bulk/box" />
                   <Typography variant="body2" sx={{ ml: 0.5 }}>
                     Create Label
                   </Typography>
@@ -178,17 +181,15 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                   display: { xs: "none", sm: "flex" },
                   height: "100%",
                   borderWidth: 2,
+                  alignItems: "center",
                 }}
               >
-                <AccountBalanceWalletRoundedIcon
-                  fontSize="small"
-                  color="success"
-                />
-                <Typography variant="body2" sx={{ mx: 0.5 }}>
+                <Icon path="bulk/wallet-1" />
+                <Typography variant="body2" sx={{ ml: 1 }}>
                   <span style={{ fontWeight: 600 }}>Balance</span> : $
                   {user.balance.toFixed(2)}
                 </Typography>
-                <ArrowForwardRoundedIcon fontSize="small" />
+                <KeyboardArrowRightIcon fontSize="small" />
               </Button>
             </Link>
 
@@ -201,7 +202,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                 color: "#000",
               }}
             >
-              <WatchLaterRoundedIcon />
+              <Icon path="bulk/calendar" />
               <Typography variant="body2">{liveTime}</Typography>
             </IconButton>
 
@@ -216,7 +217,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                   color: "#000",
                 }}
               >
-                <PersonRoundedIcon />
+                <Icon path="bulk/user" />
                 <Typography variant="body2">{user.username}</Typography>
               </IconButton>
 
@@ -227,7 +228,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                   borderRadius: `${theme.shape.borderRadius}px !important`,
                 }}
               >
-                <LogoutOutlinedIcon color="error" />
+                <Icon path="bulk/login" />
               </IconButton>
             </Stack>
           </Stack>
