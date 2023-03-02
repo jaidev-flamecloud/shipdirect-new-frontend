@@ -61,7 +61,7 @@ const Login = () => {
   }
   return (
     <Grid container sx={{ minHeight: "100vh" }}>
-      <AuthSidePic />
+      <AuthSidePic isLogin />
       <Grid item xs>
         <AuthContainer
           title="Welcome Back"

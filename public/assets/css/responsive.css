@@ -1,0 +1,236 @@
+@media (min-width: 320px) and (max-width: 575px) {
+  .header-menu-wrap ul {
+    justify-content: space-between;
+  }
+  .header-menu-wrap ul li a {
+    margin-right: 0;
+  }
+  .header-logo {
+    margin: 1rem 0;
+  }
+  .header-bttn .d-flex {
+    justify-content: center;
+  }
+  .header-logo img {
+    width: 8rem;
+  }
+  .header-bttn .d-flex a {
+    font-size: 0.9rem !important;
+    padding: 10px 8px !important;
+    border-radius: 4px !important;
+  }
+  .notify-section {
+    text-align: left;
+    padding: 0 0.8rem;
+  }
+  .common-heading {
+    margin-bottom: 1.2rem;
+  }
+  .common-heading h2 {
+    font-size: 1.5rem !important;
+  }
+  .common-heading p {
+    font-size: 0.9rem !important;
+  }
+  br {
+    display: none;
+  }
+  .faq-ask-wrap .accordion .accordion-item {
+    padding: 1rem;
+  }
+  .faq-ask-wrap .accordion .accordion-item button {
+    font-size: 0.9rem;
+  }
+  .get-start-section .get-start-bg {
+    padding: 1rem;
+  }
+  .hero-txt-wrap {
+    text-align: center;
+    padding: 2.5rem 0;
+  }
+  .hero-txt-wrap h6 {
+    font-size: 0.9rem;
+  }
+  .hero-txt-wrap h1 {
+    font-size: 1.6rem;
+  }
+  .hero-txt-wrap p {
+    font-size: 0.9rem;
+  }
+  .hero-txt-wrap .hero_btn a {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 1rem;
+  }
+  .hero-section {
+    background-image: inherit;
+  }
+  .pa-y4 {
+    padding: 3rem 0;
+  }
+  .banner-box h4 {
+    font-size: 1.2rem;
+  }
+  .banner-box h6 {
+    font-size: 1rem;
+  }
+  .step-txt-box {
+    margin-top: 1rem;
+  }
+  .step-txt-box h2 {
+    font-size: 1.8rem;
+  }
+  .all-tools-box h4 {
+    font-size: 1.2rem;
+  }
+  .all-tools-box .tools-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+  .all-tools-box p {
+    width: 100%;
+  }
+  .dahboard-tab-head .nav {
+    grid-template-columns: 1fr;
+  }
+  .dahboard-tab-head .nav .nav-item .nav-link {
+    text-align: left;
+  }
+  .pricing-box-wrap {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+  .pricing-box-wrap span {
+    font-size: 0.9rem;
+  }
+  .artical-box-wrap {
+    padding: 1.5rem;
+  }
+  .get-start-section .get-start-txt {
+    padding: 1rem;
+    text-align: center;
+  }
+  .ftr-logo ul li a {
+    width: 100%;
+  }
+  .error-txt h1 {
+    font-size: 2rem;
+  }
+}
+@media (min-width: 575px) and (max-width: 767px) {
+  .header-menu-wrap ul {
+    justify-content: space-between;
+  }
+  .header-menu-wrap ul li a {
+    margin-right: 0;
+  }
+  .header-logo {
+    margin: 1rem 0;
+  }
+  .header-bttn .d-flex {
+    justify-content: center;
+  }
+  .header-logo img {
+    width: 8rem;
+  }
+  .header-bttn .d-flex a {
+    font-size: 0.9rem !important;
+    padding: 10px 8px !important;
+    border-radius: 4px !important;
+  }
+  .notify-section {
+    text-align: left;
+    padding: 0 0.8rem;
+  }
+  .common-heading {
+    margin-bottom: 1.2rem;
+  }
+  .common-heading h2 {
+    font-size: 1.5rem !important;
+  }
+  .common-heading p {
+    font-size: 0.9rem !important;
+  }
+  br {
+    display: none;
+  }
+  .faq-ask-wrap .accordion .accordion-item {
+    padding: 1rem;
+  }
+  .faq-ask-wrap .accordion .accordion-item button {
+    font-size: 0.9rem;
+  }
+  .get-start-section .get-start-bg {
+    padding: 1rem;
+  }
+  .hero-txt-wrap {
+    text-align: center;
+    padding: 2.5rem 0;
+  }
+  .hero-txt-wrap h6 {
+    font-size: 0.9rem;
+  }
+  .hero-txt-wrap h1 {
+    font-size: 1.6rem;
+  }
+  .hero-txt-wrap p {
+    font-size: 0.9rem;
+  }
+  .hero-txt-wrap .hero_btn a {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 1rem;
+  }
+  .hero-section {
+    background-image: inherit;
+  }
+  .pa-y4 {
+    padding: 3rem 0;
+  }
+  .banner-box h4 {
+    font-size: 1.2rem;
+  }
+  .banner-box h6 {
+    font-size: 1rem;
+  }
+  .step-txt-box {
+    margin-top: 1rem;
+  }
+  .step-txt-box h2 {
+    font-size: 1.8rem;
+  }
+  .all-tools-box h4 {
+    font-size: 1.2rem;
+  }
+  .all-tools-box .tools-icon {
+    width: 4rem;
+    height: 4rem;
+  }
+  .all-tools-box p {
+    width: 100%;
+  }
+  .dahboard-tab-head .nav {
+    grid-template-columns: 1fr;
+  }
+  .dahboard-tab-head .nav .nav-item .nav-link {
+    text-align: left;
+  }
+  .pricing-box-wrap {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+  .pricing-box-wrap span {
+    font-size: 0.9rem;
+  }
+  .artical-box-wrap {
+    padding: 1.5rem;
+  }
+  .get-start-section .get-start-txt {
+    padding: 1rem;
+    text-align: center;
+  }
+  .ftr-logo ul li a {
+    width: 100%;
+  }
+  .error-txt h1 {
+    font-size: 2rem;
+  }
+}

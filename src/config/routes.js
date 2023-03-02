@@ -18,11 +18,14 @@ import Verify from "../pages/auth/Verify"
 import ViewLabel from "../pages/ViewLabel"
 import ChangePass from "../pages/ChangePass"
 import API from "../pages/API"
+import Landing from "../pages/landing"
+import Faq from "../pages/landing/faq"
+import Terms from "../pages/landing/terms"
 
 const routes = {
   LANDING: "/",
   HOME: "/",
-  LOGIN: "/",
+  LOGIN: "/login",
   REGISTER: "/register",
   FORGOT_PASS: "/forgot-password",
   RESET_PASS: "/reset-password",
@@ -106,11 +109,23 @@ const AuthRoutes = () =>
   useRoutes([
     {
       path: "/",
-      element: <Login />,
+      element: <Landing />,
     },
     {
       path: "*",
       element: <Navigate to={"/"} />,
+    },
+    {
+      path: "/faq",
+      element: <Faq />,
+    },
+    {
+      path: "/terms",
+      element: <Terms />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
     },
     {
       path: "/verify",

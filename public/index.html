@@ -6,6 +6,18 @@
     <meta name="theme-color" content="#000000" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Bootstrap CSS start -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <!-- Bootstrap CSS end -->
+
+    <!-- plugin CSS start -->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <!-- plugin CSS end -->
+
+    <!-- custom CSS start -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <!-- custom CSS end -->
     <!-- Google font import -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,5 +33,19 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- Bootstrap Bundle with Popper JS start -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+
+    <!-- faq script -->
+    <script>
+      let cards = [...document.querySelectorAll(".accordion-item")]
+      cards.forEach((card) => {
+        card.addEventListener("click", function () {
+          cards.forEach((c) => c.classList.remove("border-custom"))
+          this.classList.add("border-custom")
+        })
+      })
+    </script>
   </body>
 </html>

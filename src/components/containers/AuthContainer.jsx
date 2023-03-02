@@ -26,12 +26,13 @@ const AuthContainer = ({
 }) => {
   const theme = useTheme()
   return (
-    <Container maxWidth="sm">
+    <Container>
       <Stack
         spacing={2}
         justifyContent="center"
         sx={{ minHeight: "100vh" }}
         py={2}
+        px={10}
       >
         <Stack
           direction="row"
@@ -43,7 +44,7 @@ const AuthContainer = ({
             <img
               src={`/assets/images/logo-small.svg`}
               alt="logo"
-              style={{ width: "70px" }}
+              style={{ width: "55px" }}
             />
           </Link>
 
@@ -65,7 +66,7 @@ const AuthContainer = ({
               fontWeight: 600,
               fontSize: {
                 xs: 22,
-                md: 27,
+                md: 25,
               },
             }}
             mb={0.5}
@@ -76,8 +77,8 @@ const AuthContainer = ({
             color="grey"
             sx={{
               fontSize: {
-                xs: 14,
-                md: 16,
+                xs: 13,
+                md: 14,
               },
             }}
           >

@@ -115,7 +115,7 @@ const Register = () => {
           />
         </AuthContainer>
       </Grid>
-      <AuthSidePic loginBtn />
+      <AuthSidePic />
     </Grid>
   )
 }

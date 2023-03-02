@@ -1,24 +1,18 @@
 import {
   Avatar,
   Box,
-  Button,
   Container,
   Grid,
   Rating,
   Stack,
   Typography,
 } from "@mui/material"
-import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded"
-import ColorModeToggle from "../../components/common/ColorModeToggle"
-import { Link } from "react-router-dom"
-import routes from "../../config/routes"
-// import { testimonials } from "../../pages/landing/Landing"
 
-const AuthSidePic = ({ loginBtn }) => {
+const AuthSidePic = ({ isLogin }) => {
   return (
     <Grid
       item
-      xs={7}
+      xs={7.5}
       sx={{
         display: {
           xs: "none",
@@ -31,7 +25,7 @@ const AuthSidePic = ({ loginBtn }) => {
       <Box
         sx={{
           background: `url('/assets/images/${
-            loginBtn ? "register" : "login"
+            isLogin ? "login" : "register"
           }_img.png')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -41,55 +35,55 @@ const AuthSidePic = ({ loginBtn }) => {
         }}
       >
         <Box sx={{ background: "rgba(0,0,0,0.3)" }}>
-          <Container maxWidth="sm">
+          <Container sx={{ position: "relative" }}>
+            <img
+              src={`/assets/images/logo-faded.svg`}
+              alt="logo"
+              style={{
+                width: "8rem",
+                position: "absolute",
+                top: "1rem",
+                left: "1rem",
+              }}
+            />
             <Stack
-              direction={"column"}
+              direction={"column-reverse"}
               justifyContent="space-between"
               alignItems="center"
-              pt={3}
-              pb={6}
+              p={3}
               sx={{ minHeight: "96vh" }}
             >
-              {/* <div>
+              <div>
                 <Stack
                   direction="row"
                   justifyContent={"space-between"}
                   spacing={2}
                   alignItems="center"
+                  mb={1}
                 >
                   <div>
                     <Typography variant="h6" color="white">
-                      {testimonials[0].name}
+                      I can say hands down The BEST Label Providers
                     </Typography>
                   </div>
-                  <Rating value={5} />
+                  <Rating value={5} sx={{ color: "primary.main" }} />
                 </Stack>
                 <Typography variant="body1" color="white" mb={1}>
-                  {testimonials[0].msg}
+                  Labels were instant and support were attentive to any of my
+                  questions or concerns. Morbi in nisl rutrum nun fermentum vene
+                  eu in purus. Pellentesque dapibus ut lacus vitae finibus. Duis
+                  mattis lacus at consequat volutpat. Curabitur finibus ipsum id
+                  feugiat porta.
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Avatar>S</Avatar>
+                  <Avatar sx={{ width: "2rem", height: "2rem" }}>S</Avatar>
                   <div>
                     <Typography variant="h6" color="white">
-                      {testimonials[0].name}
+                      Maduro#5604
                     </Typography>
                   </div>
                 </Stack>
-              </div> */}
-              {loginBtn && (
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <Typography color="white">
-                    Already Have an account?
-                  </Typography>
-                  <Link to={routes.LOGIN}>
-                    <Button variant="contained">
-                      Log In <ArrowForwardRoundedIcon fontSize="small" />
-                    </Button>
-                  </Link>
-
-                  <ColorModeToggle />
-                </Stack>
-              )}
+              </div>
             </Stack>
           </Container>
         </Box>
