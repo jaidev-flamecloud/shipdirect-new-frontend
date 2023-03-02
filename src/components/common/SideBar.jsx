@@ -13,9 +13,9 @@ import routes from "../../config/routes"
 import { Link, useLocation } from "react-router-dom"
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded"
 import { useUserContext } from "../../App"
-import StarsIcon from "@mui/icons-material/Stars"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import Icon from "./Icon"
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
 
 const contactLinks = [
   {
@@ -43,10 +43,10 @@ const contactLinks = [
     icon: "Instagram",
     link: "#",
   },
-  // {
-  //   icon: "Reddit",
-  //   link: "#",
-  // },
+  {
+    icon: "Tik",
+    link: "#",
+  },
 ]
 
 const navItems = [
@@ -187,7 +187,7 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
 
         <Stack spacing={0.7} px={3} pb={2}>
           <Stack spacing={1} sx={{ display: miniDrawer ? "none" : "flex" }}>
-            <Divider />
+            <Divider sx={{ bgcolor: "#ececec" }} />
             <Stack spacing={1.4} sx={{ py: 0.7 }}>
               <Button
                 sx={{
@@ -203,7 +203,7 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
               >
                 {user?.isPremium ? (
                   <>
-                    <StarsIcon /> Premium Member
+                    <VerifiedRoundedIcon /> Premium Member
                   </>
                 ) : (
                   <>
@@ -211,19 +211,23 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
                   </>
                 )}
               </Button>
-              <Button
-                variant="outlined"
-                sx={{
-                  fontWeight: 500,
-                  fontSize: 13,
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  gap: 0.5,
-                }}
-              >
-                Upgrade to Premium <ArrowForwardIcon fontSize="small" />
-              </Button>
+              {!user?.isPremium && (
+                <Link to="/pricing">
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: 13,
+                      bgcolor: alpha(theme.palette.primary.main, 0.1),
+                      gap: 0.5,
+                    }}
+                  >
+                    Upgrade to Premium <ArrowForwardIcon fontSize="small" />
+                  </Button>
+                </Link>
+              )}
             </Stack>
-            <Divider />
+            <Divider sx={{ bgcolor: "#ececec" }} />
           </Stack>
 
           {navItems.map((navItem) => (
@@ -235,13 +239,16 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
               miniDrawer={miniDrawer}
             />
           ))}
-          <Divider />
         </Stack>
       </div>
 
       <Stack spacing={1} px={miniDrawer ? 2 : 3} pb={1}>
         {!miniDrawer && (
-          <Typography color="text.secondary">Connect with us</Typography>
+          <Link to="/tos">
+            <Typography fontWeight={600} textAlign="center" variant="body2">
+              Terms of Service | Privacy Policy
+            </Typography>
+          </Link>
         )}
         <Stack
           direction={"row"}

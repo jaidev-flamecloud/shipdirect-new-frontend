@@ -17,6 +17,8 @@ import { useUserContext } from "../App"
 import { toast } from "react-toastify"
 import Loader from "../components/ui/Loader"
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
+import ConfirmUpgrade from "../components/modals/ConfirmUpgrade"
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 
 const pricingItems = ["ups", "usps", "fedex"]
 
@@ -107,7 +109,7 @@ const Pricing = () => {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            divider={<Divider orientation="vertical" flexItem />}
+            // divider={<Divider orientation="vertical" flexItem />}
             spacing={1.5}
           >
             <div>
@@ -163,16 +165,22 @@ const Pricing = () => {
             </Button>
           ) : (
             <Button
-              onClick={subscribe}
+              onClick={() => setShowConfirm(true)}
               variant="contained"
               color="primary"
               sx={{ px: 3 }}
             >
-              {loader ? <Loader /> : "Upgrade now"}
+              Upgrade now <KeyboardArrowRightIcon />
             </Button>
           )}
         </Stack>{" "}
       </Section>
+      <ConfirmUpgrade
+        open={showConfirm}
+        onClose={() => setShowConfirm(false)}
+        action={subscribe}
+        loading={loader}
+      />
     </PageContainer>
   )
 }

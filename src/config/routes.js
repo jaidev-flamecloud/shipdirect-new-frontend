@@ -21,6 +21,7 @@ import API from "../pages/API"
 import Landing from "../pages/landing"
 import Faq from "../pages/landing/faq"
 import Terms from "../pages/landing/terms"
+import Tos from "../pages/Terms"
 
 const routes = {
   LANDING: "/",
@@ -102,6 +103,10 @@ const AppRoutes = () =>
     {
       path: "/api",
       element: <API />,
+    },
+    {
+      path: "/tos",
+      element: <Tos />,
     },
   ])
 
