@@ -57,13 +57,13 @@ const Register = () => {
           bottomContent={
             <>
               <Typography color="text.secondary" textAlign={"center"}>
-                By Proceeding you agree to our
-                <Link to="/terms">
-                  <u>Terms of Service</u>{" "}
+                By signing up you agree to our and{" "}
+                <Link to="/terms" style={{ textDecoration: "underline" }}>
+                  Terms of Service{" "}
                 </Link>
                 and{" "}
-                <Link to="/terms">
-                  <u>Privacy Policy </u>
+                <Link to="/terms" style={{ textDecoration: "underline" }}>
+                  Privacy Policy
                 </Link>
               </Typography>
               <Paper

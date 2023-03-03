@@ -10,6 +10,17 @@ import api from "../config/axios"
 import LoadingContainer from "../components/containers/LoadingContainer"
 
 const Faqs = () => {
+  return (
+    <PageContainer
+      title="Frequently Asked Questions"
+      desc="We’ve got answers to all your questions"
+    >
+      <FaqContent />
+    </PageContainer>
+  )
+}
+
+export const FaqContent = () => {
   const [faqs, setFaqs] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -25,29 +36,23 @@ const Faqs = () => {
   useEffect(() => {
     readFaq()
   }, [])
-
   return (
-    <PageContainer
-      title="Frequently Asked Questions"
-      desc="We’ve got answers to all your questions"
-    >
-      <LoadingContainer loading={loading}>
-        <Stack spacing={2}>
-          {faqs.map((faq, i) => (
-            <Accordion key={i}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography sx={{ fontSize: 16, fontWeight: 500 }}>
-                  {faq.question}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography color="text.secondary">{faq.answer}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Stack>
-      </LoadingContainer>
-    </PageContainer>
+    <LoadingContainer loading={loading}>
+      <Stack spacing={2}>
+        {faqs.map((faq, i) => (
+          <Accordion key={i}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography sx={{ fontSize: 16, fontWeight: 500 }}>
+                {faq.question}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography color="text.secondary">{faq.answer}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+      </Stack>
+    </LoadingContainer>
   )
 }
 

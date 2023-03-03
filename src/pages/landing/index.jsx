@@ -1,7 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import { FaqContent } from "../Faqs"
+import { Link as Link2 } from "react-scroll"
 
 const Landing = () => {
+  const [step, setStep] = useState(1)
   return (
     <div>
       {/* header section @S  */}
@@ -12,7 +15,15 @@ const Landing = () => {
               <div class="header-menu-wrap">
                 <ul>
                   <li>
-                    <a href="index.html#pricing-sec">Pricing</a>
+                    <Link2
+                      to="pricing-sec"
+                      spy={true}
+                      smooth={true}
+                      duration={500}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Pricing
+                    </Link2>
                   </li>
                   <li>
                     <Link to="/faq">FAQs</Link>
@@ -53,7 +64,7 @@ const Landing = () => {
       {/*header section @E */}
 
       {/*notify section @S */}
-      <div class="notify-section">
+      {/* <div class="notify-section">
         <p>
           <img
             src="./assets/images/notify-icon.svg"
@@ -74,7 +85,7 @@ const Landing = () => {
             />
           </a>
         </p>
-      </div>
+      </div> */}
       {/*notify section @E */}
 
       {/*hero section @S */}
@@ -84,7 +95,7 @@ const Landing = () => {
             <div class="col-lg-7 col-md-8 col-sm-10 col-12">
               <div class="hero-txt-wrap">
                 <h6>
-                  <i class="fa fa-star"></i> Welcome to CheapLabels
+                  <i class="fa fa-star"></i> Welcome to ShipDirect
                 </h6>
                 <h1>
                   Get the Best Shipping Labels at a{" "}
@@ -226,7 +237,7 @@ const Landing = () => {
             <div class="col-lg-5">
               <div class="step-img">
                 <img
-                  src="./assets/images/step-img.png"
+                  src={`./assets/images/steps/${step}.png`}
                   alt="Step Images"
                   class="img-fluid"
                 />
@@ -239,7 +250,11 @@ const Landing = () => {
                   Get your Label in <span>1-2-3</span>{" "}
                 </h2>
 
-                <div class="media active">
+                <div
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setStep(1)}
+                  class={`media ${step === 1 ? "active" : ""}`}
+                >
                   <img
                     src="./assets/images/label-icon-01.svg"
                     alt="Step Images"
@@ -255,7 +270,11 @@ const Landing = () => {
                     class="img-fluid me-0"
                   />
                 </div>
-                <div class="media">
+                <div
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setStep(2)}
+                  class={`media ${step === 2 ? "active" : ""}`}
+                >
                   <img
                     src="./assets/images/label-icon-02.svg"
                     alt="Step Images"
@@ -266,7 +285,11 @@ const Landing = () => {
                     <p>Get an instant access to your labels.</p>
                   </div>
                 </div>
-                <div class="media">
+                <div
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setStep(3)}
+                  class={`media ${step === 3 ? "active" : ""}`}
+                >
                   <img
                     src="./assets/images/label-icon-03.svg"
                     alt="Step Images"
@@ -513,9 +536,13 @@ const Landing = () => {
                           amet libero ultrices, id pharetra odio mattis.
                         </p>
                         <img
-                          src="./assets/images/dashb-g.svg"
+                          src="./assets/images/dashboard/1.png"
                           alt="Dashboard"
                           class="img-fluid"
+                          style={{
+                            borderRadius: "10px",
+                            border: "1px solid #e0e0e0",
+                          }}
                         />
                       </div>
                     </div>
@@ -528,7 +555,21 @@ const Landing = () => {
                   aria-labelledby="pills-profile-tab"
                   tabindex="0"
                 >
-                  <h3 class="mt-4">Quick Deposits will go here....</h3>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="dashboard-preview">
+                        <img
+                          src="./assets/images/dashboard/2.png"
+                          alt="Dashboard"
+                          class="img-fluid"
+                          style={{
+                            borderRadius: "10px",
+                            border: "1px solid #e0e0e0",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="tab-pane fade"
@@ -537,7 +578,21 @@ const Landing = () => {
                   aria-labelledby="pills-contact-tab"
                   tabindex="0"
                 >
-                  <h3 class="mt-4">View Billing History will go here....</h3>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="dashboard-preview">
+                        <img
+                          src="./assets/images/dashboard/3.png"
+                          alt="Dashboard"
+                          class="img-fluid"
+                          style={{
+                            borderRadius: "10px",
+                            border: "1px solid #e0e0e0",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -558,11 +613,11 @@ const Landing = () => {
                   class="img-fluid"
                 />
 
-                <h5>Vestibulum ante ipsum primis in faucibus</h5>
+                <h5>Simplify Your Shipping Process Today</h5>
                 <p>
-                  Curabitur tincidunt posuere nisl. Vestibulum quis tortor vitae
-                  nibh aliquet aliquet. Morbi sodales ante vitae augue blandit
-                  viverra. Quisque laoreet feugiat commodo.
+                  Shipping made easy! Our shipping label website provides a
+                  simple solution to your shipping needs. Say goodbye to long
+                  lines and complicated forms, hello to hassle-free shipping.
                 </p>
 
                 <ul>
@@ -572,7 +627,7 @@ const Landing = () => {
                       alt="Logo"
                       class="img-fluid"
                     />{" "}
-                    Get Priority &amp; Express Shipping
+                    Get Priority and Express Shipping
                   </li>
                   <li>
                     <img
@@ -580,7 +635,7 @@ const Landing = () => {
                       alt="Logo"
                       class="img-fluid"
                     />{" "}
-                    Sed lacinia dictum tortor eu mattis
+                    Streamline your shipping process
                   </li>
                   <li>
                     <img
@@ -588,7 +643,7 @@ const Landing = () => {
                       alt="Logo"
                       class="img-fluid"
                     />{" "}
-                    Etiam vulputate neque sit amet tincidunt condimentum
+                    Print Shipping labels from anywhere
                   </li>
                   <li>
                     <img
@@ -596,7 +651,7 @@ const Landing = () => {
                       alt="Logo"
                       class="img-fluid"
                     />{" "}
-                    Fusce hendrerit dictum velit at lacinia{" "}
+                    Choose from a variety of Shipping Carrier{" "}
                   </li>
                   <li>
                     <img
@@ -604,7 +659,7 @@ const Landing = () => {
                       alt="Logo"
                       class="img-fluid"
                     />{" "}
-                    Duis finibus massa vel tristique euismod{" "}
+                    Easily Track your Packages{" "}
                   </li>
                   <li>
                     <img
@@ -612,13 +667,14 @@ const Landing = () => {
                       alt="Logo"
                       class="img-fluid"
                     />{" "}
-                    Maecenas sed purus ultrices metus vestibulum tempus.{" "}
+                    Save time with our powerful API integration{" "}
                   </li>
                 </ul>
-
-                <button type="button" class="btn btn-get-start">
-                  Get Started Today <i class="fa fa-angle-right"></i>
-                </button>
+                <Link to="/register">
+                  <button type="button" class="btn btn-get-start">
+                    Get Started Today <i class="fa fa-angle-right"></i>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -647,6 +703,7 @@ const Landing = () => {
                     src="./assets/images/courier-icon-01.svg"
                     alt="a"
                     class="img-fluid"
+                    style={{ height: "2.5rem" }}
                   />
                 </a>
                 <div class="row">
@@ -746,9 +803,10 @@ const Landing = () => {
               <div class="pricing-box-wrap">
                 <a href="#">
                   <img
-                    src="./assets/images/courier-icon-02.svg"
+                    src="./assets/images/courier-icon-03.svg"
                     alt="a"
                     class="img-fluid"
+                    style={{ height: "2.5rem" }}
                   />
                 </a>
                 <div class="row">
@@ -757,7 +815,7 @@ const Landing = () => {
                       <span>FOR REGULARS</span>
                       <p>FROM</p>
                       <h4>
-                        <sup>$</sup> 4.99
+                        <sup>$</sup> 14.99
                       </h4>
                     </div>
                   </div>
@@ -774,7 +832,7 @@ const Landing = () => {
                       </span>
                       <p>FROM</p>
                       <h4>
-                        <sup>$</sup> 3.99
+                        <sup>$</sup> 9.99
                       </h4>
                     </div>
                   </div>
@@ -791,7 +849,7 @@ const Landing = () => {
                       alt="a"
                       class="img-fluid"
                     />{" "}
-                    Get Priority & Express Shipping
+                    UPS Ground Labels
                   </li>
                   <li>
                     <img
@@ -799,7 +857,7 @@ const Landing = () => {
                       alt="a"
                       class="img-fluid"
                     />{" "}
-                    Get Instant Labels{" "}
+                    Over 50 US States{" "}
                   </li>
                   <li>
                     <img
@@ -807,7 +865,7 @@ const Landing = () => {
                       alt="a"
                       class="img-fluid"
                     />{" "}
-                    24/7 Customer Support{" "}
+                    Ranging from 1 to 150 Lbs{" "}
                   </li>
                   <li>
                     <img
@@ -815,7 +873,7 @@ const Landing = () => {
                       alt="a"
                       class="img-fluid"
                     />{" "}
-                    Get Instant Labels{" "}
+                    Full Assistance start to finish{" "}
                   </li>
                   <li>
                     <img
@@ -900,212 +958,7 @@ const Landing = () => {
             </div>
           </div>
           {/*common heading @E */}
-          <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10 col-12">
-              <div class="faq-ask-wrap">
-                <div
-                  class="accordion accordion-flush"
-                  id="accordionFlushExample"
-                >
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseOne"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseOne"
-                      >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        In scelerisque ?
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseOne"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingOne"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <p>
-                          Mauris ullamcorper metus sit amet cursus sagittis. Ut
-                          egestas aliquet est nec rutrum. Nullam quis porta ex.
-                          Fusce tristique nisl efficitur augue pellentesque
-                          tincidunt. Nam at interdum nunc, nec dictum enim.
-                          Aliquam non odio faucibus, volutpat erat a, finibus
-                          urna. Fusce fringilla leo eget risus ullamcorper
-                          suscipit at et libero.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseTwo"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseTwo"
-                      >
-                        Ut at efficitur dui. Proin sollicitudin dictum dui in
-                        ultrices?
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseTwo"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingTwo"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <p>
-                          Mauris ullamcorper metus sit amet cursus sagittis. Ut
-                          egestas aliquet est nec rutrum. Nullam quis porta ex.
-                          Fusce tristique nisl efficitur augue pellentesque
-                          tincidunt. Nam at interdum nunc, nec dictum enim.
-                          Aliquam non odio faucibus, volutpat erat a, finibus
-                          urna. Fusce fringilla leo eget risus ullamcorper
-                          suscipit at et libero.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingThree">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseThree"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseThree"
-                      >
-                        Ut tempor urna non risus lacinia malesuada?
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseThree"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingThree"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <p>
-                          Mauris ullamcorper metus sit amet cursus sagittis. Ut
-                          egestas aliquet est nec rutrum. Nullam quis porta ex.
-                          Fusce tristique nisl efficitur augue pellentesque
-                          tincidunt. Nam at interdum nunc, nec dictum enim.
-                          Aliquam non odio faucibus, volutpat erat a, finibus
-                          urna. Fusce fringilla leo eget risus ullamcorper
-                          suscipit at et libero.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingFour">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseFour"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseFour"
-                      >
-                        Suspendisse at imperdiet eros. In sed sagittis leo?
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseFour"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingFour"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <p>
-                          Mauris ullamcorper metus sit amet cursus sagittis. Ut
-                          egestas aliquet est nec rutrum. Nullam quis porta ex.
-                          Fusce tristique nisl efficitur augue pellentesque
-                          tincidunt. Nam at interdum nunc, nec dictum enim.
-                          Aliquam non odio faucibus, volutpat erat a, finibus
-                          urna. Fusce fringilla leo eget risus ullamcorper
-                          suscipit at et libero.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingFive">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseFive"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseFive"
-                      >
-                        Praesent in molestie nibh, sed accumsan lorem?
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseFive"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingFive"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <p>
-                          Mauris ullamcorper metus sit amet cursus sagittis. Ut
-                          egestas aliquet est nec rutrum. Nullam quis porta ex.
-                          Fusce tristique nisl efficitur augue pellentesque
-                          tincidunt. Nam at interdum nunc, nec dictum enim.
-                          Aliquam non odio faucibus, volutpat erat a, finibus
-                          urna. Fusce fringilla leo eget risus ullamcorper
-                          suscipit at et libero.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingSix">
-                      <button
-                        class="accordion-button collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseSix"
-                        aria-expanded="false"
-                        aria-controls="flush-collapseSix"
-                      >
-                        Donec interdum ex tristique justo lacinia condimentum id
-                        eu leo?
-                      </button>
-                    </h2>
-                    <div
-                      id="flush-collapseSix"
-                      class="accordion-collapse collapse"
-                      aria-labelledby="flush-headingSix"
-                      data-bs-parent="#accordionFlushExample"
-                    >
-                      <div class="accordion-body">
-                        <p>
-                          Mauris ullamcorper metus sit amet cursus sagittis. Ut
-                          egestas aliquet est nec rutrum. Nullam quis porta ex.
-                          Fusce tristique nisl efficitur augue pellentesque
-                          tincidunt. Nam at interdum nunc, nec dictum enim.
-                          Aliquam non odio faucibus, volutpat erat a, finibus
-                          urna. Fusce fringilla leo eget risus ullamcorper
-                          suscipit at et libero.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <FaqContent />
           <div class="row">
             <div class="col-12">
               <div class="faq-more">
@@ -1177,7 +1030,7 @@ const Landing = () => {
             <div class="col-md-5 col-lg-4">
               <div class="feedback-wrap">
                 <div class="d-flex">
-                  <h5>Aliquam maximus turpis</h5>
+                  <h5>Trustworthy</h5>
                   <ul>
                     <li>
                       <i class="fa fa-star"></i>
@@ -1213,7 +1066,7 @@ const Landing = () => {
             <div class="col-md-5 col-lg-4">
               <div class="feedback-wrap">
                 <div class="d-flex">
-                  <h5>Aliquam maximus turpis</h5>
+                  <h5>Easy and Smooth</h5>
                   <ul>
                     <li>
                       <i class="fa fa-star"></i>
@@ -1233,8 +1086,8 @@ const Landing = () => {
                   </ul>
                 </div>
                 <p>
-                  Trustworthy, we have dealt with over $80,000 together. Use
-                  this service.
+                  Easy and smooth transactions all around. Getting labels
+                  instantly is amazing
                 </p>
                 <h4>
                   <img
@@ -1261,9 +1114,8 @@ const Landing = () => {
                   #1 Choice for the Best Label Service on <br /> the Internet
                 </h2>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                  eu <br /> imperdiet augue. Nullam ultrices, metus in euismod
-                  facilisis,
+                  Effortlessly create and print shipping labels from the <br />{" "}
+                  comfort of your own home or office.
                 </p>
                 <Link to="/login">
                   Create Label <i class="fa fa-angle-right"></i>
@@ -1347,10 +1199,14 @@ const Landing = () => {
                 <h6>PRICING</h6>
                 <ul>
                   <li>
-                    <a href="#">USPS</a>
+                    <ScrollLink to="pricing-sec" color="white">
+                      USPS
+                    </ScrollLink>
                   </li>
                   <li>
-                    <a href="#">UPS</a>
+                    <ScrollLink to="pricing-sec" color="white">
+                      UPS
+                    </ScrollLink>
                   </li>
                 </ul>
               </div>
@@ -1473,5 +1329,17 @@ const Landing = () => {
     </div>
   )
 }
+
+const ScrollLink = ({ to, color, children }) => (
+  <Link2
+    to={to}
+    spy={true}
+    smooth={true}
+    duration={500}
+    style={{ color, cursor: "pointer" }}
+  >
+    {children}
+  </Link2>
+)
 
 export default Landing

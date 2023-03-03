@@ -5,6 +5,8 @@ import env from "../../config/env"
 import { useRef, useState } from "react"
 import api from "../../config/axios"
 import { toast } from "react-toastify"
+import AuthSidePic from "../../components/common/AuthSidePic"
+import { Grid } from "@mui/material"
 
 const Verify = () => {
   const recaptchaRef = useRef(null)
@@ -35,26 +37,32 @@ const Verify = () => {
       .finally(() => setLoading(false))
   }
   return (
-    <AuthContainer
-      title="Verify Email"
-      subtitle="Enter the otp sent to your email to verify your account."
-      submitText="Verify"
-      submit={handleSubmit}
-      loading={loading}
-    >
-      <Field
-        type="number"
-        name="otp"
-        label="OTP"
-        placeholder="Enter the OTP"
-        required
-      />
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        sitekey={env.RECAPTCHA_KEY}
-        size="invisible"
-      />
-    </AuthContainer>
+    <Grid container sx={{ minHeight: "100vh" }}>
+      <AuthSidePic isLogin />
+      <Grid item xs>
+        <AuthContainer
+          title="Authenticate"
+          subtitle="Enter the OTP shared on your registered email address"
+          submitText="Enter OTP"
+          submit={handleSubmit}
+          loading={loading}
+          createAccountBtn
+        >
+          <Field
+            type="number"
+            name="otp"
+            label="6 Digit OTP"
+            placeholder="*  *  *  *  *  *  "
+            required
+          />
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={env.RECAPTCHA_KEY}
+            size="invisible"
+          />
+        </AuthContainer>
+      </Grid>
+    </Grid>
   )
 }
 

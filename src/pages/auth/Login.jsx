@@ -66,7 +66,7 @@ const Login = () => {
         <AuthContainer
           title="Welcome Back"
           subtitle="Manage all your labels, and create new labels instantly"
-          submitText="Login"
+          submitText="Log In"
           createAccountBtn
           forgotPassBtn
           submit={handleSubmit}

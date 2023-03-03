@@ -26,7 +26,7 @@ const AuthSidePic = ({ isLogin }) => {
         sx={{
           background: `url('/assets/images/${
             isLogin ? "login" : "register"
-          }_img.png')`,
+          }_image.png')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "100%",
@@ -76,7 +76,10 @@ const AuthSidePic = ({ isLogin }) => {
                   feugiat porta.
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Avatar sx={{ width: "2rem", height: "2rem" }}>S</Avatar>
+                  <Avatar
+                    src="./assets/images/avatar-01.png"
+                    sx={{ width: "2rem", height: "2rem" }}
+                  />
                   <div>
                     <Typography variant="h6" color="white">
                       Maduro#5604

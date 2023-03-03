@@ -26,7 +26,7 @@ const AuthContainer = ({
 }) => {
   const theme = useTheme()
   return (
-    <Container>
+    <Container sx={{ position: "relative" }}>
       <Stack
         spacing={2}
         justifyContent="center"
@@ -86,7 +86,7 @@ const AuthContainer = ({
           </Typography>
         </div>
         <form onSubmit={submit}>
-          <Stack spacing={2}>
+          <Stack spacing={1}>
             {children}
 
             <Button
@@ -94,15 +94,10 @@ const AuthContainer = ({
               variant="contained"
               sx={{
                 fontSize: 16,
+                gap: 1,
               }}
             >
-              {loading ? (
-                <Loader />
-              ) : (
-                <>
-                  {submitText} <ArrowForwardRoundedIcon fontSize="small" />
-                </>
-              )}
+              {loading ? <Loader /> : <>{submitText}</>}
             </Button>
           </Stack>
         </form>
@@ -110,8 +105,9 @@ const AuthContainer = ({
           <Link
             to={routes.FORGOT_PASS}
             style={{
-              color: theme.palette.primary.main,
+              color: theme.palette.text.secondary,
               fontWeight: 500,
+              fontSize: 14,
               margin: "1rem auto",
             }}
           >
@@ -119,35 +115,42 @@ const AuthContainer = ({
           </Link>
         )}
         {createAccountBtn && (
-          <Paper
-            elevation={0}
-            sx={{
-              textAlign: "center",
-              py: 2,
-              fontWeight: 500,
-            }}
-          >
-            Don’t have an account?{" "}
-            <Link
-              to={routes.REGISTER}
-              style={{ color: theme.palette.primary.main }}
+          <Box sx={{ pt: 1 }}>
+            <Paper
+              elevation={0}
+              sx={{
+                textAlign: "center",
+                py: 1.3,
+                fontWeight: 500,
+                border: "1px solid #e0e0e0",
+                bgcolor: "transparent",
+              }}
             >
-              Create Account
-            </Link>
-          </Paper>
+              Don’t have an account?{" "}
+              <Link
+                to={routes.REGISTER}
+                style={{ color: theme.palette.primary.main }}
+              >
+                Create Account
+              </Link>
+            </Paper>
+          </Box>
         )}
         {bottomContent}
       </Stack>
 
-      {/* <Typography
+      <Typography
         sx={{
           textAlign: "center",
-          position: "sticky",
-          bottom: 0,
+          position: "absolute",
+          bottom: "0.7rem",
+          right: 0,
+          left: 0,
         }}
+        variant="body2"
       >
-        © 2022 ShipDirect Ltd | All Rights Reserved
-      </Typography> */}
+        Copyright © 2023 ShipDirect. All rights reserved
+      </Typography>
     </Container>
   )
 }

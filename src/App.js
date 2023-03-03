@@ -7,6 +7,7 @@ import api from "./config/axios"
 import { AppRoutes, AuthRoutes } from "./config/routes"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import ScrollToTop from "./utilities/ScrollToTop"
 
 const UserContext = createContext({ user: null, setUser: () => {} })
 
@@ -36,6 +37,7 @@ function App() {
       <LoadingContainer loading={loading} full>
         <UserContext.Provider value={{ user, setUser, refresh }}>
           <Router>
+            <ScrollToTop />
             {user ? (
               <Routes>
                 <Route element={<AppLayout />}>
