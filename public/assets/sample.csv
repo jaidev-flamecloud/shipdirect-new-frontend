@@ -1,2 +1,2 @@
-FromCountry,FromName,FromCompany,FromPhone,FromStreet1,FromStreet2,FromCity,FromZip,FromState,ToCountry,ToName,ToCompany,ToPhone,ToStreet1,ToStreet2,ToCity,ToZip,ToState,Length,Height,Width
-US,DINH SAM LU,dfdf,14820971635,3165 W TYLER AVE,, ANAHEIM,92801,CA,US,DINH SAM LU,dfdf,14820971635,3165 W TYLER AVE,, ANAHEIM,92801,CA,10,10,10
+FromCountry,FromName,FromCompany,FromPhone,FromStreet1,FromStreet2,FromCity,FromZip,FromState,ToCountry,ToName,ToCompany,ToPhone,ToStreet1,ToStreet2,ToCity,ToZip,ToState,Length,Height,Width,Weight
+US,DINH SAM LU,dfdf,14820971635,3165 W TYLER AVE,, ANAHEIM,92801,CA,US,DINH SAM LU,dfdf,14820971635,3165 W TYLER AVE,, ANAHEIM,92801,CA,10,10,10,1

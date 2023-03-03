@@ -27,10 +27,14 @@ import Loader from "../components/ui/Loader"
 import { formatDate } from "../utilities/misc"
 import { useUserContext } from "../App"
 
-const pricingItems = ["ups", "usps", "fedex"]
+const pricingItems = [
+  { name: "usps", icon: "courier-icon-01" },
+  { name: "ups", icon: "courier-icon-03" },
+  { name: "fedex", icon: "courier-icon-02" },
+]
 
 const CsvOrders = () => {
-  const [selectedCourier, setSelectedCourier] = useState(pricingItems[0])
+  const [selectedCourier, setSelectedCourier] = useState(pricingItems[0].name)
 
   const [loader, setLoader] = useState(false)
   const [csvpaydisabled, setCsvpaydisabled] = useState(true)
@@ -74,22 +78,17 @@ const CsvOrders = () => {
       return
     }
 
-    if (Weight === 0) {
-      toast.error("Please enter a weight")
-      return
-    }
     setValidateLoader(true)
 
     const params = new FormData()
     params.append("csv", CSV)
     params.append("type", activeUspsType._id)
-    params.append("weight", Weight)
 
     await api
       .post("/order/validatecsv", params)
       .then((res) => {
         setValidateLoader(false)
-        setCsvPrice(res.data.price)
+        setCsvPrice(res.data.totalPrice)
         setCsvpaydisabled(false)
         toast.success("CSV validated successfully")
       })
@@ -109,7 +108,6 @@ const CsvOrders = () => {
     const params = new FormData()
     params.append("csv", CSV)
     params.append("type", activeUspsType._id)
-    params.append("weight", Weight)
     params.append("total_price", csvPrice)
 
     await api
@@ -117,7 +115,7 @@ const CsvOrders = () => {
       .then(() => {
         toast.success("Orders created successfully")
         refresh()
-        setCsvpaydisabled(true)
+        setCsvpaydisabled(false)
         setCSV("")
         setWeight(0)
         setCsvPrice(0)
@@ -127,6 +125,7 @@ const CsvOrders = () => {
       .catch((err) => {
         toast.error(err.response.data.message)
         setLoader(false)
+        setCsvpaydisabled(false)
       })
   }
 
@@ -184,19 +183,19 @@ const CsvOrders = () => {
               <OptionCard
                 imgSrc={
                   "/assets/images/" +
-                  p +
+                  p.icon +
                   (theme.palette.mode === "dark" ? "2" : "") +
                   ".svg"
                 }
-                name={p}
-                active={selectedCourier === p}
-                activate={() => setSelectedCourier(p)}
+                name={p.name}
+                active={selectedCourier === p.name}
+                activate={() => setSelectedCourier(p.name)}
               />
             ))}
           </Grid>
         </Stack>
         <Grid container spacing={3} mb={2}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={9}>
             <CustomSelect
               label="Select Service"
               name="labeltype"
@@ -215,15 +214,7 @@ const CsvOrders = () => {
                 }))}
             />
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <Field
-              label="Package Weight (70 Lbs Max)*"
-              type="number"
-              value={Weight}
-              onChange={(e) => setWeight(e.target.value)}
-              required
-            />
-          </Grid>
+
           <Grid item xs={12} sm={3}>
             <FormControl sx={{ height: "100%" }} fullWidth>
               <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}>

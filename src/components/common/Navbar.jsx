@@ -18,6 +18,7 @@ import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded"
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded"
 import { formatDate } from "../../utilities/misc"
 import Icon from "./Icon"
+import BreadCrumb from "./BreadCrumb"
 
 const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
   const { user, setUser } = useUserContext()
@@ -99,14 +100,7 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
                 style={{ margin: "0 auto", width: "9rem" }}
               />
             </Box>
-            {/* <Typography
-              sx={{ display: { xs: "none", sm: "block" } }}
-              variant="body1"
-              noWrap
-              component="div"
-            >
-              Dashboard
-            </Typography> */}
+            <BreadCrumb />
           </Stack>
 
           <Stack

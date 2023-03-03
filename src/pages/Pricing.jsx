@@ -20,8 +20,11 @@ import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
 import ConfirmUpgrade from "../components/modals/ConfirmUpgrade"
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 
-const pricingItems = ["ups", "usps", "fedex"]
-
+const pricingItems = [
+  { name: "usps", icon: "courier-icon-01" },
+  { name: "ups", icon: "courier-icon-03" },
+  { name: "fedex", icon: "courier-icon-02" },
+]
 const Pricing = () => {
   const [loader, setLoader] = useState(false)
   const [userData, setUserData] = useState({})
@@ -207,7 +210,9 @@ export const PricingComp = () => {
         {pricingItems.map((p) => (
           <PricingBlock
             name={p}
-            types={types?.filter((type) => type.name.toLowerCase().includes(p))}
+            types={types?.filter((type) =>
+              type.name.toLowerCase().includes(p.name)
+            )}
           />
         ))}
       </Grid>
@@ -223,14 +228,14 @@ const PricingBlock = ({ types, name }) => {
         <div>
           <img
             src={`/assets/images/${
-              name + (theme.palette.mode === "dark" ? "2" : "")
+              name.icon + (theme.palette.mode === "dark" ? "2" : "")
             }.svg`}
             alt="name"
-            style={{ height: "2rem" }}
+            style={{ height: "1.8rem" }}
           />
         </div>
 
-        <Stack direction="row" spacing={5} mt={1}>
+        <Stack direction="row" spacing={5} mt={2}>
           <Stack spacing={1} sx={{ width: "50%" }}>
             <Chip
               label="FOR REGULARS"

@@ -28,8 +28,14 @@ import OptionCard from "../components/common/OptionCard"
 import { Autocomplete, LoadScript } from "@react-google-maps/api"
 import { useRef } from "react"
 import { useUserContext } from "../App"
+import AddRoundedIcon from "@mui/icons-material/AddRounded"
+import AddAddress from "../components/modals/AddAddress"
 
-const pricingItems = ["ups", "usps", "fedex"]
+const pricingItems = [
+  { name: "usps", icon: "courier-icon-01" },
+  { name: "ups", icon: "courier-icon-03" },
+  { name: "fedex", icon: "courier-icon-02" },
+]
 
 const PriceButton = ({ finalPrice, originalPrice, activeType }) => (
   <Button variant="contained">
@@ -73,6 +79,7 @@ const AddressForm = ({
   cityStateLookup,
   saveAddressCheck,
   setSaveAddressCheck,
+  openAddModal,
 }) => {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -111,33 +118,44 @@ const AddressForm = ({
       title={
         <>
           {sender ? "Sender’s Details" : "Recipient’s Details"}
-          {collapsed && (
-            <Typography
-              display={"inline-block"}
-              color="text.secondary"
-              sx={{ ml: 2 }}
-            >
-              {["Name", "City", "State", "Zip"].map((info, i) =>
-                data[info.toLowerCase()] ? (
-                  data[info.toLowerCase()] + (i !== 3 ? ", " : "")
-                ) : (
-                  <Typography display={"inline"} color="error.main">
-                    {info} missing{i !== 3 ? ", " : ""}
-                  </Typography>
-                )
-              )}
-            </Typography>
-          )}
+
+          <Typography display={"inline-block"} sx={{ ml: 2 }} fontWeight={500}>
+            {["Name", "City", "State", "Zip"].every(
+              (x) => data[x.toLowerCase()]
+            ) ? (
+              <>
+                {["Name", "City", "State", "Zip"].map((info, i) =>
+                  data[info.toLowerCase()] ? (
+                    data[info.toLowerCase()] + (i !== 3 ? ", " : "")
+                  ) : (
+                    <Typography display={"inline"} color="error.main">
+                      {info} missing{i !== 3 ? ", " : ""}
+                    </Typography>
+                  )
+                )}
+              </>
+            ) : (
+              <Chip label="DETAILS REQUIRED" sx={{ borderRadius: 1 }} />
+            )}
+          </Typography>
         </>
       }
       end={
-        <IconButton type="button" onClick={() => setCollapsed(!collapsed)}>
-          {collapsed ? (
-            <KeyboardArrowDownRoundedIcon />
-          ) : (
-            <KeyboardArrowUpRoundedIcon />
-          )}
-        </IconButton>
+        <Stack direction="row" spacing={1}>
+          <Button
+            onClick={openAddModal}
+            sx={{ fontWeight: 600, fontSize: 14, gap: 0.5 }}
+          >
+            <AddRoundedIcon fontSize="small" /> Add New Address
+          </Button>
+          <IconButton type="button" onClick={() => setCollapsed(!collapsed)}>
+            {collapsed ? (
+              <KeyboardArrowDownRoundedIcon />
+            ) : (
+              <KeyboardArrowUpRoundedIcon />
+            )}
+          </IconButton>
+        </Stack>
       }
       mb0
       sx={{ mb: 2 }}
@@ -309,15 +327,6 @@ const AddressForm = ({
                   required
                 />
                 <Stack>
-                  {/* <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={showAutocomplete}
-                        onClick={() => setShowAutocomplete(!showAutocomplete)}
-                      />
-                    }
-                    label={"Autocomplete"}
-                  /> */}
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -338,7 +347,7 @@ const AddressForm = ({
 }
 
 const AddLabel = () => {
-  const [selectedCourier, setSelectedCourier] = useState(pricingItems[0])
+  const [selectedCourier, setSelectedCourier] = useState(pricingItems[0].name)
   const navigate = useNavigate()
   const [addresses, setAddresses] = useState([])
   const [address, setAddress] = useState({})
@@ -381,6 +390,10 @@ const AddLabel = () => {
     company: "",
     country: "US",
   })
+
+  const [addModal, setAddModal] = useState(false)
+
+  const openAddModal = () => setAddModal(true)
 
   const getAddresses = async () => {
     await api
@@ -509,6 +522,7 @@ const AddLabel = () => {
       width: e.target?.width?.value || 0,
       length: e.target?.length?.value || 0,
       description: e.target.description?.value || "",
+      identifier: e.target.identifier?.value || "",
       FromPhone: From.phone,
       ToPhone: To.phone,
 
@@ -609,13 +623,13 @@ const AddLabel = () => {
                       <OptionCard
                         imgSrc={
                           "/assets/images/" +
-                          p +
+                          p.icon +
                           (theme.palette.mode === "dark" ? "2" : "") +
                           ".svg"
                         }
-                        name={p}
-                        active={selectedCourier === p}
-                        activate={() => setSelectedCourier(p)}
+                        name={p.name}
+                        active={selectedCourier === p.name}
+                        activate={() => setSelectedCourier(p.name)}
                       />
                     ))}
                   </Grid>
@@ -632,6 +646,7 @@ const AddLabel = () => {
                 cityStateLookup={cityStateLookup}
                 saveAddressCheck={saveFromAddress}
                 setSaveAddressCheck={setSaveFromAddress}
+                openAddModal={openAddModal}
               />
               <AddressForm
                 address={address1}
@@ -643,6 +658,7 @@ const AddLabel = () => {
                 cityStateLookup={cityStateLookup}
                 saveAddressCheck={saveToAddress}
                 setSaveAddressCheck={setSaveToAddress}
+                openAddModal={openAddModal}
               />
             </Grid>
             <Grid item xs={12} sm={5}>
@@ -669,13 +685,14 @@ const AddLabel = () => {
                     }))}
                 />
                 <Field
+                  sx={{ mb: 2 }}
                   label="Weight*"
                   name="Weight"
                   placeholder={`Package Weight${
                     activeType?.maxWeight
                       ? " (" +
                         activeType?.maxWeight +
-                        (activeType?.uid?.includes("first_class")
+                        (activeType?.uid?.includes("firstclass")
                           ? " Oz"
                           : " Lbs") +
                         " Max)"
@@ -685,6 +702,11 @@ const AddLabel = () => {
                   min={0}
                   max={activeType?.maxWeight || ""}
                   onChange={(e) => setWeight(e.target.value)}
+                />
+                <Field
+                  name="identifier"
+                  label="Identifier"
+                  placeholder="Enter an indentifier for the label"
                 />
               </Section>
               <Section title="Package Details" sx={{ mb: 2 }}>
@@ -743,6 +765,22 @@ const AddLabel = () => {
           </Grid>
         </form>
       </LoadScript>
+      <AddAddress
+        open={addModal}
+        onClose={() => setAddModal(false)}
+        address={{
+          name: "",
+          country: "",
+          phone: "",
+          street: "",
+          street2: "",
+          zip: "",
+          city: "",
+          state: "",
+        }}
+        edit={false}
+        refresh={getAddresses}
+      />
     </PageContainer>
   )
 }

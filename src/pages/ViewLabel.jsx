@@ -83,7 +83,7 @@ const ViewLabel = () => {
             </Link>
           }
         >
-          <Divider />
+          <Divider sx={{ bgcolor: "#0c0c17" }} />
           <Stack
             direction="row"
             spacing={3}
@@ -130,7 +130,7 @@ const ViewLabel = () => {
             label="Notes:"
             val={order?.statusMessage || "N/A"}
           />
-          <Divider />
+          <Divider sx={{ bgcolor: "#0c0c17" }} />
           <Typography mt={2}>Sender's Details</Typography>
           <Stack
             direction="row"
@@ -152,7 +152,7 @@ const ViewLabel = () => {
             <DetailComp label="State" val={order?.FromState} />
             <DetailComp label="Zip" val={order?.FromZip} />
           </Stack>
-          <Divider />
+          <Divider sx={{ bgcolor: "#0c0c17" }} />
           <Typography mt={2}>Reciever's Details</Typography>
           <Stack
             direction="row"
@@ -171,7 +171,7 @@ const ViewLabel = () => {
             <DetailComp label="State" val={order?.ToState} />
             <DetailComp label="Zip" val={order?.ToZip} />
           </Stack>
-          <Divider />
+          <Divider sx={{ bgcolor: "#0c0c17" }} />
           <Stack direction="row" alignItems={"center"} spacing={2} mt={2}>
             <Typography>Actions</Typography>
             <Button

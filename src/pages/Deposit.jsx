@@ -43,11 +43,6 @@ const gatewayMap = {
 
 const paymentMethods = [
   {
-    name: "Cash App",
-    val: "cashapp",
-    imgSrc: "/assets/images/cashapp.svg",
-  },
-  {
     name: "Stripe",
     val: "stripe",
     imgSrc: "/assets/images/stripe.svg",
@@ -158,11 +153,6 @@ const Deposit = () => {
         getDeposits()
         if (data.type === "stripe") {
           window.location.href = res.data.session.url
-        }
-        if (data.type === "cashapp") {
-          setUrl(res.data.data.hosted_url)
-          setInvoice(res.data.data.invoice)
-          setShowCashApp(true)
         } else {
           setInvoice(res.data.data.invoice)
           setShowGateway(true)

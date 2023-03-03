@@ -147,15 +147,23 @@ const Referrals = () => {
           <Grid item xs={12} sm={4}>
             <StatCard
               icon={<GroupIcon />}
-              name="Total Referred"
+              name="Total Referred Users"
               value={stats.referrals}
             />
           </Grid>
+
           <Grid item xs={12} sm={4}>
             <StatCard
               icon={<TollIcon />}
               name="Total Referral Points"
               value={stats.refPoints?.toFixed(2)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <StatCard
+              icon={<TollIcon />}
+              name="Total Referral Balance"
+              value={stats.balance?.toFixed(2)}
             />
           </Grid>
         </Grid>

@@ -3,10 +3,10 @@ import CustomTable from "../components/ui/CustomTable"
 import {
   alpha,
   Box,
+  Button,
   Stack,
   TableCell,
   TableRow,
-  Typography,
   useTheme,
 } from "@mui/material"
 import { useEffect, useState } from "react"
@@ -91,6 +91,11 @@ const Transactions = () => {
     <PageContainer
       title="Transaction Log"
       desc="A detailed view of all transactions on your account"
+      end={
+        <Button variant="contained" color="success" sx={{ color: "#fff" }}>
+          Export Data
+        </Button>
+      }
     >
       <CustomTable
         start={<FilterTabs filter={filter} setFilter={setFilter} />}

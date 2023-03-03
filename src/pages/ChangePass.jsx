@@ -1,4 +1,4 @@
-import { Button, Grid, Stack } from "@mui/material"
+import { alpha, Button, Grid, Stack, useTheme } from "@mui/material"
 import React, { useState } from "react"
 import { toast } from "react-toastify"
 import { useUserContext } from "../App"
@@ -38,6 +38,7 @@ const ChangePass = () => {
   }
 
   const { user } = useUserContext()
+  const theme = useTheme()
 
   return (
     <PageContainer
@@ -77,7 +78,11 @@ const ChangePass = () => {
                   label="Confirm Password"
                   placeholder="Confirm your new password"
                 />
-                <Button type="submit" variant="contained">
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  sx={{ bgcolor: alpha(theme.palette.primary.main, 0.1) }}
+                >
                   {loading ? <Loader /> : "Reset Password"}
                 </Button>
               </Stack>

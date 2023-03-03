@@ -187,6 +187,29 @@ const Labels = () => {
       })
   }
 
+  const downloadCsvAll = async (e) => {
+    e.preventDefault()
+
+    const params = {
+      orders: selectedOrders,
+    }
+
+    await api
+      .post(`/order/bulk-download-csv`, params, env.downloadConfig)
+      .then((response) => {
+        //  download zip file
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute("download", "label.pdf") //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message)
+      })
+  }
+
   // request refund
   const requestRefund = async (message, id) => {
     setLoader(true)
@@ -303,6 +326,15 @@ const Labels = () => {
                     >
                       ZIP
                     </Button>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      onClick={downloadCsvAll}
+                      sx={{ color: "#fff" }}
+                    >
+                      CSV
+                    </Button>
                   </Stack>
                 }
                 sx={{ height: "100%", py: 1, borderRadius: 1 }}
@@ -327,6 +359,7 @@ const Labels = () => {
           "AMOUNT",
           "STATUS",
           "TRACKING STATUS",
+          "IDENTIFIER",
           "ACTIONS",
         ]}
         dense
@@ -369,6 +402,7 @@ const Labels = () => {
                 order.statusMessage ||
                 "N/A"}
             </TableCell>
+            <TableCell>{order?.identifier}</TableCell>
             <TableCell>
               <Stack direction="row">
                 <Link to={"/labels/" + order._id}>

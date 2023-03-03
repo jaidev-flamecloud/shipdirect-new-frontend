@@ -1,4 +1,13 @@
-import { Button, Grid, IconButton, Stack, useTheme, alpha } from "@mui/material"
+import {
+  Button,
+  Grid,
+  IconButton,
+  Stack,
+  useTheme,
+  alpha,
+  Box,
+  Typography,
+} from "@mui/material"
 import React, { useEffect, useState } from "react"
 import PageContainer from "../components/containers/PageContainer"
 import Field from "../components/ui/Field"
@@ -14,11 +23,41 @@ import { formatDate } from "../utilities/misc"
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
 
+const filters = [
+  ["All", "All"],
+  ["Open", "open"],
+  ["Closed", "close"],
+  ["Waiting for Customer Response", "Waiting for Customer Response"],
+]
+
+const FilterTabs = ({ filter, setFilter }) => {
+  const theme = useTheme()
+  return (
+    <Stack direction="row" spacing={1}>
+      {filters.map((f, i) => (
+        <Box
+          onClick={() => setFilter(i)}
+          sx={{
+            cursor: "pointer",
+            px: 1,
+            borderRadius: 0.8,
+            border: i === filter && `solid 1px ${theme.palette.primary.main}`,
+            bgcolor: i === filter && alpha(theme.palette.primary.main, 0.2),
+            fontWeight: 500,
+          }}
+        >
+          {f[0]}
+        </Box>
+      ))}
+    </Stack>
+  )
+}
+
 const Support = () => {
   const [ticketsLoading, setTicketsLoading] = useState(false)
   const [tickets, setTickets] = useState([])
   const [loading, setLoading] = useState(false)
-  const [filter, setFilter] = useState("All")
+  const [filter, setFilter] = useState(0)
   const [sort, setSort] = useState("des")
   const [page, setPage] = useState(1)
   const limit = 10
@@ -30,7 +69,7 @@ const Support = () => {
     setTicketsLoading(true)
     await api
       .get(
-        `/ticket/read?status=${filter}&sort=${sort}&page=${page}&limit=${limit}`
+        `/ticket/read?status=${filters[filter][1]}&sort=${sort}&page=${page}&limit=${limit}`
       )
       .then((res) => {
         setTickets(res.data.tickets)
@@ -156,7 +195,14 @@ const Support = () => {
         </form>
       </Section>
       <CustomTable
-        title="Your Previous Tickets"
+        start={
+          <Stack spacing={2}>
+            <Typography fontSize={16} fontWeight={500}>
+              Your Previous Tickets
+            </Typography>
+            <FilterTabs filter={filter} setFilter={setFilter} />
+          </Stack>
+        }
         fields={[
           "ORDER ID",
           "TITLE",
