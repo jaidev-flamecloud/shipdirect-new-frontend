@@ -155,7 +155,7 @@ body {
   font-weight: 500;
   color: #fff;
   line-height: 140%;
-  background: #0393FB;
+  background: #0393fb;
   display: inline-block;
   padding: 0.8rem 1.5rem;
   border-radius: 0.7rem;
@@ -189,7 +189,7 @@ body {
 /* header css end */
 /* hero css start */
 .hero-section {
-  background-image: url("../images/hero-bg.svg");
+  background-image: url("../images/hero-bg-img.svg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -208,7 +208,7 @@ body {
   color: #282828;
   letter-spacing: -0.01em;
   line-height: 140%;
-  color: #0393FB;
+  color: #0393fb;
 }
 .hero-txt-wrap h1 {
   font-size: 3.4rem;
@@ -220,7 +220,7 @@ body {
   line-height: 110%;
 }
 .hero-txt-wrap h1 span {
-  color: #0393FB;
+  color: #0393fb;
 }
 .hero-txt-wrap p {
   font-size: 1.1rem;
@@ -235,7 +235,7 @@ body {
 .hero-txt-wrap .hero_btn button:last-child {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #0393FB;
+  color: #0393fb;
   line-height: 140%;
   background: transparent;
   display: inline-block;
@@ -245,7 +245,7 @@ body {
   font-weight: 600;
 }
 .hero-txt-wrap .hero_btn button:last-child:hover {
-  background: #0393FB;
+  background: #0393fb;
   color: #fff;
 }
 .hero-txt-wrap .hero_btn button:first-child {
@@ -253,7 +253,7 @@ body {
   font-weight: 500;
   color: #fff;
   line-height: 140%;
-  background: #0393FB;
+  background: #0393fb;
   display: inline-block;
   padding: 0.8rem 1.5rem;
   border-radius: 0.7rem;
@@ -344,7 +344,7 @@ body {
 .common-heading h6 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #0393FB;
+  color: #0393fb;
   letter-spacing: -0.01em;
   line-height: 140%;
   line-height: 100%;
@@ -357,7 +357,7 @@ body {
   line-height: 140%;
 }
 .common-heading h2 span {
-  color: #0393FB;
+  color: #0393fb;
 }
 .common-heading p {
   font-size: 1rem;
@@ -372,7 +372,7 @@ body {
 .step-txt-box h6 {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #0393FB;
+  color: #0393fb;
   letter-spacing: -0.01em;
   line-height: 140%;
   margin-bottom: 0.3rem;
@@ -429,7 +429,7 @@ body {
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
-  border: 2px solid #0393FB;
+  border: 2px solid #0393fb;
   background: rgba(5, 148, 251, 0.1);
 }
 .all-tools-box h4 {
@@ -460,7 +460,7 @@ body {
   color: rgba(40, 40, 40, 0.75);
   letter-spacing: -0.01em;
   line-height: 140%;
-  border-bottom: 3px solid #F5F5F5;
+  border-bottom: 3px solid #f5f5f5;
   border-radius: 0;
   display: block;
   width: 100%;
@@ -470,11 +470,11 @@ body {
 }
 .dahboard-tab-head .nav .nav-item .nav-link:hover {
   background: transparent;
-  border-color: #0393FB;
+  border-color: #0393fb;
 }
 .dahboard-tab-head .nav .nav-item .active {
   background: transparent;
-  border-color: #0393FB;
+  border-color: #0393fb;
 }
 
 .dashboard-preview {
@@ -545,7 +545,7 @@ body {
   font-weight: 500;
   color: #fff;
   line-height: 140%;
-  background: #0393FB;
+  background: #0393fb;
   display: inline-block;
   padding: 0.8rem 1.5rem;
   border-radius: 0.7rem;
@@ -603,10 +603,10 @@ body {
 
 .price-header.premium span {
   background: rgba(5, 148, 251, 0.1);
-  color: #0393FB;
+  color: #0393fb;
 }
 .price-header.premium h4 {
-  color: #0393FB;
+  color: #0393fb;
 }
 
 .pricing-box-wrap button {
@@ -614,7 +614,7 @@ body {
   font-weight: 500;
   color: #fff;
   line-height: 140%;
-  background: #0393FB;
+  background: #0393fb;
   display: inline-block;
   padding: 0.8rem 1.5rem;
   border-radius: 0.7rem;
@@ -692,7 +692,7 @@ body {
   line-height: 140%;
   height: 3.2rem;
   margin-bottom: 1rem;
-  border: 2px solid #F5F5F5;
+  border: 2px solid #f5f5f5;
   padding-left: 2.7rem;
 }
 .faq-search-box img {
@@ -711,7 +711,7 @@ body {
   border-radius: 0.625rem;
   background-color: #fff;
   margin-bottom: 1rem;
-  border: 2px solid #F5F5F5;
+  border: 2px solid #f5f5f5;
 }
 .faq-ask-wrap .accordion .accordion-item button {
   font-size: 1.2rem;
@@ -739,7 +739,7 @@ body {
 }
 
 .faq-ask-wrap .accordion-item.border-custom {
-  border-color: #0393FB;
+  border-color: #0393fb;
   background: rgba(5, 148, 251, 0.1);
 }
 
@@ -763,19 +763,19 @@ body {
   display: inline-block;
   padding: 0.8rem 1.5rem;
   border-radius: 0.7rem;
-  border: 2px solid #F5F5F5;
+  border: 2px solid #f5f5f5;
   border-radius: 0.625rem;
   display: inline-block;
 }
 .faq-more a:hover {
-  background: #F5F5F5;
+  background: #f5f5f5;
 }
 
 /* faq css end */
 /* feedback css start */
 .feedback-wrap {
   margin-top: 2rem;
-  border: 2px solid #F5F5F5;
+  border: 2px solid #f5f5f5;
   padding: 1.4rem;
   border-radius: 0.95rem;
   background-color: #fff;
@@ -796,7 +796,7 @@ body {
   justify-content: flex-start;
 }
 .feedback-wrap ul li i {
-  color: #0393FB;
+  color: #0393fb;
   margin: 0 0.3rem;
   font-size: 1.2rem;
 }
@@ -858,7 +858,7 @@ body {
 .get-start-section .get-start-txt a {
   font-size: 1rem;
   font-weight: 500;
-  color: #0393FB;
+  color: #0393fb;
   line-height: 140%;
   background: #fff;
   display: inline-block;
@@ -917,7 +917,7 @@ body {
 .ftr-links h6 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #0393FB;
+  color: #0393fb;
   letter-spacing: -0.01em;
   line-height: 140%;
   margin-bottom: 1rem;
@@ -936,7 +936,7 @@ body {
 }
 
 .join-bttn .media {
-  background: #5865F2;
+  background: #5865f2;
   border-radius: 8.64646px;
   align-items: center;
   padding: 1rem 1.4rem;
@@ -1060,7 +1060,7 @@ body {
   color: #282828;
   letter-spacing: -0.01em;
   line-height: 140%;
-  color: #0393FB;
+  color: #0393fb;
   margin-top: 1rem;
 }
 
@@ -1078,7 +1078,7 @@ body {
   font-weight: 500;
   color: #fff;
   line-height: 140%;
-  background: #0393FB;
+  background: #0393fb;
   display: inline-block;
   padding: 0.8rem 1.5rem;
   border-radius: 0.7rem;

@@ -482,6 +482,11 @@ const Deposit = () => {
                           >
                             Pay manually
                           </FormLabel>
+                          <Typography mb={1}>
+                            Open your request and wait for one of our team
+                            members to instruct you. <br /> Average response
+                            time: 10 minute
+                          </Typography>
                           <Stack direction="row" spacing={1}>
                             {paySettings?.manualMethods?.map((gateway, i) =>
                               gateway.method ? (
