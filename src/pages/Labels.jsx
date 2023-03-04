@@ -8,7 +8,6 @@ import {
   Stack,
   TableCell,
   TableRow,
-  Typography,
   useTheme,
 } from "@mui/material"
 import { useEffect, useState } from "react"
@@ -27,10 +26,11 @@ import { Link } from "react-router-dom"
 import ConfirmDuplicate from "../components/modals/ConfirmDuplicate"
 import ConfirmRequestRefund from "../components/modals/ConfirmRequestRefund"
 import StatusComp from "../components/common/StatusComp"
-import { formatDate } from "../utilities/misc"
+import { copyToClipboard, formatDate } from "../utilities/misc"
 import dayjs from "dayjs"
 import DateFilter from "../components/common/DateFilter"
 import { useUserContext } from "../App"
+import NorthEastIcon from "@mui/icons-material/NorthEast"
 
 const filters = [
   ["All", "All"],
@@ -389,7 +389,9 @@ const Labels = () => {
             <TableCell>{order.ToName}</TableCell>
             <TableCell>{order.labelType?.name}</TableCell>
             <TableCell sx={{ color: "primary.main" }}>
-              {order.tracking}
+              <Button onClick={() => copyToClipboard(order.tracking)}>
+                {order.tracking} <NorthEastIcon sx={{ fontSize: 13 }} />
+              </Button>
             </TableCell>
             <TableCell sx={{ color: "success.main" }}>
               {"$" + order?.price?.toFixed(2)}

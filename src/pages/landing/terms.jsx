@@ -1,55 +1,30 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import dayjs from "dayjs"
+import React, { useEffect, useState } from "react"
+
+import Footer from "../../components/landing/Footer"
+import Header from "../../components/landing/Header"
+import api from "../../config/axios"
 
 const Terms = () => {
+  const [terms, setTerms] = useState({})
+  const [loading, setLoading] = useState(true)
+
+  const readFaq = async () => {
+    setLoading(true)
+    await api
+      .get("/admin-settings/tos")
+      .then((res) => setTerms(res.data.termsOfService))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    readFaq()
+  }, [])
   return (
     <div>
       {/* header section @S */}
-      <header className="header-section">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-lg-4 col-md-4 col-12">
-              <div className="header-menu-wrap">
-                <ul>
-                  <li>
-                    <a href="index.html#pricing-sec">Pricing</a>
-                  </li>
-                  <li>
-                    <Link to="/faq">FAQs</Link>
-                  </li>
-                  <li>
-                    <Link to="/terms">Terms</Link>
-                  </li>
-                  <li>
-                    <Link to="/terms">Privacy</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-4 col-5">
-              <div className="header-logo">
-                <Link to="/">
-                  <img
-                    src="./assets/images/logo.svg"
-                    alt="Logo"
-                    className="img-fluid"
-                  />
-                </Link>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-4 col-7">
-              <div className="header-bttn">
-                <form className="d-flex">
-                  <Link to="/login">Log In</Link>
-                  <Link to="/register">
-                    Get Started <i className="fa fa-angle-right" />
-                  </Link>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
       {/* header section @E */}
       {/* tos section start */}
       <section className="tos-section pa-y4">
@@ -60,7 +35,10 @@ const Terms = () => {
               <div className="common-heading">
                 <h6>TOS</h6>
                 <h2>Terms of Service</h2>
-                <p>Last Updated : February 14, 2023</p>
+                <p>
+                  Last Updated :{" "}
+                  {dayjs(terms?.updatedAt).format("MMM DD, YYYY")}
+                </p>
               </div>
             </div>
           </div>
@@ -68,7 +46,8 @@ const Terms = () => {
           <div className="row mt-4 justify-content-center">
             <div className="col-lg-10">
               <div className="tos-main-box">
-                <p>
+                {terms?.tos}
+                {/* <p>
                   Welcome to www.lorem-ipsum.info. This site is provided as a
                   service to our visitors and may be used for informational
                   purposes only. Because the Terms and Conditions contain legal
@@ -155,228 +134,14 @@ const Terms = () => {
                       </div>
                     </div>
                   </li>
-                </ul>
+                </ul> */}
               </div>
             </div>
           </div>
         </div>
       </section>
       {/* tos section end */}
-      {/* get start section start */}
-      <section className="get-start-section">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="get-start-txt">
-                <h2>
-                  #1 Choice for the Best Label Service on <br /> the Internet
-                </h2>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                  eu <br /> imperdiet augue. Nullam ultrices, metus in euismod
-                  facilisis,
-                </p>
-                <Link to="/register">
-                  Create Label <i className="fa fa-angle-right" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* get start section end */}
-      {/* footer section start */}
-      <footer className="footer_section">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-5 col-md-6 col-sm-8 col-12">
-              <div className="ftr-logo">
-                <Link to="/">
-                  <img
-                    src="./assets/images/ftr-logo.svg"
-                    alt="Logo"
-                    className="img-fluid"
-                  />
-                </Link>
-                <p>
-                  With Shipdirect, get your <br /> packages delivered superfast.
-                </p>
-                <h6>OUR OFFICE</h6>
-                <ul>
-                  <li>
-                    <a href="#">
-                      <img
-                        src="./assets/images/ftr-icon-01.svg"
-                        alt="Logo"
-                        className="img-fluid"
-                      />{" "}
-                      Rua irua, 318 - Vila Barros Guarulhos São Paulo -
-                      07193130, BR
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img
-                        src="./assets/images/ftr-icon-02.svg"
-                        alt="Logo"
-                        className="img-fluid"
-                      />{" "}
-                      +55 (33) 3577-7029
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img
-                        src="./assets/images/ftr-icon-03.svg"
-                        alt="Logo"
-                        className="img-fluid"
-                      />
-                      support@shipdirect.io
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-1 col-md-2 col-sm-3 col-6">
-              <div className="ftr-links">
-                <h6>ACCOUNT</h6>
-                <ul>
-                  <li>
-                    <Link to="/register">Get Started</Link>
-                  </li>
-                  <li>
-                    <Link to="/login">Log In</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-1 col-md-2 col-sm-3 col-6">
-              <div className="ftr-links">
-                <h6>PRICING</h6>
-                <ul>
-                  <li>
-                    <a href="#">USPS</a>
-                  </li>
-                  <li>
-                    <a href="#">UPS</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-1 col-md-2 col-sm-3 col-6">
-              <div className="ftr-links">
-                <h6>LEGAL</h6>
-                <ul>
-                  <li>
-                    <Link to="/terms">Terms</Link>
-                  </li>
-                  <li>
-                    <Link to="/terms">Privacy</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-1 col-md-2 col-sm-3 col-6">
-              <div className="ftr-links">
-                <h6>MORE</h6>
-                <ul>
-                  <li>
-                    <a href="#">FAQs</a>
-                  </li>
-                  <li>
-                    <a href="#">Reviews</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-4 col-sm-6 col-12">
-              <div className="join-bttn mt-4">
-                <div className="media">
-                  <img
-                    src="./assets/images/discord-icon.svg"
-                    alt="Discord"
-                    className="img-fluid"
-                  />
-                  <div className="media-body">
-                    <h6>Join Our Discord Channel</h6>
-                    <p>Click here to join our discord community</p>
-                  </div>
-                </div>
-              </div>
-              <div className="join-bttn">
-                <div className="media" style={{ backgroundColor: "#0393FB" }}>
-                  <img
-                    src="./assets/images/chat-icon.svg"
-                    alt="Discord"
-                    className="img-fluid"
-                  />
-                  <div className="media-body">
-                    <h6>Live Support</h6>
-                    <p>Get instant answers to all your queries</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12">
-              <div className="brdr-top" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="ftr-copy">
-                <p>
-                  Copyright © 2023 <a href="#">ShipDirect</a>. All rights
-                  reserved
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <div className="ftr-social">
-                <ul>
-                  <li>
-                    <span>Connect with us</span>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-paper-plane" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-instagram" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img
-                        src="./assets/images/discord-icon.svg"
-                        alt=""
-                        className="img-fluid"
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i className="fa fa-twitter" />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img
-                        src="./assets/images/tiktok.svg"
-                        alt=""
-                        className="img-fluid"
-                      />
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       {/* footer section end */}
     </div>
   )

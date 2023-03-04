@@ -7,6 +7,7 @@ const OptionCard = ({
   activate,
   onClick,
   border,
+  content,
   sx,
 }) => {
   const theme = useTheme()
@@ -36,11 +37,12 @@ const OptionCard = ({
         ...sx,
       }}
     >
-      {imgSrc ? (
-        <img style={{ height: "100%" }} src={imgSrc} alt={name} />
-      ) : (
-        name
-      )}
+      {content ||
+        (imgSrc ? (
+          <img style={{ height: "100%" }} src={imgSrc} alt={name} />
+        ) : (
+          name
+        ))}
     </Box>
   )
 }

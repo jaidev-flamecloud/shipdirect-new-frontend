@@ -82,6 +82,8 @@ const Deposit = () => {
   const [gateway, setGateway] = useState({})
   const [showGateway, setShowGateway] = useState(false)
 
+  const [manualMethod, setManualMethod] = useState({})
+
   const readCrypto = async () => {
     setCoinLoader(true)
     await api("/dashboard/crypto-coin")
@@ -111,6 +113,7 @@ const Deposit = () => {
       .then((res) => {
         console.log(res.data.topup)
         setPaySettings(res.data.topup)
+        setManualMethod(res.data.topup.manualMethods[0])
       })
       .catch((err) => {
         console.log(err)
@@ -135,6 +138,23 @@ const Deposit = () => {
         console.log(err)
       })
       .finally(() => setDepositsLoading(false))
+  }
+
+  const createTicket = async (e) => {
+    e.preventDefault()
+
+    const data = {
+      order: e.target.order.value,
+      message: e.target.message.value,
+      subject: e.target.subject.value,
+    }
+
+    await api
+      .post("/ticket/create", data)
+      .then(() => {
+        toast.success("Ticket created successfully")
+      })
+      .catch((err) => toast.error(err.response.data.message))
   }
 
   const AddBalance = async (e) => {
@@ -299,7 +319,7 @@ const Deposit = () => {
             <Grid item xs={12}>
               <form onSubmit={AddBalance}>
                 <Section sx={{ mb: 2 }}>
-                  <Grid container mb={2} spacing={2}>
+                  <Grid container mb={4} spacing={2}>
                     <Grid item xs={12} sm={4}>
                       <Field
                         label="Amount to add"
@@ -346,6 +366,42 @@ const Deposit = () => {
                           Choose Payment Method
                         </FormLabel>
                         <Grid container spacing={1}>
+                          <Grid item sx={{ flexGrow: 0 }}>
+                            <OptionCard
+                              active={selectedPayementMethod === "crypto"}
+                              activate={() =>
+                                setSelectedPayementMethod("crypto")
+                              }
+                              content={
+                                <Stack
+                                  direction="row"
+                                  sx={{ gap: 0.5, px: 1.5 }}
+                                  alignItems="center"
+                                >
+                                  <img
+                                    src="/assets/images/coins/Bitcoin.svg"
+                                    alt="Coin"
+                                  />
+                                  <img
+                                    src="/assets/images/coins/Ethereum.svg"
+                                    alt="Coin"
+                                  />
+                                  <img
+                                    src="/assets/images/coins/Tether.svg"
+                                    alt="Coin"
+                                  />
+                                  <img
+                                    src="/assets/images/coins/USDCoin.svg"
+                                    alt="Coin"
+                                  />
+                                  <span style={{ fontWeight: 500 }}>
+                                    Crypto
+                                  </span>
+                                </Stack>
+                              }
+                              border
+                            />
+                          </Grid>
                           {paymentMethods.map((method, i) => (
                             <Grid item xs={6} sm={1.5}>
                               <OptionCard
@@ -359,66 +415,106 @@ const Deposit = () => {
                               />
                             </Grid>
                           ))}
-                          {paySettings?.manualMethods?.map((gateway, i) =>
-                            gateway.method ? (
-                              <Grid item xs={6} sm={1.5}>
-                                <OptionCard
-                                  key={i}
-                                  name={gateway.method}
-                                  val={gateway.method}
-                                  imgSrc={
-                                    "/assets/images/" +
-                                    gatewayMap[gateway.method].icon +
-                                    ".svg"
-                                  }
-                                  active={
-                                    selectedPayementMethod === gateway.method
-                                  }
-                                  activate={() => {
-                                    setSelectedPayementMethod(gateway.method)
-                                    setGateway(gateway)
-                                  }}
-                                  border
-                                />
-                              </Grid>
-                            ) : (
-                              ""
-                            )
-                          )}
+                          <Grid item sx={{ flexGrow: 0 }}>
+                            <OptionCard
+                              active={selectedPayementMethod === "manual"}
+                              activate={() =>
+                                setSelectedPayementMethod("manual")
+                              }
+                              content={
+                                <Stack
+                                  direction="row"
+                                  sx={{ gap: 1, px: 1 }}
+                                  alignItems="center"
+                                >
+                                  <img
+                                    src="/assets/images/convert-card.svg"
+                                    alt="manual"
+                                  />
+
+                                  <span style={{ fontWeight: 700 }}>
+                                    Manual Top Up
+                                  </span>
+                                </Stack>
+                              }
+                              border
+                            />
+                          </Grid>
                         </Grid>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={8}>
-                      <FormControl fullWidth>
-                        <FormLabel
-                          sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}
-                        >
-                          Pay using cryptocurrency
-                        </FormLabel>
-                        <LoadingContainer loading={coinLoader}>
-                          <Grid container spacing={1} sx={{ mt: 2 }}>
-                            {cryptoCoin?.map((coin) => (
-                              <Grid item xs={6} sm={1.5}>
-                                <OptionCard
-                                  sx={{ px: 2.5 }}
-                                  key={coin.id}
-                                  name={coin.name}
-                                  onClick={() => {
-                                    setShowCrypto(true)
-                                    setCryptoData(coin)
-                                    AddBalanceCrypt(coin.ticker)
-                                    setShowCrypto(true)
-                                  }}
-                                  imgSrc={env.BASE_API_URL + "/" + coin.logo}
-                                />
-                              </Grid>
-                            ))}
-                          </Grid>
-                        </LoadingContainer>
-                      </FormControl>
-                    </Grid>
+                    {selectedPayementMethod === "crypto" && (
+                      <Grid item xs={12} sm={8}>
+                        <FormControl fullWidth>
+                          <FormLabel
+                            sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}
+                          >
+                            Pay using cryptocurrency
+                          </FormLabel>
+                          <LoadingContainer loading={coinLoader}>
+                            <Grid container spacing={1} sx={{ mt: 2 }}>
+                              {cryptoCoin?.map((coin) => (
+                                <Grid item xs={6} sm={1.5}>
+                                  <OptionCard
+                                    sx={{ px: 2.5 }}
+                                    key={coin.id}
+                                    name={coin.name}
+                                    onClick={() => {
+                                      setShowCrypto(true)
+                                      setCryptoData(coin)
+                                      AddBalanceCrypt(coin.ticker)
+                                      setShowCrypto(true)
+                                    }}
+                                    imgSrc={env.BASE_API_URL + "/" + coin.logo}
+                                  />
+                                </Grid>
+                              ))}
+                            </Grid>
+                          </LoadingContainer>
+                        </FormControl>
+                      </Grid>
+                    )}
+                    {selectedPayementMethod === "manual" && (
+                      <Grid item xs={12} sm={8}>
+                        <FormControl fullWidth>
+                          <FormLabel
+                            sx={{ fontWeight: 600, color: "#000", mb: 0.6 }}
+                          >
+                            Pay manually
+                          </FormLabel>
+                          <Stack direction="row" spacing={1}>
+                            {paySettings?.manualMethods?.map((gateway, i) =>
+                              gateway.method ? (
+                                <Grid item xs={6} sm={1.5}>
+                                  <OptionCard
+                                    key={i}
+                                    name={gateway.method}
+                                    val={gateway.method}
+                                    imgSrc={
+                                      "/assets/images/" +
+                                      gatewayMap[gateway.method].icon +
+                                      ".svg"
+                                    }
+                                    active={
+                                      manualMethod.method === gateway.method
+                                    }
+                                    activate={() => {
+                                      setManualMethod(gateway)
+                                      setGateway(gateway)
+                                    }}
+                                    border
+                                  />
+                                </Grid>
+                              ) : (
+                                ""
+                              )
+                            )}
+                          </Stack>
+                        </FormControl>
+                      </Grid>
+                    )}
                   </Grid>
-                  <Divider />
+                  <Divider sx={{ bgcolor: "rgba(0,0,0,0.2)" }} />
                   <Stack
                     direction={{ xs: "column", sm: "row" }}
                     spacing={2}
@@ -459,6 +555,7 @@ const Deposit = () => {
                       </div>
 
                       <Button
+                        disabled={selectedPayementMethod === "crypto"}
                         type="submit"
                         variant="contained"
                         sx={{ ml: 1, px: 3 }}

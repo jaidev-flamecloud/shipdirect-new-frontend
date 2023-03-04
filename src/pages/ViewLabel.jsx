@@ -1,5 +1,4 @@
-import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
-import { Button, Divider, IconButton, Stack, Typography } from "@mui/material"
+import { Button, Divider, Stack, Typography } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -13,6 +12,7 @@ import api from "../config/axios"
 import env from "../config/env"
 import routes from "../config/routes"
 import { copyToClipboard, formatDate } from "../utilities/misc"
+import NorthEastIcon from "@mui/icons-material/NorthEast"
 
 const ViewLabel = () => {
   const { id } = useParams()
@@ -83,7 +83,7 @@ const ViewLabel = () => {
             </Link>
           }
         >
-          <Divider sx={{ bgcolor: "#0c0c17" }} />
+          <Divider sx={{ bgcolor: "rgba(0,0,0,0.2)" }} />
           <Stack
             direction="row"
             spacing={3}
@@ -102,17 +102,9 @@ const ViewLabel = () => {
               half
               label="Tracking Number"
               val={
-                <Stack
-                  sx={{ color: "primary.main" }}
-                  direction="row"
-                  alignItems={"center"}
-                  gap={2}
-                >
-                  {order?.tracking}
-                  <IconButton onClick={() => copyToClipboard(order?.tracking)}>
-                    <ContentCopyRoundedIcon color="primary" />
-                  </IconButton>
-                </Stack>
+                <Button onClick={() => copyToClipboard(order?.tracking)}>
+                  {order?.tracking} <NorthEastIcon sx={{ fontSize: 13 }} />
+                </Button>
               }
             />
             <DetailComp
@@ -130,7 +122,7 @@ const ViewLabel = () => {
             label="Notes:"
             val={order?.statusMessage || "N/A"}
           />
-          <Divider sx={{ bgcolor: "#0c0c17" }} />
+          <Divider sx={{ bgcolor: "rgba(0,0,0,0.2)" }} />
           <Typography mt={2}>Sender's Details</Typography>
           <Stack
             direction="row"
@@ -152,7 +144,7 @@ const ViewLabel = () => {
             <DetailComp label="State" val={order?.FromState} />
             <DetailComp label="Zip" val={order?.FromZip} />
           </Stack>
-          <Divider sx={{ bgcolor: "#0c0c17" }} />
+          <Divider sx={{ bgcolor: "rgba(0,0,0,0.2)" }} />
           <Typography mt={2}>Reciever's Details</Typography>
           <Stack
             direction="row"
@@ -171,7 +163,7 @@ const ViewLabel = () => {
             <DetailComp label="State" val={order?.ToState} />
             <DetailComp label="Zip" val={order?.ToZip} />
           </Stack>
-          <Divider sx={{ bgcolor: "#0c0c17" }} />
+          <Divider sx={{ bgcolor: "rgba(0,0,0,0.2)" }} />
           <Stack direction="row" alignItems={"center"} spacing={2} mt={2}>
             <Typography>Actions</Typography>
             <Button

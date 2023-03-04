@@ -22,6 +22,7 @@ import TicketChat from "../components/modals/TicketChat"
 import { formatDate } from "../utilities/misc"
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 const filters = [
   ["All", "All"],
@@ -123,77 +124,116 @@ const Support = () => {
 
   const theme = useTheme()
 
+  const [fileUpload, setFileUpload] = useState(null)
+
   return (
     <PageContainer
       title="Ticket Support"
       desc="Our support will reply to all your queries within 24 working hours"
     >
-      <Section sx={{ mb: 3 }}>
-        <form onSubmit={createTicket}>
-          <Grid container spacing={2} mb={2}>
-            <Grid item xs={12} sm={8}>
-              <Field
-                name="subject"
-                label="Title*"
-                placeholder="Your Ticket Title here"
-                required
-              />
+      {showTicket ? (
+        <TicketChat
+          ticket={ticket}
+          setTicket={setTicket}
+          refresh={getTickets}
+          back={() => setShowTicket(false)}
+          updateTicket={updateTicket}
+          open={showTicket}
+          onClose={() => {
+            setShowTicket(false)
+            window.scrollTo(0, 0)
+          }}
+          updating={loading}
+        />
+      ) : (
+        <Section sx={{ mb: 3 }}>
+          <form onSubmit={createTicket}>
+            <Grid container spacing={2} mb={2}>
+              <Grid item xs={12} sm={8}>
+                <Field
+                  name="subject"
+                  label="Title*"
+                  placeholder="Your Ticket Title here"
+                  required
+                />
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <Field
+                  name="order"
+                  label="Order ID"
+                  placeholder="Your Order ID here"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <Field
-                name="order"
-                label="Order ID"
-                placeholder="Your Order ID here"
-              />
-            </Grid>
-          </Grid>
-          <Field
-            name="message"
-            label="Message*"
-            placeholder="Ticket message here"
-            multiline
-            rows={5}
-            required
-          />
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={1}
-            mt={2}
-          >
+            <Field
+              name="message"
+              label="Message*"
+              placeholder="Ticket message here"
+              multiline
+              rows={5}
+              required
+            />
             <Stack
-              direction={{ xs: "column", sm: "row", fontSize: 14 }}
+              direction={{ xs: "column", sm: "row" }}
+              justifyContent="space-between"
               alignItems="center"
+              spacing={1}
+              mt={2}
             >
-              <Button
-                type="button"
-                variant="outlined"
-                sx={{
-                  mr: 2,
-                  px: 3,
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                }}
+              <Stack
+                direction={{ xs: "column", sm: "row", fontSize: 14 }}
+                alignItems="center"
               >
-                Add Attachment (Upto 2MB)
-              </Button>
-              <span>
-                <span style={{ color: "silver" }}>Formats accepted</span> :
-                .png, .jpeg, .pdf
-              </span>
-            </Stack>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  component="label"
+                  sx={{
+                    mr: 2,
+                    px: 3,
+                    bgcolor: alpha(theme.palette.primary.main, 0.1),
+                  }}
+                >
+                  {fileUpload?.name || "Add Attachment (Upto 2MB)"}
 
-            <Button
-              disabed={loading}
-              type="submit"
-              variant="contained"
-              sx={{ px: 3 }}
-            >
-              {loading ? <Loader /> : "Open Ticket"}
-            </Button>
-          </Stack>
-        </form>
-      </Section>
+                  <input
+                    accept=".png, .jpeg, .jpg, .pdf"
+                    type="file"
+                    id="img"
+                    hidden
+                    name="img"
+                    onChange={(e) => {
+                      setFileUpload(e.target.files[0])
+                    }}
+                  />
+                </Button>
+
+                <span>
+                  <span style={{ color: "silver" }}>Formats accepted</span> :
+                  .png, .jpeg, .pdf
+                </span>
+              </Stack>
+
+              <Button
+                disabed={loading}
+                type="submit"
+                variant="contained"
+                sx={{ px: 3, gap: 1 }}
+              >
+                {loading ? (
+                  <Loader />
+                ) : (
+                  <>
+                    Open Ticket
+                    <ArrowForwardIcon fontSize="small" />
+                  </>
+                )}
+              </Button>
+            </Stack>
+          </form>
+        </Section>
+      )}
+
       <CustomTable
         start={
           <Stack spacing={2}>
@@ -233,6 +273,7 @@ const Support = () => {
                 onClick={() => {
                   setTicket(ticket)
                   setShowTicket(true)
+                  window.scrollTo(0, 0)
                 }}
                 color="primary"
                 title="View Details"
@@ -258,16 +299,6 @@ const Support = () => {
           </TableRow>
         ))}
       </CustomTable>
-      <TicketChat
-        ticket={ticket}
-        setTicket={setTicket}
-        refresh={getTickets}
-        back={() => setShowTicket(false)}
-        updateTicket={updateTicket}
-        open={showTicket}
-        onClose={() => setShowTicket(false)}
-        updating={loading}
-      />
     </PageContainer>
   )
 }

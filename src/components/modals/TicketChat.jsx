@@ -1,20 +1,25 @@
 import {
   alpha,
+  Avatar,
   Button,
+  IconButton,
   Paper,
   Stack,
   Typography,
   useTheme,
 } from "@mui/material"
 import { useEffect, useState } from "react"
-import ModalContainer from "../containers/ModalContainer"
 import Field from "../ui/Field"
 import api from "../../config/axios"
 import { toast } from "react-toastify"
 import { useRef } from "react"
 import Loader from "../ui/Loader"
 import { formatDate } from "../../utilities/misc"
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded"
+import Section from "../ui/Section"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import CloseIcon from "@mui/icons-material/Close"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
 
 const TicketChat = ({
   ticket,
@@ -25,12 +30,11 @@ const TicketChat = ({
   updating,
   ...props
 }) => {
+  const theme = useTheme()
   const msgContainer = useRef(null)
-  const [loading, setLoading] = useState(false)
 
   const sendMessage = async (e) => {
     e.preventDefault()
-    setLoading(true)
 
     const data = {
       ticketId: ticket._id,
@@ -45,7 +49,6 @@ const TicketChat = ({
         refresh()
       })
       .catch((err) => toast.error(err.response.data.message))
-      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
@@ -54,32 +57,45 @@ const TicketChat = ({
     }
   }, [ticket, msgContainer])
 
+  const [fileUpload, setFileUpload] = useState(null)
+
   return (
-    <ModalContainer
-      {...props}
+    <Section
+      sx={{ mb: 3, bgcolor: "#fafafa" }}
       title={
         <Stack
           direction={"row"}
           alignItems="center"
           justifyContent="space-between"
+          sx={{ gap: 1 }}
         >
+          <IconButton onClick={props.onClose}>
+            <ArrowBackIcon />
+          </IconButton>
           {ticket.subject}{" "}
-          {ticket.status !== "close" && (
-            <Button
-              onClick={() => {
-                updateTicket(ticket, "close")
-                back()
-              }}
-              variant="contained"
-              color="success"
-              sx={{ color: "white" }}
-            >
-              {updating ? <Loader /> : "Close Ticket"}
-            </Button>
-          )}
         </Stack>
       }
-      hideActions
+      end={
+        ticket.status !== "close" && (
+          <Button
+            onClick={() => {
+              updateTicket(ticket, "close")
+              back()
+            }}
+            variant="contained"
+            color="success"
+            sx={{ color: "white", gap: 1 }}
+          >
+            {updating ? (
+              <Loader />
+            ) : (
+              <>
+                <CloseIcon sx={{ fontSize: 12 }} /> Close Ticket
+              </>
+            )}
+          </Button>
+        )
+      }
     >
       <Stack>
         <Stack
@@ -89,9 +105,11 @@ const TicketChat = ({
             scrollBehavior: "smooth",
             overflow: "auto",
             px: 2,
+            borderBottom: "1px solid #e0e0e0",
+            pb: 2,
           }}
           spacing={3}
-          mb={2}
+          mb={0.5}
         >
           {ticket?.messages?.map((msg, i) => (
             <Message
@@ -104,35 +122,97 @@ const TicketChat = ({
           ))}
         </Stack>
         <form onSubmit={sendMessage}>
-          <Stack direction="row" gap={2}>
+          {/* <Stack direction="row" gap={2}>
             <Field name="message" placeholder="Type your message..." />
             <Button type="submit" variant="contained">
               {loading ? <Loader /> : "Send"}
             </Button>
+          </Stack> */}
+          <Stack
+            direction={{
+              xs: "column",
+              sm: "row",
+            }}
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+            mt={2}
+          >
+            <Stack
+              direction={{ xs: "column", sm: "row", fontSize: 14 }}
+              alignItems="center"
+              sx={{ flex: "none" }}
+            >
+              <Button
+                type="button"
+                variant="outlined"
+                component="label"
+                sx={{
+                  mr: 2,
+                  px: 3,
+                  bgcolor: alpha(theme.palette.primary.main, 0.1),
+                }}
+              >
+                {fileUpload?.name || "Add Attachment (Upto 2MB)"}
+
+                <input
+                  accept=".png, .jpeg, .jpg, .pdf"
+                  type="file"
+                  id="img"
+                  hidden
+                  name="img"
+                  onChange={(e) => {
+                    setFileUpload(e.target.files[0])
+                  }}
+                />
+              </Button>
+
+              <span>
+                <span style={{ color: "silver" }}>Formats accepted</span> :
+                .png, .jpeg, .pdf
+              </span>
+            </Stack>
+
+            <Field name="message" placeholder="Send a message..." />
+            <IconButton type="submit">
+              <ArrowForwardIcon />
+            </IconButton>
           </Stack>
         </form>
       </Stack>
-    </ModalContainer>
+    </Section>
   )
 }
 
 const Message = ({ time, body, isMine }) => {
-  const theme = useTheme()
-  const msgBodyColorClass = isMine
-    ? "background.default"
-    : alpha(theme.palette.primary.main, 0.2)
+  const msgBodyColorClass = "#fff"
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} sx={{ pl: isMine ? 20 : 4, pr: isMine ? 0 : 20 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1}
+          sx={{ position: "relative" }}
+        >
           {isMine ? (
             <Typography variant="body2">You</Typography>
           ) : (
             <>
-              <Typography variant="body2" color="primary">
+              <Avatar
+                src="/assets/images/logo-small.svg"
+                sx={{
+                  width: 30,
+                  height: 30,
+                  position: "absolute",
+                  top: 2,
+                  left: "-2.3rem",
+                }}
+              />
+              <Typography variant="body2" color="primary" fontWeight={600}>
                 ShipDirect Admin{" "}
               </Typography>
-              <CheckCircleRoundedIcon color="primary" fontSize="small" />
+              <VerifiedRoundedIcon color="primary" fontSize="small" />
             </>
           )}
         </Stack>
