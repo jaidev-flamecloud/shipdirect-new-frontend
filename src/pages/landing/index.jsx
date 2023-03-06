@@ -907,7 +907,12 @@ const Landing = () => {
             </div>
           </div>
           {/*common heading @E */}
-          <FaqContent />
+          <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-8">
+              <FaqContent />
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-12">
               <div class="faq-more">

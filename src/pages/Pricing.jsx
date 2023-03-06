@@ -2,7 +2,6 @@ import {
   alpha,
   Button,
   Chip,
-  Divider,
   Grid,
   Stack,
   Typography,
@@ -30,6 +29,14 @@ const Pricing = () => {
   const [userData, setUserData] = useState({})
   const [showConfirm, setShowConfirm] = useState(false)
   const { refresh } = useUserContext()
+  const [premium, setPremium] = useState({})
+
+  const fetchPremiumDetails = async () => {
+    await api
+      .get("/admin-settings/premium")
+      .then((res) => setPremium(res.data.premium))
+      .catch((err) => console.log(err))
+  }
 
   const checkSubscription = async () => {
     await api
@@ -77,6 +84,7 @@ const Pricing = () => {
 
   useEffect(() => {
     checkSubscription()
+    fetchPremiumDetails()
   }, [])
 
   const theme = useTheme()
@@ -153,7 +161,10 @@ const Pricing = () => {
             <div>Subscribed to Premium</div>
           ) : (
             <div>
-              Upgrade to Premium : <span style={{ fontSize: 18 }}>$24.99</span>{" "}
+              Upgrade to Premium :{" "}
+              <span style={{ fontSize: 18 }}>
+                ${premium?.premiumPrice?.toFixed(2)}
+              </span>{" "}
               per month
             </div>
           )}

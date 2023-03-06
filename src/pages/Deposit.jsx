@@ -28,6 +28,7 @@ import { copyToClipboard, formatDate } from "../utilities/misc"
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
 import StatusComp from "../components/common/StatusComp"
 import env from "../config/env"
+import { v4 as uuidv4 } from "uuid"
 
 const gatewayMap = {
   Venmo: {
@@ -140,17 +141,15 @@ const Deposit = () => {
       .finally(() => setDepositsLoading(false))
   }
 
-  const createTicket = async (e) => {
-    e.preventDefault()
-
-    const data = {
-      order: e.target.order.value,
-      message: e.target.message.value,
-      subject: e.target.subject.value,
+  const createTicket = async (data) => {
+    const body = {
+      order: data.order_uuid,
+      message: `Paid $ ${data.amount} via ${manualMethod?.method}`,
+      subject: `$ ${data.amount} via ${manualMethod?.method}`,
     }
 
     await api
-      .post("/ticket/create", data)
+      .post("/ticket/create", body)
       .then(() => {
         toast.success("Ticket created successfully")
       })
@@ -161,9 +160,16 @@ const Deposit = () => {
     e.preventDefault()
     setLoading(true)
 
+    const orderID = uuidv4()
+
     const data = {
       amount: e.target.amount.value,
       type: selectedPayementMethod,
+      order_uuid: orderID,
+    }
+
+    if (data.type === "manual") {
+      createTicket(data)
     }
 
     await api
