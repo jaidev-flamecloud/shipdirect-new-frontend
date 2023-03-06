@@ -20,32 +20,24 @@ import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
 const contactLinks = [
   {
     icon: "Telegram",
-    link: "#",
+    name: "telegram",
   },
 
-  // {
-  //   icon: "Zalo",
-  //   link: "#",
-  // },
-  // {
-  //   icon: "Linkedin",
-  //   link: "#",
-  // },
   {
     icon: "Instagram",
-    link: "#",
+    name: "instagram",
   },
   {
     icon: "Discord",
-    link: "#",
+    name: "discord",
   },
   {
-    icon: "Instagram",
-    link: "#",
+    icon: "Twitter",
+    name: "twitter",
   },
   {
     icon: "Tik",
-    link: "#",
+    link: "tiktok",
   },
 ]
 
@@ -123,7 +115,16 @@ const navItems = [
   },
 ]
 
-const NavItem = ({ name, type, icon, link, active, toggle, miniDrawer }) => {
+const NavItem = ({
+  name,
+  type,
+  icon,
+  link,
+  active,
+  toggle,
+  miniDrawer,
+  contact,
+}) => {
   const theme = useTheme()
   return type ? (
     miniDrawer ? (
@@ -168,7 +169,7 @@ const NavItem = ({ name, type, icon, link, active, toggle, miniDrawer }) => {
   )
 }
 
-const DrawerContent = ({ toggle, miniDrawer }) => {
+const DrawerContent = ({ toggle, miniDrawer, contact }) => {
   const location = useLocation()
   const theme = useTheme()
   const { user } = useUserContext()
@@ -258,7 +259,7 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
           gap={1}
         >
           {contactLinks.map((c) => (
-            <a href={c.link} target="_blank" rel="noreferrer">
+            <a href={contact[c.name] || "#"} target="_blank" rel="noreferrer">
               <img
                 src={`/assets/images/${
                   c.icon + (theme.palette.mode === "dark" ? "1" : "")
@@ -273,7 +274,14 @@ const DrawerContent = ({ toggle, miniDrawer }) => {
   )
 }
 
-const SideBar = ({ drawerWidth, window, toggle, mobileOpen, miniDrawer }) => {
+const SideBar = ({
+  drawerWidth,
+  window,
+  toggle,
+  mobileOpen,
+  miniDrawer,
+  contact,
+}) => {
   const container =
     window !== undefined ? () => window().document.body : undefined
 
@@ -302,7 +310,7 @@ const SideBar = ({ drawerWidth, window, toggle, mobileOpen, miniDrawer }) => {
           },
         }}
       >
-        <DrawerContent toggle={toggle} />
+        <DrawerContent toggle={toggle} contact={contact} />
       </Drawer>
       <Drawer
         sx={{
@@ -318,7 +326,7 @@ const SideBar = ({ drawerWidth, window, toggle, mobileOpen, miniDrawer }) => {
         variant="permanent"
         open
       >
-        <DrawerContent miniDrawer={miniDrawer} />
+        <DrawerContent miniDrawer={miniDrawer} contact={contact} />
       </Drawer>
     </Box>
   )

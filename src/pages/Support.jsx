@@ -23,6 +23,7 @@ import { formatDate } from "../utilities/misc"
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded"
 
 const filters = [
   ["All", "All"],
@@ -278,7 +279,7 @@ const Support = () => {
                 color="primary"
                 title="View Details"
               >
-                <VisibilityRoundedIcon fontSize="small" />
+                <ReplyRoundedIcon fontSize="small" />
               </IconButton>
 
               {ticket.status === "open" ||

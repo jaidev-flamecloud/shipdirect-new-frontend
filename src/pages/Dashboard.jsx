@@ -10,7 +10,6 @@ import api from "../config/axios"
 import LoadingContainer from "../components/containers/LoadingContainer"
 import { useUserContext } from "../App"
 import { formatDate } from "../utilities/misc"
-import PushPinIcon from "@mui/icons-material/PushPin"
 import StatusComp from "../components/common/StatusComp"
 import Icon from "../components/common/Icon"
 
@@ -18,7 +17,6 @@ const Dashboard = () => {
   const { user } = useUserContext()
   const [stats, setStats] = useState({})
   const [statsLoading, setStatsLoading] = useState(false)
-  const [announcement, setAnnouncement] = useState("")
 
   const fetchStats = async () => {
     setStatsLoading(true)
@@ -29,38 +27,14 @@ const Dashboard = () => {
       .finally(() => setStatsLoading(false))
   }
 
-  // read announcement
-  const readAnnouncement = async () => {
-    await api("/announcement/read")
-      .then((rsp) => setAnnouncement(rsp.data))
-      .catch((err) => console.log(err))
-  }
-
   useEffect(() => {
     fetchStats()
-    readAnnouncement()
   }, [])
   return (
     <PageContainer
       title={"Hello " + user.username}
       desc="Manage all your orders, labels and transactions securely at one place"
     >
-      {announcement?.status && (
-        <Section
-          sx={{ mb: 3, bgcolor: "success.main", color: "#fff" }}
-          title={
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <PushPinIcon />
-              <Typography variant="h6" display={"inline"}>
-                {announcement?.title}
-              </Typography>
-            </Stack>
-          }
-        >
-          <Typography variant="body">{announcement?.announcement}</Typography>
-        </Section>
-      )}
-
       {
         <LoadingContainer loading={statsLoading}>
           <Grid container spacing={2} mb={2}>

@@ -1,8 +1,20 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link as Link2 } from "react-scroll"
 import { Link } from "react-router-dom"
+import api from "../../config/axios"
 
 const Footer = () => {
+  const [contact, setContact] = useState({})
+
+  const getContact = () => {
+    api.get("/admin-settings/contact").then((res) => {
+      setContact(res.data.contact)
+    })
+  }
+
+  useEffect(() => {
+    getContact()
+  }, [])
   return (
     <>
       <section class="get-start-section">
@@ -48,7 +60,7 @@ const Footer = () => {
 
                 <ul>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <img
                         src="./assets/images/ftr-icon-01.svg"
                         alt="Logo"
@@ -59,7 +71,7 @@ const Footer = () => {
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <img
                         src="./assets/images/ftr-icon-02.svg"
                         alt="Logo"
@@ -69,13 +81,13 @@ const Footer = () => {
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="/">
                       <img
                         src="./assets/images/ftr-icon-03.svg"
                         alt="Logo"
                         class="img-fluid"
                       />
-                      support@shipdirect.io
+                      {contact.email}
                     </a>
                   </li>
                 </ul>
@@ -138,7 +150,7 @@ const Footer = () => {
               </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 col-12">
-              <div class="join-bttn mt-4">
+              <a href={contact.discord} class="join-bttn mt-4">
                 <div class="media">
                   <img
                     src="./assets/images/discord-icon.svg"
@@ -150,7 +162,7 @@ const Footer = () => {
                     <p>Click here to join our discord community</p>
                   </div>
                 </div>
-              </div>
+              </a>
               <div class="join-bttn">
                 <div class="media" style={{ backgroundColor: "#0393FB" }}>
                   <img
@@ -175,7 +187,7 @@ const Footer = () => {
             <div class="col-lg-6">
               <div class="ftr-copy">
                 <p>
-                  Copyright &copy; 2023 <a href="#">ShipDirect</a>. All rights
+                  Copyright &copy; 2023 <a href="/">ShipDirect</a>. All rights
                   reserved
                 </p>
               </div>
@@ -187,17 +199,17 @@ const Footer = () => {
                     <span>Connect with us</span>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href={contact.telegram}>
                       <i class="fa fa-paper-plane"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href={contact.instagram}>
                       <i class="fa fa-instagram"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href={contact.discord}>
                       <img
                         src="./assets/images/discord-icon.svg"
                         alt=""
@@ -206,12 +218,12 @@ const Footer = () => {
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href={contact.twitter}>
                       <i class="fa fa-twitter"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href={contact.tiktok}>
                       <img
                         src="./assets/images/tiktok.svg"
                         alt=""

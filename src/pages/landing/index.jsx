@@ -1,11 +1,23 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { FaqContent } from "../Faqs"
 import Header from "../../components/landing/Header"
 import Footer from "../../components/landing/Footer"
+import api from "../../config/axios"
 
 const Landing = () => {
   const [step, setStep] = useState(1)
+  const [banner, setBanner] = useState(null)
+
+  const getBanner = () => {
+    api.get("/admin-settings/globalBanner").then((res) => {
+      setBanner(res.data.globalBanner)
+    })
+  }
+
+  useEffect(() => {
+    getBanner()
+  }, [])
   return (
     <div>
       {/* header section @S  */}
@@ -13,28 +25,26 @@ const Landing = () => {
       {/*header section @E */}
 
       {/*notify section @S */}
-      {/* <div class="notify-section">
-        <p>
-          <img
-            src="./assets/images/notify-icon.svg"
-            alt="Notify_icon"
-            class="img-fluid"
-          />{" "}
-          Announcement : Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit. In scelerisque, diam id placerat condimentum, lorem sapien
-          finibus est, non fringilla ante ex sed enim.{" "}
-          <a
-            href="#"
-            onclick="this.parentElement.parentElement.style.display = 'none';"
-          >
+      {banner?.isEnabled && (
+        <div class="notify-section">
+          <p>
             <img
-              src="./assets/images/close-icon.svg"
-              alt="close_icon"
+              src="./assets/images/notify-icon.svg"
+              alt="Notify_icon"
               class="img-fluid"
-            />
-          </a>
-        </p>
-      </div> */}
+            />{" "}
+            {banner.title} : {banner.body}.{" "}
+            {/* <button onClick="this.parentElement.parentElement.style.display = 'none';">
+              <img
+                src="./assets/images/close-icon.svg"
+                alt="close_icon"
+                class="img-fluid"
+              />
+            </button> */}
+          </p>
+        </div>
+      )}
+
       {/*notify section @E */}
 
       {/*hero section @S */}

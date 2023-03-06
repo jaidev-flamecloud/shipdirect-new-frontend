@@ -29,6 +29,7 @@ import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
 import StatusComp from "../components/common/StatusComp"
 import env from "../config/env"
 import { v4 as uuidv4 } from "uuid"
+import TicketModal from "../components/modals/TicketModal"
 
 const gatewayMap = {
   Venmo: {
@@ -53,6 +54,8 @@ const paymentMethods = [
 const presetAmounts = [5, 25, 50, 100, 150, 250, 500, 1000]
 
 const Deposit = () => {
+  const [ticket, setTicket] = useState({})
+  const [showTicket, setShowTicket] = useState(false)
   const { user } = useUserContext()
   const [deposits, setDeposits] = useState([])
   const [page, setPage] = useState(1)
@@ -150,14 +153,28 @@ const Deposit = () => {
 
     await api
       .post("/ticket/create", body)
-      .then(() => {
+      .then((res) => {
         toast.success("Ticket created successfully")
+        setTicket(res.data.ticket)
+        setShowTicket(true)
       })
       .catch((err) => toast.error(err.response.data.message))
   }
 
   const AddBalance = async (e) => {
     e.preventDefault()
+    if (
+      parseFloat(e.target.amount.value) < paySettings?.minimum ||
+      parseFloat(e.target.amount.value) > paySettings?.maximum
+    ) {
+      toast.error(
+        "Deposit amount should be between $" +
+          paySettings?.minimum?.toFixed(2) +
+          " and $" +
+          paySettings?.maximum?.toFixed(2)
+      )
+      return
+    }
     setLoading(true)
 
     const orderID = uuidv4()
@@ -179,9 +196,6 @@ const Deposit = () => {
         getDeposits()
         if (data.type === "stripe") {
           window.location.href = res.data.session.url
-        } else {
-          setInvoice(res.data.data.invoice)
-          setShowGateway(true)
         }
       })
       .catch((err) => {
@@ -329,11 +343,17 @@ const Deposit = () => {
                     <Grid item xs={12} sm={4}>
                       <Field
                         label="Amount to add"
-                        placeholder="0.00"
                         type="number"
                         name="amount"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
+                        helperText={
+                          paySettings?.maximum
+                            ? `min: $${paySettings?.minimum?.toFixed(
+                                2
+                              )}, max: $${paySettings?.maximum?.toFixed(2)}`
+                            : ""
+                        }
                         required
                       />
                     </Grid>
@@ -618,6 +638,12 @@ const Deposit = () => {
           </CustomTable>
         </>
       )}
+      <TicketModal
+        open={showTicket}
+        onClose={() => setShowTicket(false)}
+        ticket={ticket}
+        setTicket={setTicket}
+      />
     </PageContainer>
   )
 }

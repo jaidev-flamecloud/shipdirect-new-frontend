@@ -28,6 +28,7 @@ const TicketChat = ({
   refresh,
   updateTicket,
   updating,
+  manualPayment,
   ...props
 }) => {
   const theme = useTheme()
@@ -69,9 +70,11 @@ const TicketChat = ({
           justifyContent="space-between"
           sx={{ gap: 1 }}
         >
-          <IconButton onClick={props.onClose}>
-            <ArrowBackIcon />
-          </IconButton>
+          {!manualPayment && (
+            <IconButton onClick={props.onClose}>
+              <ArrowBackIcon />
+            </IconButton>
+          )}
           {ticket.subject}{" "}
         </Stack>
       }
@@ -131,7 +134,7 @@ const TicketChat = ({
           <Stack
             direction={{
               xs: "column",
-              sm: "row",
+              sm: manualPayment ? "column" : "row",
             }}
             justifyContent="space-between"
             alignItems="center"
@@ -172,11 +175,12 @@ const TicketChat = ({
                 .png, .jpeg, .pdf
               </span>
             </Stack>
-
-            <Field name="message" placeholder="Send a message..." />
-            <IconButton type="submit">
-              <ArrowForwardIcon />
-            </IconButton>
+            <Stack direction="row" sx={{ width: "100%" }}>
+              <Field name="message" placeholder="Send a message..." />
+              <IconButton type="submit">
+                <ArrowForwardIcon />
+              </IconButton>
+            </Stack>
           </Stack>
         </form>
       </Stack>
