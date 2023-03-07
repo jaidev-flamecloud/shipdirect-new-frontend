@@ -1,8 +1,22 @@
-import { Divider, Stack, TableCell, TableRow, Typography } from "@mui/material"
-import React from "react"
+import {
+  Button,
+  Divider,
+  Grid,
+  Stack,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material"
+import axios from "axios"
+import React, { useEffect, useState } from "react"
 import PageContainer from "../components/containers/PageContainer"
 import CustomTable from "../components/ui/CustomTable"
+import Loader from "../components/ui/Loader"
 import Section from "../components/ui/Section"
+import api from "../config/axios"
+import env from "../config/env"
+import NorthEastIcon from "@mui/icons-material/NorthEast"
+import { copyToClipboard } from "../utilities/misc"
 
 const labelStatusData = [
   {
@@ -32,17 +46,105 @@ const labelStatusData = [
 ]
 
 const API = () => {
+  const [apiKey, setApiKey] = useState(localStorage.getItem("api-key"))
+  const [rLoading, setRLoading] = useState(false)
+  const [types, setTypes] = useState([])
+
+  const renewKey = async () => {
+    setRLoading(true)
+    await api
+      .get("/auth/renew")
+      .then((res) => {
+        localStorage.setItem("api-key", res.data.apiKey)
+        setApiKey(res.data.apiKey)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      .finally(() => setRLoading(false))
+  }
+
+  const readLabelTypes = async () => {
+    await axios
+      .get(env.BASE_API_URL + "/api/v2/order/readLabels", {
+        headers: {
+          "x-api-key": apiKey,
+        },
+      })
+      .then((res) => {
+        setTypes(res.data.labels)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    readLabelTypes()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <PageContainer title="API" desc="Information about ShipDirect Public API">
       <Stack spacing={2}>
         <ApiSection title="Authorization">
-          <CustomTable fields={["Key", "Value", "Add to"]} w="20rem">
+          <CustomTable fields={["Key", "Value", "Add to"]} w="30rem">
             <TableRow>
               <TableCell>x-api-key</TableCell>
-              <TableCell sx={{ color: "primary.main" }}>x-api-key</TableCell>
+              <TableCell sx={{ color: "primary.main" }}>
+                <Button onClick={() => copyToClipboard(apiKey)}>
+                  {apiKey} <NorthEastIcon sx={{ fontSize: 12 }} />{" "}
+                </Button>
+              </TableCell>
               <TableCell>Header</TableCell>
             </TableRow>
           </CustomTable>
+          <div>
+            <Button onClick={renewKey} variant="outlined">
+              {rLoading ? <Loader /> : "Renew"}
+            </Button>
+          </div>
+        </ApiSection>
+        <ApiSection title="Label types">
+          <Grid container spacing={2}>
+            {types?.map((type) => (
+              <Grid item xs={6} lg={4}>
+                <Section title={type?.name} sx={{ height: "100%" }}>
+                  <Stack gap={1}>
+                    <div>
+                      <span className="text-muted">ID: </span>
+                      <span> {type?.id}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted">Max Weight: </span>
+                      <span>
+                        {type?.maxWeight}{" "}
+                        {type?.name?.includes("First Class") ? "Oz" : "lbs"}
+                      </span>
+                    </div>
+                    <span className="text-muted">Prices: </span>
+                  </Stack>
+
+                  <div className="px-3 d-flex flex-column gap-1 mt-1">
+                    {type?.normalPrices?.map((price) => (
+                      <Stack
+                        direction="horizontal"
+                        className="justify-content-between"
+                      >
+                        <span>
+                          {" "}
+                          {price.fromWeight} - {price.toWeight}{" "}
+                          {type?.name?.includes("First-Class") ? "Oz" : "lbs"}
+                        </span>
+                        <span className="fw-bold">
+                          ${price.price.toFixed(2)}
+                        </span>
+                      </Stack>
+                    ))}
+                  </div>
+                </Section>
+              </Grid>
+            ))}
+          </Grid>
         </ApiSection>
         <ApiSection title="Label Status">
           <CustomTable fields={["Code", "Status"]} w="13rem">
@@ -219,7 +321,7 @@ const API = () => {
             </CodeBlock>
           </SubSection>
         </ApiSection>
-        <ApiSection title="Multi Order">
+        {/* <ApiSection title="Multi Order">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: POST
@@ -282,8 +384,8 @@ const API = () => {
 }`}
             </CodeBlock>
           </SubSection>
-        </ApiSection>
-        <ApiSection title="CSV Order">
+        </ApiSection> */}
+        {/* <ApiSection title="CSV Order">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: POST
@@ -339,7 +441,7 @@ const API = () => {
 }`}
             </CodeBlock>
           </SubSection>
-        </ApiSection>
+        </ApiSection> */}
         <ApiSection title="Order Info">
           <SubSection title="Request">
             <CodeBlock>
@@ -421,7 +523,7 @@ const API = () => {
             </CodeBlock>
           </SubSection>
         </ApiSection>
-        <ApiSection title="Cancel Order">
+        {/* <ApiSection title="Cancel Order">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: GET
@@ -447,8 +549,8 @@ const API = () => {
 }`}
             </CodeBlock>
           </SubSection>
-        </ApiSection>
-        <ApiSection title="Delete Order">
+        </ApiSection> */}
+        {/* <ApiSection title="Delete Order">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: GET
@@ -474,8 +576,8 @@ const API = () => {
 }`}
             </CodeBlock>
           </SubSection>
-        </ApiSection>
-        <ApiSection title="Duplicate Order">
+        </ApiSection> */}
+        {/* <ApiSection title="Duplicate Order">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: GET
@@ -503,8 +605,8 @@ const API = () => {
 }`}
             </CodeBlock>
           </SubSection>
-        </ApiSection>
-        <ApiSection title="Open Order File">
+        </ApiSection> */}
+        <ApiSection title="Download Order File">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: GET
@@ -525,7 +627,7 @@ const API = () => {
             </CodeBlock>
           </SubSection>
         </ApiSection>
-        <ApiSection title="Bulk Download">
+        {/* <ApiSection title="Bulk Download">
           <SubSection title="Request">
             <CodeBlock>
               {` Method: POST
@@ -541,7 +643,7 @@ const API = () => {
           <SubSection title="Success Response 200">
             <CodeBlock>{`The raw PDF file is returned`}</CodeBlock>
           </SubSection>
-        </ApiSection>
+        </ApiSection> */}
       </Stack>
     </PageContainer>
   )
@@ -553,7 +655,7 @@ const ApiSection = ({ title, children }) => (
       {title}
     </Typography>
     {children}
-    <Divider />
+    <Divider sx={{ bgcolor: "rgba(0,0,0,0.2)" }} />
   </Stack>
 )
 

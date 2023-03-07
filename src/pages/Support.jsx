@@ -20,10 +20,10 @@ import Loader from "../components/ui/Loader"
 import StatusComp from "../components/common/StatusComp"
 import TicketChat from "../components/modals/TicketChat"
 import { formatDate } from "../utilities/misc"
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded"
+import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined"
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 
 const filters = [
   ["All", "All"],
@@ -276,10 +276,9 @@ const Support = () => {
                   setShowTicket(true)
                   window.scrollTo(0, 0)
                 }}
-                color="primary"
                 title="View Details"
               >
-                <ReplyRoundedIcon fontSize="small" />
+                <VisibilityOutlinedIcon fontSize="small" />
               </IconButton>
 
               {ticket.status === "open" ||
@@ -288,7 +287,6 @@ const Support = () => {
                   onClick={() => {
                     updateTicket(ticket, "close")
                   }}
-                  color="success"
                   title="View Details"
                 >
                   <CheckRoundedIcon fontSize="small" />

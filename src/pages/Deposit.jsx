@@ -478,7 +478,7 @@ const Deposit = () => {
                             Pay using cryptocurrency
                           </FormLabel>
                           <LoadingContainer loading={coinLoader}>
-                            <Grid container spacing={1} sx={{ mt: 2 }}>
+                            <Grid container spacing={1}>
                               {cryptoCoin?.map((coin) => (
                                 <Grid item xs={6} sm={1.5}>
                                   <OptionCard

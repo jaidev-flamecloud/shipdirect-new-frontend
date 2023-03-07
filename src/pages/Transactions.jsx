@@ -14,6 +14,8 @@ import api from "../config/axios"
 import { formatDate } from "../utilities/misc"
 import dayjs from "dayjs"
 import DateFilter from "../components/common/DateFilter"
+import { toast } from "react-toastify"
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined"
 
 const filters = [
   ["All", "All"],
@@ -87,12 +89,35 @@ const Transactions = () => {
     key: "selection",
   })
 
+  const exportLogs = async (e) => {
+    await api
+      .get("/log/export")
+      .then((response) => {
+        //  download zip file
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute("download", "Transaction_Log.csv") //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message)
+      })
+  }
+
   return (
     <PageContainer
       title="Transaction Log"
       desc="A detailed view of all transactions on your account"
       end={
-        <Button variant="contained" color="success" sx={{ color: "#fff" }}>
+        <Button
+          onClick={exportLogs}
+          variant="contained"
+          color="success"
+          sx={{ color: "#fff" }}
+        >
+          <FileDownloadOutlinedIcon />
           Export Data
         </Button>
       }

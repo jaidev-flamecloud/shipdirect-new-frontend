@@ -2,8 +2,8 @@ import { Button, IconButton, TableCell, TableRow } from "@mui/material"
 import { useEffect, useState } from "react"
 import PageContainer from "../components/containers/PageContainer"
 import CustomTable from "../components/ui/CustomTable"
-import EditRoundedIcon from "@mui/icons-material/EditRounded"
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded"
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined"
 import AddAddress from "../components/modals/AddAddress"
 import api from "../config/axios"
 import { toast } from "react-toastify"
@@ -74,7 +74,7 @@ const AddressBook = () => {
           }}
           variant="contained"
         >
-          Add New Address
+          + Add New Address
         </Button>
       }
     >
@@ -113,18 +113,16 @@ const AddressBook = () => {
                   setAddModal(true)
                   setEdit(true)
                 }}
-                color="primary"
               >
-                <EditRoundedIcon fontSize="small" />
+                <EditOutlinedIcon fontSize="small" />
               </IconButton>
               <IconButton
                 onClick={() => {
                   setAddress(address)
                   setDeleteModal(true)
                 }}
-                color="error"
               >
-                <DeleteRoundedIcon fontSize="small" />
+                <DeleteOutlinedIcon fontSize="small" />
               </IconButton>
             </TableCell>
           </TableRow>

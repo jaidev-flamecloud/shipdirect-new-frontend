@@ -606,165 +606,165 @@ const AddLabel = () => {
         />
       }
     >
-      <LoadScript
+      {/* <LoadScript
         googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
         libraries={["places"]}
-      >
-        <form onSubmit={createOrder}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={7}>
-              <Section sx={{ mb: 2 }}>
-                <FormControl>
-                  <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 2 }}>
-                    Select Courier
+      > */}
+      <form onSubmit={createOrder}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={7}>
+            <Section sx={{ mb: 2 }}>
+              <FormControl>
+                <FormLabel sx={{ fontWeight: 600, color: "#000", mb: 2 }}>
+                  Select Courier
+                </FormLabel>
+                <Grid container gap={2} mb={2}>
+                  {pricingItems.map((p) => (
+                    <OptionCard
+                      imgSrc={
+                        "/assets/images/" +
+                        p.icon +
+                        (theme.palette.mode === "dark" ? "2" : "") +
+                        ".svg"
+                      }
+                      name={p.name}
+                      active={selectedCourier === p.name}
+                      activate={() => setSelectedCourier(p.name)}
+                    />
+                  ))}
+                </Grid>
+              </FormControl>
+            </Section>
+            <AddressForm
+              sender
+              address={address}
+              addresses={addresses}
+              setAddress={setAddress}
+              data={From}
+              setData={setFrom}
+              activeType={activeType}
+              cityStateLookup={cityStateLookup}
+              saveAddressCheck={saveFromAddress}
+              setSaveAddressCheck={setSaveFromAddress}
+              openAddModal={openAddModal}
+            />
+            <AddressForm
+              address={address1}
+              addresses={addresses}
+              setAddress={setAddress1}
+              data={To}
+              setData={setTo}
+              activeType={activeType}
+              cityStateLookup={cityStateLookup}
+              saveAddressCheck={saveToAddress}
+              setSaveAddressCheck={setSaveToAddress}
+              openAddModal={openAddModal}
+            />
+          </Grid>
+          <Grid item xs={12} sm={5}>
+            <Section title="Label details" sx={{ mb: 2 }}>
+              <CustomSelect
+                sx={{ mb: 2 }}
+                label="Choose carrier"
+                name="type"
+                onChange={(e) => {
+                  setType_id(e.target.value)
+                  setActiveType(
+                    types.find((type) => {
+                      return type._id === e.target.value
+                    })
+                  )
+                }}
+                options={types
+                  .filter((type) =>
+                    type.name.toLowerCase().includes(selectedCourier)
+                  )
+                  .map((type) => ({
+                    label: type.name,
+                    value: type._id,
+                  }))}
+              />
+              <Field
+                sx={{ mb: 2 }}
+                label="Weight*"
+                name="Weight"
+                placeholder={`Package Weight${
+                  activeType?.maxWeight
+                    ? " (" +
+                      activeType?.maxWeight +
+                      (activeType?.uid?.includes("firstclass")
+                        ? " Oz"
+                        : " Lbs") +
+                      " Max)"
+                    : ""
+                }*`}
+                type="number"
+                min={0}
+                max={activeType?.maxWeight || ""}
+                onChange={(e) => setWeight(e.target.value)}
+              />
+              <Field
+                name="identifier"
+                label="Identifier"
+                placeholder="Enter an indentifier for the label"
+              />
+            </Section>
+            <Section title="Package Details" sx={{ mb: 2 }}>
+              <Stack spacing={2}>
+                <FormControl fullWidth>
+                  <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
+                    Dimensions*
                   </FormLabel>
-                  <Grid container gap={2} mb={2}>
-                    {pricingItems.map((p) => (
-                      <OptionCard
-                        imgSrc={
-                          "/assets/images/" +
-                          p.icon +
-                          (theme.palette.mode === "dark" ? "2" : "") +
-                          ".svg"
-                        }
-                        name={p.name}
-                        active={selectedCourier === p.name}
-                        activate={() => setSelectedCourier(p.name)}
-                      />
-                    ))}
-                  </Grid>
+                  <Stack direction="row" spacing={2}>
+                    <Field placeholder="L" type="number" name="length" />
+                    <Field placeholder="W" type="number" name="width" />
+                    <Field placeholder="H" type="number" name="height" />
+                  </Stack>
                 </FormControl>
-              </Section>
-              <AddressForm
-                sender
-                address={address}
-                addresses={addresses}
-                setAddress={setAddress}
-                data={From}
-                setData={setFrom}
-                activeType={activeType}
-                cityStateLookup={cityStateLookup}
-                saveAddressCheck={saveFromAddress}
-                setSaveAddressCheck={setSaveFromAddress}
-                openAddModal={openAddModal}
-              />
-              <AddressForm
-                address={address1}
-                addresses={addresses}
-                setAddress={setAddress1}
-                data={To}
-                setData={setTo}
-                activeType={activeType}
-                cityStateLookup={cityStateLookup}
-                saveAddressCheck={saveToAddress}
-                setSaveAddressCheck={setSaveToAddress}
-                openAddModal={openAddModal}
-              />
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <Section title="Label details" sx={{ mb: 2 }}>
-                <CustomSelect
-                  sx={{ mb: 2 }}
-                  label="Choose carrier"
-                  name="type"
-                  onChange={(e) => {
-                    setType_id(e.target.value)
-                    setActiveType(
-                      types.find((type) => {
-                        return type._id === e.target.value
-                      })
-                    )
-                  }}
-                  options={types
-                    .filter((type) =>
-                      type.name.toLowerCase().includes(selectedCourier)
-                    )
-                    .map((type) => ({
-                      label: type.name,
-                      value: type._id,
-                    }))}
-                />
-                <Field
-                  sx={{ mb: 2 }}
-                  label="Weight*"
-                  name="Weight"
-                  placeholder={`Package Weight${
-                    activeType?.maxWeight
-                      ? " (" +
-                        activeType?.maxWeight +
-                        (activeType?.uid?.includes("firstclass")
-                          ? " Oz"
-                          : " Lbs") +
-                        " Max)"
-                      : ""
-                  }*`}
-                  type="number"
-                  min={0}
-                  max={activeType?.maxWeight || ""}
-                  onChange={(e) => setWeight(e.target.value)}
-                />
-                <Field
-                  name="identifier"
-                  label="Identifier"
-                  placeholder="Enter an indentifier for the label"
-                />
-              </Section>
-              <Section title="Package Details" sx={{ mb: 2 }}>
-                <Stack spacing={2}>
-                  <FormControl fullWidth>
-                    <FormLabel sx={{ fontWeight: 500, mb: 0.6 }}>
-                      Dimensions*
-                    </FormLabel>
-                    <Stack direction="row" spacing={2}>
-                      <Field placeholder="L" type="number" name="length" />
-                      <Field placeholder="W" type="number" name="width" />
-                      <Field placeholder="H" type="number" name="height" />
-                    </Stack>
-                  </FormControl>
 
-                  <Field
-                    label="Description (Optional)"
-                    placeholder="Enter description"
-                    name="description"
-                    required
-                    multiline
-                    rows={4}
-                  />
-                </Stack>
-              </Section>
+                <Field
+                  label="Description (Optional)"
+                  placeholder="Enter description"
+                  name="description"
+                  required
+                  multiline
+                  rows={4}
+                />
+              </Stack>
+            </Section>
 
-              <Stack
-                justifyContent="space-between"
-                alignItems={"center"}
-                spacing={2}
-              >
-                {/* <PriceButton
+            <Stack
+              justifyContent="space-between"
+              alignItems={"center"}
+              spacing={2}
+            >
+              {/* <PriceButton
                   finalPrice={finalPrice}
                   originalPrice={originalPrice}
                   activeType={activeType}
                 />{" "} */}
-                <Button
-                  fullWidth
-                  disabled={!finalPrice || isDisabled}
-                  type="submit"
-                  variant="contained"
-                  sx={{ px: 5 }}
-                  size="large"
-                >
-                  {isDisabled ? (
-                    <Loader />
-                  ) : (
-                    "Create Label | $" + finalPrice.toFixed(2)
-                  )}
-                </Button>
-                <Typography variant="body2" color="text.secondary">
-                  Your purchase would be deducted from your Balance.
-                </Typography>
-              </Stack>
-            </Grid>
+              <Button
+                fullWidth
+                disabled={!finalPrice || isDisabled}
+                type="submit"
+                variant="contained"
+                sx={{ px: 5 }}
+                size="large"
+              >
+                {isDisabled ? (
+                  <Loader />
+                ) : (
+                  "Create Label | $" + finalPrice.toFixed(2)
+                )}
+              </Button>
+              <Typography variant="body2" color="text.secondary">
+                Your purchase would be deducted from your Balance.
+              </Typography>
+            </Stack>
           </Grid>
-        </form>
-      </LoadScript>
+        </Grid>
+      </form>
+      {/* </LoadScript> */}
       <AddAddress
         open={addModal}
         onClose={() => setAddModal(false)}

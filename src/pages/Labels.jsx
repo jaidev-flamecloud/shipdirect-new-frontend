@@ -15,10 +15,10 @@ import PageContainer from "../components/containers/PageContainer"
 import CustomSelect from "../components/ui/CustomSelect"
 import CustomTable from "../components/ui/CustomTable"
 import Field from "../components/ui/Field"
-import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded"
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded"
-import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
-import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded"
+import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined"
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined"
+import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined"
 import api from "../config/axios"
 import env from "../config/env"
 import { toast } from "react-toastify"
@@ -408,8 +408,8 @@ const Labels = () => {
             <TableCell>
               <Stack direction="row">
                 <Link to={"/labels/" + order._id}>
-                  <IconButton color="primary" title="View Details">
-                    <VisibilityRoundedIcon fontSize="small" />
+                  <IconButton title="View Details">
+                    <VisibilityOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Link>
                 {order.status === "completed" && (
@@ -417,9 +417,8 @@ const Labels = () => {
                     <IconButton
                       title="Download"
                       onClick={() => downloadPdf(order._id)}
-                      color="warning"
                     >
-                      <DownloadRoundedIcon fontSize="small" />
+                      <DownloadOutlinedIcon fontSize="small" />
                     </IconButton>
                     <IconButton
                       title="Duplicate"
@@ -427,9 +426,8 @@ const Labels = () => {
                         setOrder(order)
                         setDuplicateConfirmShow(true)
                       }}
-                      color="success"
                     >
-                      <ContentCopyRoundedIcon fontSize="small" />
+                      <ContentCopyOutlinedIcon fontSize="small" />
                     </IconButton>
                     <IconButton
                       title="Request refund"
@@ -437,9 +435,8 @@ const Labels = () => {
                         setOrder(order)
                         setRequestRefundShow(true)
                       }}
-                      color="error"
                     >
-                      <ReplyRoundedIcon fontSize="small" />
+                      <ReplyOutlinedIcon fontSize="small" />
                     </IconButton>
                   </>
                 )}
