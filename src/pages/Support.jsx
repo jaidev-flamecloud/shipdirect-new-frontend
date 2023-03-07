@@ -22,7 +22,6 @@ import TicketChat from "../components/modals/TicketChat"
 import { formatDate } from "../utilities/misc"
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
 
 const filters = [
@@ -85,16 +84,18 @@ const Support = () => {
     e.preventDefault()
     setLoading(true)
 
-    const data = {
-      order: e.target.order.value,
-      message: e.target.message.value,
-      subject: e.target.subject.value,
-    }
+    const params = new FormData()
+    params.append("order", e.target.order.value)
+    params.append("message", e.target.message.value)
+    params.append("subject", e.target.subject.value)
+    params.append("attachment", fileUpload)
 
     await api
-      .post("/ticket/create", data)
+      .post("/ticket/create", params)
       .then(() => {
         toast.success("Ticket created successfully")
+        setFileUpload(null)
+        e.target.reset()
         getTickets()
       })
       .catch((err) => toast.error(err.response.data.message))

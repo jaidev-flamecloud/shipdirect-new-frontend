@@ -20,6 +20,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import CloseIcon from "@mui/icons-material/Close"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded"
+import env from "../../config/env"
 
 const TicketChat = ({
   ticket,
@@ -36,17 +37,18 @@ const TicketChat = ({
 
   const sendMessage = async (e) => {
     e.preventDefault()
-
-    const data = {
-      ticketId: ticket._id,
-      message: e.target.message.value,
-    }
+    const params = new FormData()
+    params.append("ticketId", ticket._id)
+    params.append("message", e.target.message.value)
+    params.append("attachment", fileUpload)
 
     await api
-      .put("/ticket/message", data)
+      .put("/ticket/message", params)
       .then((res) => {
         toast.success("Message sent successfully")
+        setFileUpload(null)
         setTicket(res.data.ticket)
+        e.target.reset()
         refresh()
       })
       .catch((err) => toast.error(err.response.data.message))
@@ -54,7 +56,9 @@ const TicketChat = ({
 
   useEffect(() => {
     if (msgContainer?.current) {
-      msgContainer.current.scrollTop = msgContainer.current.scrollHeight
+      setTimeout(() => {
+        msgContainer.current.scrollTop = msgContainer.current.scrollHeight
+      }, 1000)
     }
   }, [ticket, msgContainer])
 
@@ -120,6 +124,7 @@ const TicketChat = ({
               sender={msg.username}
               time={formatDate(msg.timestamp)}
               body={msg.message}
+              image={msg.attachment}
               isMine={msg.username !== "admin"}
             />
           ))}
@@ -188,10 +193,14 @@ const TicketChat = ({
   )
 }
 
-const Message = ({ time, body, isMine }) => {
+const Message = ({ time, body, image, isMine }) => {
   const msgBodyColorClass = "#fff"
   return (
-    <Stack spacing={1} sx={{ pl: isMine ? 20 : 4, pr: isMine ? 0 : 20 }}>
+    <Stack
+      spacing={1}
+      sx={{ pl: isMine ? 20 : 4, pr: isMine ? 0 : 20 }}
+      alignItems="flex-end"
+    >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack
           direction="row"
@@ -224,9 +233,25 @@ const Message = ({ time, body, isMine }) => {
           {time}
         </Typography>
       </Stack>
-      <Paper elevation={0} sx={{ px: 2, py: 1, bgcolor: msgBodyColorClass }}>
-        {body}
-      </Paper>
+
+      {!!image && (
+        <a
+          style={{ width: "50%", height: "auto" }}
+          href={env.BASE_API_URL + "/" + image}
+          download
+        >
+          <img
+            style={{ width: "100%", height: "auto" }}
+            src={env.BASE_API_URL + "/" + image}
+            alt="img"
+          />
+        </a>
+      )}
+      {body && (
+        <Paper elevation={0} sx={{ px: 2, py: 1, bgcolor: msgBodyColorClass }}>
+          {body}
+        </Paper>
+      )}
     </Stack>
   )
 }

@@ -243,14 +243,6 @@ const Deposit = () => {
           setMinAmount(res.data.min)
           setCryptoQr(res.data.qrcode)
           setCryptoLoader(false)
-          const bootstrap = window.bootstrap
-          var myModal = new bootstrap.Modal(
-            document.getElementById("CryptCoin"),
-            {
-              keyboard: false,
-            }
-          )
-          myModal.show()
         })
         .catch((err) => {
           console.log(err)

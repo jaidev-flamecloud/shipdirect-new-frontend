@@ -112,19 +112,22 @@ const API = () => {
                   <Stack gap={1}>
                     <div>
                       <span className="text-muted">ID: </span>
-                      <span> {type?.id}</span>
+                      <Button onClick={() => copyToClipboard(type?.uuid)}>
+                        {" "}
+                        {type?.uuid}
+                      </Button>
                     </div>
                     <div>
                       <span className="text-muted">Max Weight: </span>
                       <span>
                         {type?.maxWeight}{" "}
-                        {type?.name?.includes("First Class") ? "Oz" : "lbs"}
+                        {type?.name?.includes("First-Class") ? "Oz" : "lbs"}
                       </span>
                     </div>
-                    <span className="text-muted">Prices: </span>
+                    {/* <span className="text-muted">Prices: </span> */}
                   </Stack>
 
-                  <div className="px-3 d-flex flex-column gap-1 mt-1">
+                  {/* <div className="px-3 d-flex flex-column gap-1 mt-1">
                     {type?.normalPrices?.map((price) => (
                       <Stack
                         direction="horizontal"
@@ -140,7 +143,7 @@ const API = () => {
                         </span>
                       </Stack>
                     ))}
-                  </div>
+                  </div> */}
                 </Section>
               </Grid>
             ))}
