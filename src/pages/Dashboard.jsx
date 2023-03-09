@@ -32,7 +32,7 @@ const Dashboard = () => {
   }, [])
   return (
     <PageContainer
-      title={"Hello " + user.username + "!!"}
+      title={"Hello " + user.username + "!!!"}
       desc="Manage all your orders, labels and transactions securely at one place"
     >
       {
