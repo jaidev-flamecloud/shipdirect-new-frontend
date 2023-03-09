@@ -1,6 +1,5 @@
-import { Grid, Stack, TableCell, TableRow, Typography } from "@mui/material"
+import { Grid, TableCell, TableRow, Typography } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import Section from "../components/ui/Section"
 import PageContainer from "../components/containers/PageContainer"
 import { Link } from "react-router-dom"
 import routes from "../config/routes"

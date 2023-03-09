@@ -1,9 +1,7 @@
 import {
   Button,
-  Checkbox,
   Chip,
   FormControl,
-  FormControlLabel,
   FormLabel,
   Grid,
   IconButton,
@@ -14,7 +12,6 @@ import {
 import PageContainer from "../components/containers/PageContainer"
 import Field from "../components/ui/Field"
 import Section from "../components/ui/Section"
-import AttachMoneyRoundedIcon from "@mui/icons-material/AttachMoneyRounded"
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded"
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded"
 import CustomSelect from "../components/ui/CustomSelect"
@@ -40,30 +37,34 @@ const pricingItems = [
 const PriceButton = ({ finalPrice, originalPrice, activeType }) => (
   <Button variant="contained">
     <Stack direction="row" spacing={1} alignItems="center">
-      <AttachMoneyRoundedIcon />
-      <span>Price:</span>
-      {!!finalPrice && (
-        <s
-          style={{
-            fontSize: 10,
-            opacity: 0.5,
-          }}
-        >
-          $ {originalPrice || 0}
-        </s>
+      {/* <AttachMoneyRoundedIcon /> */}
+      <Typography>Price:</Typography>
+      {activeType?.discount === 0 ? (
+        ""
+      ) : (
+        <>
+          {!!finalPrice && (
+            <s
+              style={{
+                fontSize: 10,
+                opacity: 0.5,
+              }}
+            >
+              $ {originalPrice?.toFixed(2) || 0}
+            </s>
+          )}
+          {activeType?.discount && finalPrice && (
+            <Chip
+              label={`-${activeType?.discount}%`}
+              color="success"
+              size="small"
+              sx={{ color: "#fff" }}
+            />
+          )}{" "}
+        </>
       )}
-      {activeType?.discount && finalPrice && (
-        <Chip
-          label={`-${activeType?.discount}%`}
-          color="success"
-          size="small"
-          sx={{ color: "#fff" }}
-        />
-      )}{" "}
-      <span style={{ fontSize: 18 }}>
-        {" "}
-        {activeType?.discount > 0 ? `$${finalPrice}` : "NA"}
-      </span>
+
+      <span style={{ fontSize: 18 }}> {`$${finalPrice}`}</span>
     </Stack>
   </Button>
 )
@@ -326,7 +327,7 @@ const AddressForm = ({
                     }))}
                   required
                 />
-                <Stack>
+                {/* <Stack>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -336,7 +337,7 @@ const AddressForm = ({
                     }
                     label="Save address to Address Book"
                   />
-                </Stack>
+                </Stack> */}
               </Stack>
             </Grid>
           </Grid>
@@ -426,7 +427,7 @@ const AddLabel = () => {
     const discountedPrice = activeType.discount / 100
     const negativeDiscount = 1 - discountedPrice
     const newPrice = finalPrice / negativeDiscount
-    setOriginalPrice(parseInt(newPrice))
+    setOriginalPrice(parseFloat(newPrice))
   }, [setFinalPrice, finalPrice, activeType])
 
   useEffect(() => {
