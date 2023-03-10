@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { FaqContent } from "../Faqs"
 import Header from "../../components/landing/Header"
 import Footer from "../../components/landing/Footer"
 import api from "../../config/axios"
+import { scroller } from "react-scroll"
 
 const Landing = () => {
   const [step, setStep] = useState(1)
@@ -14,6 +15,16 @@ const Landing = () => {
       setBanner(res.data.globalBanner)
     })
   }
+
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        scroller.scrollTo(location.hash.slice(1))
+      }, 1000)
+    }
+  }, [location])
 
   useEffect(() => {
     getBanner()
@@ -487,12 +498,13 @@ const Landing = () => {
                       <div class="dashboard-preview">
                         <h5>Place Bulk Orders on our Dashboard using CSV</h5>
                         <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Donec in consequat ante. Nulla tellus nisi,
-                          eleifend et placerat ac, fermentum ut mi. Nunc et ex
-                          vulputate, varius dolor in, molestie ipsum. Nam porta
-                          eget velit at ultricies. Vestibulum rhoncus massa sit
-                          amet libero ultrices, id pharetra odio mattis.
+                          Our platform offers a hassle-free solution for
+                          generating shipping labels for bulk orders. With our
+                          easy-to-use dashboard, you can upload your order
+                          information in CSV format and generate all the labels
+                          you need in just a few clicks. Say goodbye to manual
+                          label creation and hello to streamlined, efficient
+                          shipping.
                         </p>
                         <img
                           src="./assets/images/dashboard/1.png"
@@ -641,7 +653,6 @@ const Landing = () => {
       </section>
       {/*artical section @E */}
 
-      {/*pricing section @S */}
       <section class="pricing-section pa-y4" id="pricing-sec">
         <div class="container">
           <div class="row">
@@ -900,6 +911,9 @@ const Landing = () => {
           </div>
         </div>
       </section>
+
+      {/*pricing section @S */}
+
       {/*pricing section @E */}
 
       {/*faq section start */}
@@ -937,7 +951,7 @@ const Landing = () => {
       {/*faq section end */}
 
       {/*customer feedback start */}
-      <section class="customer-feedback pa-y4">
+      <section class="customer-feedback pa-y4" id="reviews-sec">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
@@ -1055,11 +1069,14 @@ const Landing = () => {
                 </p>
                 <h4>
                   <img
-                    src="./assets/images/avatar-02.png"
+                    src="./assets/images/pfp.png"
                     alt="Avatar"
                     class="img-fluid"
+                    style={{
+                      width: "30px",
+                    }}
                   />{" "}
-                  souljah#0475
+                  kyle21#0344
                 </h4>
               </div>
             </div>

@@ -1,5 +1,4 @@
 import React from "react"
-import { Link } from "react-router-dom"
 import Footer from "../../components/landing/Footer"
 import Header from "../../components/landing/Header"
 import { FaqContent } from "../Faqs"

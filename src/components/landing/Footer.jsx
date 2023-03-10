@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { Link as Link2 } from "react-scroll"
 import { Link } from "react-router-dom"
 import api from "../../config/axios"
 
@@ -111,14 +110,10 @@ const Footer = () => {
                 <h6>PRICING</h6>
                 <ul>
                   <li>
-                    <ScrollLink to="pricing-sec" color="white">
-                      USPS
-                    </ScrollLink>
+                    <a href="/#pricing-sec">USPS</a>
                   </li>
                   <li>
-                    <ScrollLink to="pricing-sec" color="white">
-                      UPS
-                    </ScrollLink>
+                    <a href="/#pricing-sec">UPS</a>
                   </li>
                 </ul>
               </div>
@@ -144,7 +139,7 @@ const Footer = () => {
                     <Link to="/faq">FAQs</Link>
                   </li>
                   <li>
-                    <Link to="/">Reviews</Link>
+                    <a href="/#reviews-sec">Reviews</a>
                   </li>
                 </ul>
               </div>
@@ -240,17 +235,5 @@ const Footer = () => {
     </>
   )
 }
-
-const ScrollLink = ({ to, color, children }) => (
-  <Link2
-    to={to}
-    spy={true}
-    smooth={true}
-    duration={500}
-    style={{ color, cursor: "pointer" }}
-  >
-    {children}
-  </Link2>
-)
 
 export default Footer

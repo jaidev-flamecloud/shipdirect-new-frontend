@@ -65,50 +65,12 @@ const TicketChat = ({
   const [fileUpload, setFileUpload] = useState(null)
 
   return (
-    <Section
-      sx={{ mb: 3, bgcolor: "#fafafa" }}
-      title={
-        <Stack
-          direction={"row"}
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ gap: 1 }}
-        >
-          {!manualPayment && (
-            <IconButton onClick={props.onClose}>
-              <ArrowBackIcon />
-            </IconButton>
-          )}
-          {ticket.subject}{" "}
-        </Stack>
-      }
-      end={
-        ticket.status !== "close" && (
-          <Button
-            onClick={() => {
-              updateTicket(ticket, "close")
-              back()
-            }}
-            variant="contained"
-            color="success"
-            sx={{ color: "white", gap: 1 }}
-          >
-            {updating ? (
-              <Loader />
-            ) : (
-              <>
-                <CloseIcon sx={{ fontSize: 12 }} /> Close Ticket
-              </>
-            )}
-          </Button>
-        )
-      }
-    >
+    <Section sx={{ mb: 3, bgcolor: "#fafafa" }}>
       <Stack>
         <Stack
           ref={msgContainer}
           sx={{
-            height: "20rem",
+            height: "18rem",
             scrollBehavior: "smooth",
             overflow: "auto",
             px: 2,
@@ -201,7 +163,12 @@ const Message = ({ time, body, image, isMine }) => {
       sx={{ pl: isMine ? 20 : 4, pr: isMine ? 0 : 20 }}
       alignItems="flex-end"
     >
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <Stack
           direction="row"
           alignItems="center"

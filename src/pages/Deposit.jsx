@@ -24,7 +24,6 @@ import LoadingContainer from "../components/containers/LoadingContainer"
 import { useUserContext } from "../App"
 import Loader from "../components/ui/Loader"
 import { copyToClipboard, formatDate } from "../utilities/misc"
-
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
 import StatusComp from "../components/common/StatusComp"
 import env from "../config/env"
@@ -61,7 +60,6 @@ const Deposit = () => {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
   const [showCashApp, setShowCashApp] = useState(false)
-
   const [loading, setLoading] = useState(false)
   const [cashAppID, setCashAppID] = useState("")
   const [url, setUrl] = useState("")
@@ -133,7 +131,7 @@ const Deposit = () => {
   const getDeposits = async () => {
     setDepositsLoading(true)
     await api
-      .get(`/invoice/read?page=${page}&limit=${8}`)
+      .get(`/invoice/read?page=${page}&limit=10`)
       .then((res) => {
         setDeposits(res.data.invoices)
         setTotalPages(res.data.totalPages)
@@ -243,6 +241,7 @@ const Deposit = () => {
           setMinAmount(res.data.min)
           setCryptoQr(res.data.qrcode)
           setCryptoLoader(false)
+          getDeposits()
         })
         .catch((err) => {
           console.log(err)
@@ -472,7 +471,7 @@ const Deposit = () => {
                           <LoadingContainer loading={coinLoader}>
                             <Grid container spacing={1}>
                               {cryptoCoin?.map((coin) => (
-                                <Grid item xs={6} sm={1.5}>
+                                <Grid item>
                                   <OptionCard
                                     sx={{ px: 2.5 }}
                                     key={coin.id}
@@ -481,9 +480,9 @@ const Deposit = () => {
                                       setShowCrypto(true)
                                       setCryptoData(coin)
                                       AddBalanceCrypt(coin.ticker)
-                                      setShowCrypto(true)
                                     }}
                                     imgSrc={env.BASE_API_URL + "/" + coin.logo}
+                                    showName
                                   />
                                 </Grid>
                               ))}
@@ -546,7 +545,19 @@ const Deposit = () => {
                     mt={2}
                   >
                     <Chip
-                      label="Earn 5% bonus on selecting Crypto Payments"
+                      label={`${
+                        selectedPayementMethod === "stripe"
+                          ? paySettings.cardBonus
+                          : selectedPayementMethod === "manual"
+                          ? paySettings.manualBonus
+                          : paySettings.cryptoBonus
+                      }% Bonus on ${
+                        selectedPayementMethod === "stripe"
+                          ? "Card"
+                          : selectedPayementMethod === "manual"
+                          ? "Manual"
+                          : "Crypto"
+                      } Payments`}
                       color="primary"
                       sx={{ borderRadius: 1 }}
                     />

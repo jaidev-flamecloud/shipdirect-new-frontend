@@ -23,6 +23,8 @@ import { formatDate } from "../utilities/misc"
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined"
+import CloseIcon from "@mui/icons-material/Close"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 
 const filters = [
   ["All", "All"],
@@ -114,6 +116,7 @@ const Support = () => {
       .then(() => {
         toast.success("Ticket updated successfully")
         getTickets()
+        setShowTicket(false)
       })
       .catch((err) => toast.error(err.response.data.message))
       .finally(() => setLoading(false))
@@ -130,8 +133,49 @@ const Support = () => {
 
   return (
     <PageContainer
-      title="Ticket Support"
-      desc="Our support will reply to all your queries within 24 working hours"
+      title={
+        showTicket ? (
+          <>
+            <IconButton
+              onClick={() => {
+                setShowTicket(false)
+                window.scrollTo(0, 0)
+              }}
+            >
+              <ArrowBackIcon />
+            </IconButton>{" "}
+            {ticket?.subject}
+          </>
+        ) : (
+          "Ticket Support"
+        )
+      }
+      desc={
+        showTicket
+          ? ""
+          : "Our support will reply to all your queries within 24 working hours"
+      }
+      end={
+        showTicket &&
+        ticket.status !== "close" && (
+          <Button
+            onClick={() => {
+              updateTicket(ticket, "close")
+            }}
+            variant="contained"
+            color="success"
+            sx={{ color: "white", gap: 1 }}
+          >
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <CloseIcon sx={{ fontSize: 12 }} /> Close Ticket
+              </>
+            )}
+          </Button>
+        )
+      }
     >
       {showTicket ? (
         <TicketChat

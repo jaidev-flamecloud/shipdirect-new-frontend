@@ -27,6 +27,7 @@ import { useRef } from "react"
 import { useUserContext } from "../App"
 import AddRoundedIcon from "@mui/icons-material/AddRounded"
 import AddAddress from "../components/modals/AddAddress"
+import axios from "axios"
 
 const pricingItems = [
   { name: "usps", icon: "courier-icon-01" },
@@ -81,6 +82,7 @@ const AddressForm = ({
   saveAddressCheck,
   setSaveAddressCheck,
   openAddModal,
+  selectedCourier,
 }) => {
   const [collapsed, setCollapsed] = useState(false)
 
@@ -251,18 +253,6 @@ const AddressForm = ({
                   }}
                 />
                 <Field
-                  label="City*"
-                  placeholder="Enter City"
-                  required
-                  value={data.city}
-                  onChange={(e) => {
-                    setData({
-                      ...data,
-                      city: e.target.value,
-                    })
-                  }}
-                />
-                <Field
                   label="Zipcode*"
                   placeholder="Enter Zipcode"
                   required
@@ -273,6 +263,18 @@ const AddressForm = ({
                       zip: e.target.value,
                     })
                     cityStateLookup(e.target.value, sender ? "from" : "to")
+                  }}
+                />
+                <Field
+                  label="City*"
+                  placeholder="Enter City"
+                  required
+                  value={data.city}
+                  onChange={(e) => {
+                    setData({
+                      ...data,
+                      city: e.target.value,
+                    })
                   }}
                 />
               </Stack>
@@ -320,6 +322,22 @@ const AddressForm = ({
                     })
                   }}
                   options={states
+                    .concat(
+                      selectedCourier === "usps"
+                        ? [
+                            {
+                              Country: "US",
+                              ID: "VI",
+                              Name: "U.S. Virgin Islands",
+                            },
+                            {
+                              Country: "US",
+                              ID: "GU",
+                              Name: "Guam",
+                            },
+                          ]
+                        : []
+                    )
                     .filter((state) => state.Country === "US")
                     .map((state) => ({
                       label: state.Name,
@@ -559,24 +577,23 @@ const AddLabel = () => {
   const cityStateLookup = async (zip, type = "from") => {
     if (zip.length !== 5) return
 
-    await api
-      .post("/order/city-state", { zip: zip.replaceAll("-", "") })
+    await axios
+      .get(`https://api.zippopotam.us/us/${zip.replaceAll("-", "")}`)
       .then((res) => {
         if (res.data) {
-          const { city, state, zip } = res.data
           if (type === "from")
             setFrom({
               ...From,
-              city,
-              state,
-              zip,
+              city: res.data.places[0]["place name"],
+              state: res.data.places[0]["state abbreviation"],
+              zip: zip,
             })
           else
             setTo({
               ...To,
-              city,
-              state,
-              zip,
+              city: res.data.places[0]["place name"],
+              state: res.data.places[0]["state abbreviation"],
+              zip: zip,
             })
         }
       })
@@ -648,6 +665,7 @@ const AddLabel = () => {
               saveAddressCheck={saveFromAddress}
               setSaveAddressCheck={setSaveFromAddress}
               openAddModal={openAddModal}
+              selectedCourier={selectedCourier}
             />
             <AddressForm
               address={address1}
@@ -660,6 +678,7 @@ const AddLabel = () => {
               saveAddressCheck={saveToAddress}
               setSaveAddressCheck={setSaveToAddress}
               openAddModal={openAddModal}
+              selectedCourier={selectedCourier}
             />
           </Grid>
           <Grid item xs={12} sm={5}>
@@ -727,7 +746,6 @@ const AddLabel = () => {
                   label="Description (Optional)"
                   placeholder="Enter description"
                   name="description"
-                  required
                   multiline
                   rows={4}
                 />

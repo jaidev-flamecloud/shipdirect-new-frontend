@@ -1,7 +1,6 @@
 import { IconButton } from "@mui/material"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Link as Link2 } from "react-scroll"
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded"
 
 const Header = () => {
@@ -14,15 +13,7 @@ const Header = () => {
             <div class="header-menu-wrap">
               <ul className="d-none d-lg-flex">
                 <li>
-                  <Link2
-                    to="pricing-sec"
-                    spy={true}
-                    smooth={true}
-                    duration={500}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Pricing
-                  </Link2>
+                  <a href="/#pricing-sec">Pricing</a>
                 </li>
                 <li>
                   <Link to="/faq">FAQs</Link>
@@ -101,16 +92,7 @@ const Header = () => {
         >
           <ul className="d-flex flex-column gap-3">
             <li>
-              <Link2
-                onClick={() => setMenu(false)}
-                to="pricing-sec"
-                spy={true}
-                smooth={true}
-                duration={500}
-                style={{ cursor: "pointer" }}
-              >
-                Pricing
-              </Link2>
+              <a href="/#pricing-sec">Pricing</a>
             </li>
             <li onClick={() => setMenu(false)}>
               <Link to="/faq">FAQs</Link>

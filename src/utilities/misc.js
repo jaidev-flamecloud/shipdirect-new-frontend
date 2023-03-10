@@ -388,6 +388,11 @@ export const statusMap = {
     color: "warning.main",
     icon: <UpdateRoundedIcon fontSize="small" />,
   },
+  "waiting for customer response": {
+    color: "warning",
+    text: "Waiting",
+    icon: <WarningRoundedIcon fontSize="small" />,
+  },
 }
 
 export const formatDate = (date, hideTime = false) =>

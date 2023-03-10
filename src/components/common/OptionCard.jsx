@@ -1,4 +1,4 @@
-import { alpha, Box, useTheme } from "@mui/material"
+import { alpha, Box, Typography, useTheme } from "@mui/material"
 
 const OptionCard = ({
   name,
@@ -8,6 +8,7 @@ const OptionCard = ({
   onClick,
   border,
   content,
+  showName,
   sx,
 }) => {
   const theme = useTheme()
@@ -43,6 +44,9 @@ const OptionCard = ({
         ) : (
           name
         ))}
+      {showName && (
+        <Typography sx={{ ml: 1, fontWeight: 500 }}>{name}</Typography>
+      )}
     </Box>
   )
 }
