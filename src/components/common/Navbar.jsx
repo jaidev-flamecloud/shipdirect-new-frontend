@@ -51,6 +51,8 @@ const Navbar = ({ drawerWidth, toggle, toggleMiniDrawer, miniDrawer }) => {
         color: theme.palette.text.primary,
         py: 1,
         px: { xs: 1, sm: 5 },
+        backdropFilter: "blur(10px)",
+        borderBottom: "1px solid rgba(0,0,0,0.1)",
       }}
     >
       <Toolbar>

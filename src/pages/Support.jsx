@@ -30,7 +30,7 @@ const filters = [
   ["All", "All"],
   ["Open", "open"],
   ["Closed", "close"],
-  ["Waiting for Customer Response", "Waiting for Customer Response"],
+  ["Waiting", "waiting for customer response"],
 ]
 
 const FilterTabs = ({ filter, setFilter }) => {

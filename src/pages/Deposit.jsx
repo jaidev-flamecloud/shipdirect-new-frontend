@@ -513,9 +513,9 @@ const Deposit = () => {
                                     name={gateway.method}
                                     val={gateway.method}
                                     imgSrc={
-                                      "/assets/images/" +
-                                      gatewayMap[gateway.method].icon +
-                                      ".svg"
+                                      env.BASE_API_URL +
+                                      "/" +
+                                      gateway.methodLogo
                                     }
                                     active={
                                       manualMethod.method === gateway.method

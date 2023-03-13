@@ -161,7 +161,7 @@ const Message = ({ time, body, image, isMine }) => {
     <Stack
       spacing={1}
       sx={{ pl: isMine ? 20 : 4, pr: isMine ? 0 : 20 }}
-      alignItems="flex-end"
+      alignItems={isMine ? "flex-end" : "flex-start"}
     >
       <Stack
         direction="row"

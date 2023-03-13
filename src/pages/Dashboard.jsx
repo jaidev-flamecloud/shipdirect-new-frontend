@@ -1,4 +1,11 @@
-import { Grid, TableCell, TableRow, Typography } from "@mui/material"
+import {
+  Grid,
+  List,
+  ListItem,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material"
 import React, { useEffect, useState } from "react"
 import PageContainer from "../components/containers/PageContainer"
 import { Link } from "react-router-dom"
@@ -24,6 +31,7 @@ import {
   Colors,
 } from "chart.js"
 import { Line, Pie } from "react-chartjs-2"
+import { display } from "@mui/system"
 
 ChartJS.register(
   ArcElement,
@@ -39,11 +47,22 @@ ChartJS.register(
 const Dashboard = () => {
   const { user } = useUserContext()
   const [stats, setStats] = useState({})
-  const [statsLoading, setStatsLoading] = useState(false)
-  const [orderGraphData, setOrderGraphData] = useState(null)
-  const [labelGraphData, setLabelGraphData] = useState(null)
+  const [statsLoading, setStatsLoading] = useState(true)
+  const [orderGraphData, setOrderGraphData] = useState({})
+  const [labelGraphData, setLabelGraphData] = useState([])
+  const [labelStateData, setLabelStateData] = useState([])
   const [loading, setLoading] = useState(true)
   const [loading2, setLoading2] = useState(true)
+  const [loading3, setLoading3] = useState(true)
+
+  const fetchLabelStateDatat = async () => {
+    setLoading3(true)
+    await api
+      .get("/user/readUserLabelsByState")
+      .then((res) => setLabelStateData(res.data.stateOrdersData))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading3(false))
+  }
 
   const fetchStats = async () => {
     setStatsLoading(true)
@@ -76,6 +95,7 @@ const Dashboard = () => {
     fetchStats()
     fetchOrderGraphData()
     fetchLabelGraphData()
+    fetchLabelStateDatat()
   }, [])
 
   const labels = [
@@ -192,7 +212,7 @@ const Dashboard = () => {
           </LoadingContainer>
         </Grid>
       </Grid>
-      <LoadingContainer loading={loading || loading2}>
+      <LoadingContainer loading={loading || loading2 || loading3}>
         <Grid container spacing={2} mb={2}>
           <Grid item xs={12} sm={6}>
             <Section title="Total Shipments">
@@ -203,10 +223,21 @@ const Dashboard = () => {
               <Line
                 style={{ width: "100%" }}
                 options={{
+                  plugins: {
+                    legend: { display: false },
+                  },
                   scales: {
+                    x: {
+                      grid: {
+                        display: false,
+                      },
+                    },
                     y: {
                       ticks: {
                         precision: 0,
+                      },
+                      grid: {
+                        display: false,
                       },
                     },
                   },
@@ -218,20 +249,47 @@ const Dashboard = () => {
                     {
                       id: 1,
                       label: "Shipments",
+                      lineTension: 0.3,
                       data: labels.map(
-                        (month) => orderGraphData?.monthwise[month] || 0
+                        (month) => orderGraphData?.monthwise?.[month] || 0
                       ),
                     },
                   ],
                 }}
               />
             </Section>
+
+            <Section title="Top States" sx={{ mt: 2 }}>
+              <List>
+                {labelStateData.map((l, i) => (
+                  <ListItem>
+                    <span style={{ fontWeight: 600 }}>
+                      {" "}
+                      {i + 1}. {l.state}
+                    </span>
+                    - {(l.count / orderGraphData?.OrdersCount) * 100}% -{" "}
+                    {l.count} shipments
+                  </ListItem>
+                ))}
+              </List>
+            </Section>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Section title="Top Labels">
               <Pie
-                style={{ width: "100%" }}
+                style={{ width: "100%", margin: "auto" }}
                 datasetIdKey="id"
+                options={{
+                  layout: {
+                    padding: 50,
+                  },
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                    },
+                  },
+                }}
                 data={{
                   labels: labelGraphData?.map((l) => l.labelType),
                   datasets: [

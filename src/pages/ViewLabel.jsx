@@ -13,6 +13,7 @@ import env from "../config/env"
 import routes from "../config/routes"
 import { copyToClipboard, formatDate } from "../utilities/misc"
 import NorthEastIcon from "@mui/icons-material/NorthEast"
+import ConfirmRequestRefund from "../components/modals/ConfirmRequestRefund"
 
 const ViewLabel = () => {
   const { id } = useParams()
@@ -25,6 +26,8 @@ const ViewLabel = () => {
   const [loading, setLoading] = useState(false)
   const [duplicating, setDuplicating] = useState(false)
   const [duplicateConfirmShow, setDuplicateConfirmShow] = useState(false)
+  const [loader, setLoader] = useState(false)
+  const [requestRefundShow, setRequestRefundShow] = useState(false)
 
   const getOrder = async () => {
     setLoading(true)
@@ -63,6 +66,27 @@ const ViewLabel = () => {
       })
       .catch((err) => toast.error(err.response.data.message))
       .finally(() => setDuplicating(false))
+  }
+
+  const requestRefund = async (message, id) => {
+    setLoader(true)
+
+    const params = {
+      message,
+    }
+
+    await api
+      .post("/order/request-refund/" + id, params)
+      .then((res) => {
+        toast.success(res.data.message)
+        setLoader(false)
+        setRequestRefundShow(false)
+        getOrder()
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message)
+        setLoader(false)
+      })
   }
 
   useEffect(() => {
@@ -180,8 +204,15 @@ const ViewLabel = () => {
             >
               Duplicate
             </Button>
-            <Button variant="outlined" color="error">
+            <Button
+              onClick={() => setRequestRefundShow(true)}
+              variant="outlined"
+              color="error"
+            >
               Request Refund
+            </Button>
+            <Button variant="outlined" color="primary">
+              Track
             </Button>
           </Stack>
         </Section>
@@ -191,6 +222,12 @@ const ViewLabel = () => {
         onClose={() => setDuplicateConfirmShow(false)}
         action={() => duplicateOrder(order?._id)}
         loading={duplicating}
+      />
+      <ConfirmRequestRefund
+        open={requestRefundShow}
+        onClose={() => setRequestRefundShow(false)}
+        action={(e) => requestRefund(e, order._id)}
+        loading={loader}
       />
     </LoadingContainer>
   )

@@ -215,6 +215,7 @@ const DrawerContent = ({ toggle, miniDrawer, contact }) => {
               {!user?.isPremium && (
                 <Link to="/pricing">
                   <Button
+                    fullWidth
                     variant="outlined"
                     sx={{
                       fontWeight: 500,

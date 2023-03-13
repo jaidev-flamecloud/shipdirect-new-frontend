@@ -358,7 +358,7 @@ export const statusMap = {
   },
   open: {
     text: "Open",
-    color: "warning.main",
+    color: "primary.main",
     icon: <UpdateRoundedIcon fontSize="small" />,
   },
   paid: {
