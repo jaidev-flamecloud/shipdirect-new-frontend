@@ -11,24 +11,24 @@ import {
   TableCell,
   TableRow,
   Typography,
-} from "@mui/material"
-import { useEffect, useState } from "react"
-import PageContainer from "../components/containers/PageContainer"
-import CustomTable from "../components/ui/CustomTable"
-import Field from "../components/ui/Field"
-import Section from "../components/ui/Section"
-import OptionCard from "../components/common/OptionCard"
-import api from "../config/axios"
-import { toast } from "react-toastify"
-import LoadingContainer from "../components/containers/LoadingContainer"
-import { useUserContext } from "../App"
-import Loader from "../components/ui/Loader"
-import { copyToClipboard, formatDate } from "../utilities/misc"
-import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded"
-import StatusComp from "../components/common/StatusComp"
-import env from "../config/env"
-import { v4 as uuidv4 } from "uuid"
-import TicketModal from "../components/modals/TicketModal"
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import PageContainer from "../components/containers/PageContainer";
+import CustomTable from "../components/ui/CustomTable";
+import Field from "../components/ui/Field";
+import Section from "../components/ui/Section";
+import OptionCard from "../components/common/OptionCard";
+import api from "../config/axios";
+import { toast } from "react-toastify";
+import LoadingContainer from "../components/containers/LoadingContainer";
+import { useUserContext } from "../App";
+import Loader from "../components/ui/Loader";
+import { copyToClipboard, formatDate } from "../utilities/misc";
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
+import StatusComp from "../components/common/StatusComp";
+import env from "../config/env";
+import { v4 as uuidv4 } from "uuid";
+import TicketModal from "../components/modals/TicketModal";
 
 const gatewayMap = {
   Venmo: {
@@ -40,7 +40,7 @@ const gatewayMap = {
     bg: "#6C1CD3",
   },
   "APPLE PAY": { icon: "apple pay", bg: "#FFF" },
-}
+};
 
 const paymentMethods = [
   {
@@ -48,248 +48,248 @@ const paymentMethods = [
     val: "stripe",
     imgSrc: "/assets/images/stripe.svg",
   },
-]
+];
 
-const presetAmounts = [5, 25, 50, 100, 150, 250, 500, 1000]
+const presetAmounts = [5, 25, 50, 100, 150, 250, 500, 1000];
 
 const Deposit = () => {
-  const [ticket, setTicket] = useState({})
-  const [showTicket, setShowTicket] = useState(false)
-  const { user } = useUserContext()
-  const [deposits, setDeposits] = useState([])
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
-  const [showCashApp, setShowCashApp] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [cashAppID, setCashAppID] = useState("")
-  const [url, setUrl] = useState("")
-  const [amount, setAmount] = useState(0)
-  const [invoice, setInvoice] = useState({})
-  const [cashLoader, setCashLoader] = useState("")
-  const [qr, setQr] = useState("")
-  const [showCrypto, setShowCrypto] = useState(false)
+  const [ticket, setTicket] = useState({});
+  const [showTicket, setShowTicket] = useState(false);
+  const { user } = useUserContext();
+  const [deposits, setDeposits] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [showCashApp, setShowCashApp] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [cashAppID, setCashAppID] = useState("");
+  const [url, setUrl] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [invoice, setInvoice] = useState({});
+  const [cashLoader, setCashLoader] = useState("");
+  const [qr, setQr] = useState("");
+  const [showCrypto, setShowCrypto] = useState(false);
   const [selectedPayementMethod, setSelectedPayementMethod] = useState(
     paymentMethods[0].val
-  )
-  const [depositsLoading, setDepositsLoading] = useState(false)
-  const [CryptoData, setCryptoData] = useState({})
-  const [cryptoCoin, setCryptoCoin] = useState([])
-  const [cryptoLoader, setCryptoLoader] = useState(false)
-  const [cryptoQr, setCryptoQr] = useState("")
-  const [cryptoID, setCryptoID] = useState("")
-  const [minConfirmations, setMinConfirmations] = useState("")
-  const [minAmount, setMinAmount] = useState("")
-  const [coinLoader, setCoinLoader] = useState(false)
-  const [paySettings, setPaySettings] = useState({})
-  const [gateway, setGateway] = useState({})
-  const [showGateway, setShowGateway] = useState(false)
+  );
+  const [depositsLoading, setDepositsLoading] = useState(false);
+  const [CryptoData, setCryptoData] = useState({});
+  const [cryptoCoin, setCryptoCoin] = useState([]);
+  const [cryptoLoader, setCryptoLoader] = useState(false);
+  const [cryptoQr, setCryptoQr] = useState("");
+  const [cryptoID, setCryptoID] = useState("");
+  const [minConfirmations, setMinConfirmations] = useState("");
+  const [minAmount, setMinAmount] = useState("");
+  const [coinLoader, setCoinLoader] = useState(false);
+  const [paySettings, setPaySettings] = useState({});
+  const [gateway, setGateway] = useState({});
+  const [showGateway, setShowGateway] = useState(false);
 
-  const [manualMethod, setManualMethod] = useState({})
+  const [manualMethod, setManualMethod] = useState({});
 
   const readCrypto = async () => {
-    setCoinLoader(true)
+    setCoinLoader(true);
     await api("/dashboard/crypto-coin")
       .then((res) => {
-        setCryptoCoin(res.data)
+        setCryptoCoin(res.data);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       })
-      .finally(() => setCoinLoader(false))
-  }
+      .finally(() => setCoinLoader(false));
+  };
 
   const readCashApp = async () => {
     await api("/invoice/read-cashapp")
       .then((res) => {
-        setCashAppID(res.data.credentials.cashappId)
-        setQr(res.data.credentials.qr)
+        setCashAppID(res.data.credentials.cashappId);
+        setQr(res.data.credentials.qr);
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }
+        console.log(err);
+      });
+  };
 
   const getGateways = async () => {
     await api
       .get("/admin-settings/topup")
       .then((res) => {
-        console.log(res.data.topup)
-        setPaySettings(res.data.topup)
-        setManualMethod(res.data.topup.manualMethods[0])
+        console.log(res.data.topup);
+        setPaySettings(res.data.topup);
+        setManualMethod(res.data.topup.manualMethods[0]);
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    readCrypto()
-    readCashApp()
-    getGateways()
-  }, [])
+    readCrypto();
+    readCashApp();
+    getGateways();
+  }, []);
 
   const getDeposits = async () => {
-    setDepositsLoading(true)
+    setDepositsLoading(true);
     await api
       .get(`/invoice/read?page=${page}&limit=10`)
       .then((res) => {
-        setDeposits(res.data.invoices)
-        setTotalPages(res.data.totalPages)
+        setDeposits(res.data.invoices);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       })
-      .finally(() => setDepositsLoading(false))
-  }
+      .finally(() => setDepositsLoading(false));
+  };
 
   const createTicket = async (data) => {
     const body = {
       order: data.order_uuid,
       message: `Paid $ ${data.amount} via ${manualMethod?.method}`,
       subject: `$ ${data.amount} via ${manualMethod?.method}`,
-    }
+    };
 
     await api
       .post("/ticket/create", body)
       .then((res) => {
-        toast.success("Ticket created successfully")
-        setTicket(res.data.ticket)
-        setShowTicket(true)
+        toast.success("Ticket created successfully");
+        setTicket(res.data.ticket);
+        setShowTicket(true);
       })
-      .catch((err) => toast.error(err.response.data.message))
-  }
+      .catch((err) => toast.error(err.response.data.message));
+  };
 
   const AddBalance = async (e) => {
-    e.preventDefault()
-    if (
-      parseFloat(e.target.amount.value) < paySettings?.minimum ||
-      parseFloat(e.target.amount.value) > paySettings?.maximum
-    ) {
-      toast.error(
-        "Deposit amount should be between $" +
-          paySettings?.minimum?.toFixed(2) +
-          " and $" +
-          paySettings?.maximum?.toFixed(2)
-      )
-      return
-    }
-    setLoading(true)
+    e.preventDefault();
+    // if (
+    //   parseFloat(e.target.amount.value) < paySettings?.minimum ||
+    //   parseFloat(e.target.amount.value) > paySettings?.maximum
+    // ) {
+    //   toast.error(
+    //     "Deposit amount should be between $" +
+    //       paySettings?.minimum?.toFixed(2) +
+    //       " and $" +
+    //       paySettings?.maximum?.toFixed(2)
+    //   );
+    //   return;
+    // }
+    setLoading(true);
 
-    const orderID = uuidv4()
+    const orderID = uuidv4();
 
     const data = {
       amount: e.target.amount.value,
       type: selectedPayementMethod,
       order_uuid: orderID,
-    }
+    };
 
     if (data.type === "manual") {
-      createTicket(data)
+      createTicket(data);
     }
 
     await api
       .post("/invoice/create", data)
       .then((res) => {
-        setLoading(false)
-        getDeposits()
+        setLoading(false);
+        getDeposits();
         if (data.type === "stripe") {
-          window.location.href = res.data.session.url
+          window.location.href = res.data.session.url;
         }
       })
       .catch((err) => {
-        setLoading(false)
-        toast.error(err.response.data.message)
-        console.log(err)
-      })
-  }
+        setLoading(false);
+        toast.error(err.response.data.message);
+        console.log(err);
+      });
+  };
 
   const verifyCashAppPayment = async (e) => {
-    e.preventDefault()
-    setCashLoader(true)
+    e.preventDefault();
+    setCashLoader(true);
 
     const params = {
       invoice: invoice._id,
       cashAppUrl: e.target.checkurl.value,
-    }
+    };
 
     await api
       .post(`/invoice/verifyCashApp`, params)
       .then((res) => {
-        setCashLoader(false)
-        toast.success(res.data.message)
-        getDeposits()
+        setCashLoader(false);
+        toast.success(res.data.message);
+        getDeposits();
       })
       .catch((err) => {
-        setCashLoader(false)
-        toast.error(err.response.data.message)
-        console.log(err)
-      })
-  }
+        setCashLoader(false);
+        toast.error(err.response.data.message);
+        console.log(err);
+      });
+  };
 
   //  add balance Via Crypto Currency
   const AddBalanceCrypt = async (c) => {
     const params = {
       ticker: c,
-    }
+    };
     try {
-      setCryptoLoader(true)
+      setCryptoLoader(true);
       await api
         .post("/invoice/cryptoApi-init", params)
         .then((res) => {
-          setCryptoID(res.data.address)
-          setMinConfirmations(res.data.confirmations)
-          setMinAmount(res.data.min)
-          setCryptoQr(res.data.qrcode)
-          setCryptoLoader(false)
-          getDeposits()
+          setCryptoID(res.data.address);
+          setMinConfirmations(res.data.confirmations);
+          setMinAmount(res.data.min);
+          setCryptoQr(res.data.qrcode);
+          setCryptoLoader(false);
+          getDeposits();
         })
         .catch((err) => {
-          console.log(err)
-          setCryptoLoader(false)
-        })
+          console.log(err);
+          setCryptoLoader(false);
+        });
     } catch (err) {
-      setCryptoLoader(false)
-      console.log(err)
+      setCryptoLoader(false);
+      console.log(err);
     }
-  }
+  };
 
   const addComment = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const params = {
       invoice: invoice._id,
       comment: e.target.comment.value,
-    }
+    };
 
-    setCashLoader(true)
+    setCashLoader(true);
 
     await api
       .put(`/invoice/comment`, params)
       .then((res) => {
-        setCashLoader(false)
-        toast.success(res.data.message)
-        getDeposits()
-        setShowGateway(false)
+        setCashLoader(false);
+        toast.success(res.data.message);
+        getDeposits();
+        setShowGateway(false);
       })
       .catch((err) => {
-        setCashLoader(false)
-        toast.error(err.response.data.message)
-        console.log(err)
-      })
-  }
+        setCashLoader(false);
+        toast.error(err.response.data.message);
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    getDeposits()
+    getDeposits();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
+  }, [page]);
 
-  const [presetAmount, setPresetAmount] = useState(null)
+  const [presetAmount, setPresetAmount] = useState(null);
 
   useEffect(() => {
     if (presetAmount) {
-      setAmount(presetAmount.toFixed(2))
+      setAmount(presetAmount.toFixed(2));
     }
-  }, [presetAmount])
+  }, [presetAmount]);
 
   return (
     <PageContainer
@@ -477,9 +477,9 @@ const Deposit = () => {
                                     key={coin.id}
                                     name={coin.name}
                                     onClick={() => {
-                                      setShowCrypto(true)
-                                      setCryptoData(coin)
-                                      AddBalanceCrypt(coin.ticker)
+                                      setShowCrypto(true);
+                                      setCryptoData(coin);
+                                      AddBalanceCrypt(coin.ticker);
                                     }}
                                     imgSrc={env.BASE_API_URL + "/" + coin.logo}
                                     showName
@@ -521,8 +521,8 @@ const Deposit = () => {
                                       manualMethod.method === gateway.method
                                     }
                                     activate={() => {
-                                      setManualMethod(gateway)
-                                      setGateway(gateway)
+                                      setManualMethod(gateway);
+                                      setGateway(gateway);
                                     }}
                                     border
                                   />
@@ -648,8 +648,8 @@ const Deposit = () => {
         setTicket={setTicket}
       />
     </PageContainer>
-  )
-}
+  );
+};
 
 const CashAppConfirm = ({
   cashAppID,
@@ -750,8 +750,8 @@ const CashAppConfirm = ({
         </Section>
       </Grid>{" "}
     </Grid>
-  )
-}
+  );
+};
 
 const CryptoConfirm = ({
   back,
@@ -807,8 +807,8 @@ const CryptoConfirm = ({
         </LoadingContainer>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const GatewayConfirm = ({ back, gateway, cashLoader, addComment }) => {
   return (
@@ -841,7 +841,7 @@ const GatewayConfirm = ({ back, gateway, cashLoader, addComment }) => {
         </Section>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default Deposit
+export default Deposit;
